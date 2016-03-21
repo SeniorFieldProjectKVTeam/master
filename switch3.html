@@ -11,43 +11,62 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="style.css">
-<link rel="script" href="script.js"/>
+<link rel="stylesheet" href="style3.css">
 <script>
 $( init );
 function init() {
+  var count = 0;
+  var countF = 0;
+  var countT = 0;
+  var countQ = 0;
   $('[data-toggle="popover"]').popover();
   $( "#left-side" ).accordion();
-
   $('#left-side li').draggable({
     cursor: 'move',
     helper: "clone"
   });
-
-  $( ".navigation" ).droppable({
+  $( "#navigation" ).droppable({
     accept: "#left-side li.navi",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
+      $(ui.helper).remove(); //destroy clone
+      $(ui.draggable).remove(); //remove from list
       $( this )
-          .addClass( "ui-state-highlight" )
-          .find( "p" )
-            .html( "Navigation Dropped!" );
+        .find( "p" )
+        .html( "Navigation Dropped!" );
     }
   });
-   $('#top-combo').sortable({placeholder: "ui-state-highlight",helper:'clone'});
+  $('#top-combo').sortable();
+  $( "#botm-three" ).droppable({
+    accept: "#left-side li.fn, #left-side li.ts, #left-side li.qu",
+    activeClass: "ui-state-hover",
+    hoverClass: "ui-state-active",
+    drop: function( event, ui ) {
+        count ++;
+        var draggableId = ui.draggable.attr("class");
+        if ( draggableId == "fn ui-draggable ui-draggable-handle"&& countF <= 1){
+          countF ++;
+          alert("footnote " + countF + " Total " + count);
+        }
+        if ( draggableId == "ts ui-draggable ui-draggable-handle"&& countT <= 1){
+          countT ++;
+          alert("transcript " + countT + " Total " + count);
+        }
+        if ( draggableId == "qu ui-draggable ui-draggable-handle"&& countQ <= 1){
+          countQ ++;
+          alert("question " + countQ + " Total " + count);
+        }
+        //alert(draggableId);
 
+        if (count >= 3){
+          $( this ).droppable( 'disable' );
+        }else{
+          $( this ).find( "p" ).html( "bottom Dropped!" );
+        }
+    }
+  });
 
-  // // sample code useless
-  // $("#sample").droppable({
-  //   drop: function(event, ui) {
-  //     // do something with the dock
-  //     $(this).doSomething();
-  //
-  //     // do something with the draggable item
-  //     $(ui.draggable).doSomething();
-  //   }
-  // });
 }
 </script>
 
@@ -66,9 +85,9 @@ function init() {
       <h3>bottom</h3>
       <div>
         <ul>
-          <li>footnote</li>
-          <li>transcript</li>
-          <li>questions</li>
+          <li class = "fn">footnote</li>
+          <li class = "ts">transcript</li>
+          <li class = "qu">questions</li>
         </ul>
       </div>
     </div>
@@ -82,7 +101,7 @@ function init() {
         </div>
       </div>
       <div id = "botm-three">
-
+        <p>nothing</p>
       </div>
     </div>
 

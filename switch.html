@@ -11,57 +11,48 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="style.css">
 <script>
 $( init );
 
 function init() {
-  $("#hid").click(function(){
-      $("#navi-drag").hide();
 
-  });
-  $('[data-toggle="popover"]').popover()
-  $( "#leftsidebar" ).accordion({
-  });
-  $( "#content-top" ).sortable({
-  });
 }
 </script>
+
+<style>
+#total{
+  height:100%;
+  width:100%;
+}
+#first{
+  width:20%;
+  float:left;
+  background-color: blue;
+}
+#second{
+  width:20%;
+  background-color: green;
+}
+#third{
+  width:20%;
+  float:right
+  background-color: red;
+}
+</style>
 
 <title>Sample Code</title>
 </head>
 <body>
-  <div id="main-container" class="container-fluid">
-     <div class="row side">
-
-       <div id="leftsidebar" class="col-xs-2 text-center">
-         <h3>main</h3>
-         <div>
-           <p>combo-player</p>
-           <p>navigation</p>
-         </div>
-
-         <h3>bottom</h3>
-         <div>
-           <p>footnote</p>
-           <p>transcript</p>
-           <p>questions</p>
-         </div>
-         <button class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="Sample for popover">Sample</button>
-       </div>
-
-      <div id="content" class="col-xs-10 text-center">
-        <div class="row combo">
-          <div class = "combo-line">
-            <p>asdasdas</p>
-          </div>
-        </div>
-
-      </div>
-
-     </div>
+  <div id="total">
+    <div id = "first">
+      <p>asdasdas</p>
+    </div>
+    <div id = "second">
+      <p>asdasdas</p>
+    </div>
+    <div id = "third">
+      <p>asdasdas</p>
+    </div>
   </div>
-
-
 </body>
 </html>

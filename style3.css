@@ -1,28 +1,7 @@
 
-#main-container .row.side{
-  height: 100%;
-  width:100%;
-  position: relative;
-}
-
 body, html, .container-fluid {
   height: 100%;
-}
-
-#content {
-  background-color: green;
-}
-
-#content .combo-line{
-  height: 80%;
-  width: 100%;
-  background-color: red;
-}
-
-#content .row.combo{
-  height: 100%;
-  width: 100%;
-  background-color: green;
+  width:100%;
 }
 
 #whole-page {
@@ -37,7 +16,6 @@ body, html, .container-fluid {
 }
 
 #right-side{
-
   float:right;
   height:100%;
   width:80%;
@@ -46,32 +24,38 @@ body, html, .container-fluid {
 #top-combo{
   height:68%;
   width:100%;
+  display: flex;
 }
 
 #botm-three{
   height:32%;
   width: 100%;
-  background-color: green;
+}
+
+
+#botm-three div{
+  height:100%;
+  width:100%;
+  background-color: gray;
+  display: inline-block;
 }
 
 #top-combo #navigation{
   height:100%;
-  width: 30%;
-  float:left;
+  width:30%;
   background-color: yellow;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 #top-combo #combo-player{
-  float:right;
+  flex:1;
   height:100%;
-  width: 70%;
   background-color: red;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-ul#sample li {
-  display: inline;
+ul {
+  list-style-type:none;
 }
