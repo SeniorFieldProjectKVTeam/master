@@ -62,5 +62,8 @@ function init() {
         }
     }
   });
+  function publish() {
+    var body = $('body').html();
+  }
 
 }
