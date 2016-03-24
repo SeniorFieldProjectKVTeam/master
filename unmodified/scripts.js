@@ -1,11 +1,4 @@
-'use strict';
 
-var ipc = require('electron').ipcRenderer;
-
-var closeE1 = document.querySelector('.left-side');
-closeE1.addEventListener('click', function(event){
-	ipc.send('test');
-});
 
 $( init );
 function init() {

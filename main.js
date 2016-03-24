@@ -11,3 +11,8 @@ app.on('ready', function(){
 	});
 	mainWindow.loadURL('file://' + __dirname + '/app/switch_present.html');
 });
+
+var ipc = require('electron').ipcMain;
+ipc.on('test', function(){
+	app.quit();
+});
