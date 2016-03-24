@@ -2,6 +2,7 @@
 body, html, .container-fluid {
   height: 100%;
   width:100%;
+  -webkit-app-region: drag;
 }
 
 #whole-page {
@@ -47,6 +48,7 @@ body, html, .container-fluid {
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-app-region: drag;
 }
 #top-combo #combo-player{
   flex:1;
