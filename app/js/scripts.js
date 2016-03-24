@@ -55,7 +55,7 @@ function init() {
           $(this).append(html);
           $('#botm-three div').css({
             "background-color":"green",
-            "width":"49%",
+            "width":"49.5%",
             "display": "inline-block",
             "height":"100%"});
         }
