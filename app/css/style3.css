@@ -48,7 +48,6 @@ body, html, .container-fluid {
   display: flex;
   align-items: center;
   justify-content: center;
-  -webkit-app-region: drag;
 }
 #top-combo #combo-player{
   flex:1;
@@ -61,4 +60,5 @@ body, html, .container-fluid {
 }
 ul {
   list-style-type:none;
+  -webkit-app-region: drag;
 }
