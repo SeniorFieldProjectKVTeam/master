@@ -12,7 +12,8 @@ body, html, .container-fluid {
 #left-side {
   float:left;
   height:100%;
-  width:20%;
+  width:20%;  
+  -webkit-app-region: drag;
 }
 
 #right-side{
@@ -47,6 +48,7 @@ body, html, .container-fluid {
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-app-region: drag;
 }
 #top-combo #combo-player{
   flex:1;
@@ -55,6 +57,7 @@ body, html, .container-fluid {
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-app-region: drag;
 }
 ul {
   list-style-type:none;
