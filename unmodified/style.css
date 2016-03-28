@@ -9,6 +9,7 @@ body, html, .container-fluid {
   width:100%;
 
 }
+
 #left-side {
   float:left;
   height:100%;
@@ -31,7 +32,6 @@ body, html, .container-fluid {
   height:32%;
   width: 100%;
 }
-
 
 #botm-three .one{
   height:100%;
