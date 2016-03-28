@@ -6,3 +6,6 @@ For now, requires you:
 2. run "npm install --save-dev electron-prebuilt" in the project folder to get electron 
 3. run "npm install jquery -save" and "npm install jquery-ui -save" in order to get the dependencies on jquery and query UI (and AMD) to work
 4. run "bower install" to get the right javascript files in bower_components folder
+
+
+Color picker from Spectrum project by @bgrins
