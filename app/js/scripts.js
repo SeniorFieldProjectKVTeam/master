@@ -119,6 +119,8 @@ function publish(){
   alert(order);
 }
 
-
+function refresh(){
+  location.reload();
+}
 
 //document.getElementById('cancel').onclick  = reply_click;

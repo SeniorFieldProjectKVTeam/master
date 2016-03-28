@@ -24,7 +24,7 @@ function init() {
   $('#top-combo').sortable();
   $('#botm-three').sortable();
   $( "#botm-three" ).droppable({
-    accept: "#left-side li#fn, #left-side li#ts, #left-side li#qu",
+    accept: "#left-side li.fn, #left-side li.ts, #left-side li.qu",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
