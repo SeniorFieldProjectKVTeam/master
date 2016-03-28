@@ -7,5 +7,9 @@
   },
   "devDependencies": {
     "electron-prebuilt": "^0.37.2"
+  },
+  "dependencies": {
+    "jquery": "^2.2.2",
+    "jquery-ui": "^1.10.5"
   }
 }
