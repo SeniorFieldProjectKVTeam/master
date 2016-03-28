@@ -33,35 +33,11 @@ body, html, .container-fluid {
 }
 
 
-#botm-three .one{
+#botm-three div{
   height:100%;
   width:100%;
   background-color: gray;
   display: inline-block;
-}
-#botm-three .two{
-  height:100%;
-  width:50%;
-  background-color: gray;
-  display: inline-block;
-}
-#botm-three .three{
-  height:100%;
-  width:33.3%;
-  background-color: gray;
-  display: inline-block;
-}
-#botm-three .four{
-  height:100%;
-  width:25%;
-  background-color: gray;
-  display: inline-block;
-}
-.cancel {
-  float: right;
-}
-.color {
-  float: right;
 }
 
 #top-combo #navigation{
