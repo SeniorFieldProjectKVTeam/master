@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	
+	<!--In Electron, this is the correct way to include jQuery-->
+<script>window.$ = window.jQuery = require('./js/jquery-2.2.2.min.js');</script>
+<script type="text/javascript" src="./bower_components/jquery-ui/jquery-ui.js"></script>
+	
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
 <!-- Latest compiled and minified CSS -->
@@ -9,41 +14,31 @@
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
-<!--In Electron, this is the correct way to include jQuery-->
-<script>window.$ = window.jQuery = require('./js/jquery-2.2.2.min.js');</script>
-<script>window.ui = require('./js/jquery-ui-1.11.4.custom/jquery-ui.js');</script>
-<!-- Not sure that the following two lines are necessary-->
-<script src="./js/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
-<script src="./js/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
-<script src="./js/scripts.js"></script>
-</body>
-</html>
-
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="css/style3.css">
-<script src="js/scripts.js"></script>
-
-
+<link rel="stylesheet" href="./css/style.css">
+<script src="./js/scripts.js"></script>
 
 <title>Sample Code</title>
 </head>
 <body>
   <div id = "whole-page">
     <div id = "left-side">
-      <h3>Main</h3>
+      <h3 id = "main">Main</h3>
       <div>
         <ul>
-          <li class = "navi">navigation</li>
+          <li id = "navi">navigation</li>
         </ul>
       </div>
 
-      <h3>bottom</h3>
+      <h3 id="botm">bottom</h3>
       <div>
         <ul>
-          <li class = "fn">footnote</li>
-          <li class = "ts">transcript</li>
-          <li class = "qu">questions</li>
+          <li id = "fn">footnote</li>
+          <li id = "ts">transcript</li>
+          <li id = "qu">questions</li>
+          <li id = "qz">quizes</li>
+          <li id = "sp">sample</li>
         </ul>
       </div>
       <button onclick="publish()">publish</button>
@@ -58,7 +53,6 @@
         </div>
       </div>
       <div id = "botm-three">
-        <div></div>
       </div>
     </div>
 
