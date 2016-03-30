@@ -1,4 +1,6 @@
 
+// start to implement hover
+
 var bot = [];
 var order = [];
 var ordertop = [];
@@ -8,9 +10,8 @@ param["fn"] = new Object();
 param["ts"] = new Object();
 param["qz"] = new Object();
 param["sp"] = new Object();
-param["na"] = new Object();
+param["navi"] = new Object();
 
-var pa;
 
 $( init );
 
@@ -29,32 +30,14 @@ function init() {
       $(ui.helper).remove(); //destroy clone
       $(ui.draggable).remove(); //remove from list
       var id = ui.draggable.attr("id").substring(0,2);
-      $( "#tobechange" ).html("this is the navigation")
-        .attr({
-          class:"navigation",
-          id:id
-        });
-
-      $( "#top-combo #na" ).hover(
-        function() {
-          $( this ).append(
-            $("<button class='color' onclick='changeColor(this.id)'>color</button>"+"<button class='cancel' onclick='cancelDrop(this.id)'>X</button>")
-          );
-        },
-        function() {
-          $( this ).find( "button" ).remove();
-        }
-      );
-
-      $('#top-combo').sortable({ // make it sortable
+      $( "#tobechange" ).html( "<button class='color' onclick='changeColor(this.id)'>color</button>"+"<button class='cancel' onclick='cancelDrop(this.id)'>X</button>").attr("class","navigation");
+      $('#top-combo').sortable({
         stop: function(event,ui){
           ordertop = $("#top-combo").sortable("toArray");
         }
       });
     }
   });
-
-
 
   $('#botm-three').sortable({
     stop: function(event,ui){ /* do whatever here */
@@ -82,20 +65,16 @@ function init() {
 
         if (bot.length == 1){
           var id1 = ui.draggable.attr("id").substring(0,2);
-          $( this ).html("<div class='one' id="+id1+">"+id1+"</div>");
-          hoverBotm(id1);
+          $( this ).html("<div class='one' id="+id1+">"+id1+"<button id="+id1+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id1+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>");
           applyChange(id1);
         }
-
         if (bot.length == 2){
           var id1 = bot[0].draggable.attr("id").substring(0,2);
           var id2 = bot[1].draggable.attr("id").substring(0,2);
           $( this ).html(
-            "<div class='two' id="+id1+">"+id1+"</div>"+
-            "<div class='two' id="+id2+">"+id2+"</div>"
+            "<div class='two' id="+id1+">"+id1+"<button id="+id1+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id1+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"+
+            "<div class='two' id="+id2+">"+id2+"<button id="+id2+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id2+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"
           );
-          hoverBotm(id1);
-          hoverBotm(id2);
           applyChange(id1);
           applyChange(id2);
         }
@@ -104,14 +83,11 @@ function init() {
           var id2 = bot[1].draggable.attr("id").substring(0,2);
           var id3 = ui.draggable.attr("id").substring(0,2);
           $( this ).html(
-            "<div class='three' id="+id1+">"+id1+"</div>"+
-            "<div class='three' id="+id2+">"+id2+"</div>"+
-            "<div class='three' id="+id3+">"+id3+"</div>"
+            "<div class='three' id="+id1+">"+id1+"<button id="+id1+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id1+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"+
+            "<div class='three' id="+id2+">"+id2+"<button id="+id2+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id2+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"+
+            "<div class='three' id="+id3+">"+id3+"<button id="+id3+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id3+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"
           );
           $(this).droppable( "option", "disabled", true );
-          hoverBotm(id1);
-          hoverBotm(id2);
-          hoverBotm(id3);
           applyChange(id1);
           applyChange(id2);
           applyChange(id3);
@@ -132,38 +108,22 @@ function cancelDrop(button_id) {
       }
       if (bot.length == 1){
         var id1 = bot[0].draggable.attr("id").substring(0,2);
-        $(botm).html("<div class='one' id="+id1+">"+id1+"</div>");
-        hoverBotm(id1);
+        $(botm).html("<div class='one' id="+id1+">"+id1+"<button id="+id1+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id1+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>");
         applyChange(id1);
       }
       if (bot.length == 2){
         var id1 = bot[0].draggable.attr("id").substring(0,2);
         var id2 = bot[1].draggable.attr("id").substring(0,2);
         $(botm).html(
-          "<div class='two' id="+id1+">"+id1+"</div>"+
-          "<div class='two' id="+id2+">"+id2+"</div>"
+          "<div class='two' id="+id1+">"+id1+"<button id="+id1+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id1+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"+
+          "<div class='two' id="+id2+">"+id2+"<button id="+id2+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id2+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"
         );
         $(botm).droppable("option", "disabled", false);
-        hoverBotm(id1);
-        hoverBotm(id2);
         applyChange(id1);
         applyChange(id2);
       }
     }
   }
-}
-
-function hoverBotm(id){
-  $( "#botm-three #"+id ).hover(
-    function() {
-      $( this ).append(
-        $("<button id="+id+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id+" class='cancel' onclick='cancelDrop(this.id)'>X</button>")
-      );
-    },
-    function() {
-      $( this ).find( "button" ).remove();
-    }
-  );
 }
 
 function changeNavi(){
@@ -183,20 +143,9 @@ function applyChange(button_id){
 }
 
 function publish(){
-  pa = {
-    "order": order,
-    "ordertop": ordertop,
-    "qu": param["qu"],
-    "fn": param["fn"],
-    "ts" : param["ts"],
-    "qz": param["qz"],
-    "na": param["na"],
-    "sp": param["sp"]
-  }
-  var url = 'data:text/json;charset=utf8,' + encodeURIComponent(pa);
-  window.open(url, '_blank');
-  window.focus();
-  alert(pa);
+  var order = $("#botm-three").sortable("toArray");
+  param["order"] = order;
+  alert(order);
 }
 
 function refresh(){

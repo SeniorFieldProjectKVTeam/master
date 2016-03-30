@@ -1,11 +1,16 @@
 
 var bot = [];
+var order = [];
+var ordertop = [];
 var param = new Object();
 param["qu"] = new Object();
 param["fn"] = new Object();
 param["ts"] = new Object();
 param["qz"] = new Object();
 param["sp"] = new Object();
+param["na"] = new Object();
+
+var pa;
 
 $( init );
 
@@ -16,20 +21,56 @@ function init() {
     cursor: 'move',
     helper: "clone"
   });
-  $( "#navigation" ).droppable({
+  $( "#combo-player" ).droppable({
     accept: "#left-side li#navi",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
       $(ui.helper).remove(); //destroy clone
       $(ui.draggable).remove(); //remove from list
-      $( this )
-        .find( "p" )
-        .html( "Navigation Dropped!<button onclick='publish()'>Modify</button>" );
+      var id = ui.draggable.attr("id").substring(0,2);
+      $( "#tobechange" ).html("this is the navigation")
+        .attr({
+          class:"navigation",
+          id:id
+        });
+
+      $( "#top-combo #na" ).hover(
+        function() {
+          $( this ).append(
+            $("<button class='color' onclick='changeColor(this.id)'>color</button>"+"<button class='cancel' onclick='cancelDrop(this.id)'>X</button>")
+          );
+        },
+        function() {
+          $( this ).find( "button" ).remove();
+        }
+      );
+
+      $('#top-combo').sortable({ // make it sortable
+        stop: function(event,ui){
+          ordertop = $("#top-combo").sortable("toArray");
+        }
+      });
     }
   });
-  $('#top-combo').sortable();
-  $('#botm-three').sortable();
+
+
+
+  $('#botm-three').sortable({
+    stop: function(event,ui){ /* do whatever here */
+      order = $("#botm-three").sortable("toArray");
+      var temp = [];
+      for (i = 0; i < order.length; i++) {
+        for (j = 0; j < bot.length; j++) {
+          var id = bot[j].draggable.attr("id").substring(0,2);
+          if (id == order[i]){
+            temp.push(bot[j]);
+          }
+        }
+      }
+      bot = temp; // update the order according to the sort order in bot
+    }
+  });
   $( "#botm-three" ).droppable({
     accept: "#left-side li#fn,li#ts,li#qu,li#qz,li#sp",
     activeClass: "ui-state-hover",
@@ -41,16 +82,20 @@ function init() {
 
         if (bot.length == 1){
           var id1 = ui.draggable.attr("id").substring(0,2);
-          $( this ).html("<div class='one' id="+id1+">"+id1+"<button id="+id1+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id1+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>");
+          $( this ).html("<div class='one' id="+id1+">"+id1+"</div>");
+          hoverBotm(id1);
           applyChange(id1);
         }
+
         if (bot.length == 2){
           var id1 = bot[0].draggable.attr("id").substring(0,2);
           var id2 = bot[1].draggable.attr("id").substring(0,2);
           $( this ).html(
-            "<div class='two' id="+id1+">"+id1+"<button id="+id1+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id1+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"+
-            "<div class='two' id="+id2+">"+id2+"<button id="+id2+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id2+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"
+            "<div class='two' id="+id1+">"+id1+"</div>"+
+            "<div class='two' id="+id2+">"+id2+"</div>"
           );
+          hoverBotm(id1);
+          hoverBotm(id2);
           applyChange(id1);
           applyChange(id2);
         }
@@ -59,11 +104,14 @@ function init() {
           var id2 = bot[1].draggable.attr("id").substring(0,2);
           var id3 = ui.draggable.attr("id").substring(0,2);
           $( this ).html(
-            "<div class='three' id="+id1+">"+id1+"<button id="+id1+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id1+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"+
-            "<div class='three' id="+id2+">"+id2+"<button id="+id2+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id2+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"+
-            "<div class='three' id="+id3+">"+id3+"<button id="+id3+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id3+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"
+            "<div class='three' id="+id1+">"+id1+"</div>"+
+            "<div class='three' id="+id2+">"+id2+"</div>"+
+            "<div class='three' id="+id3+">"+id3+"</div>"
           );
           $(this).droppable( "option", "disabled", true );
+          hoverBotm(id1);
+          hoverBotm(id2);
+          hoverBotm(id3);
           applyChange(id1);
           applyChange(id2);
           applyChange(id3);
@@ -84,22 +132,43 @@ function cancelDrop(button_id) {
       }
       if (bot.length == 1){
         var id1 = bot[0].draggable.attr("id").substring(0,2);
-        $(botm).html("<div class='one' id="+id1+">"+id1+"<button id="+id1+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id1+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>");
+        $(botm).html("<div class='one' id="+id1+">"+id1+"</div>");
+        hoverBotm(id1);
         applyChange(id1);
       }
       if (bot.length == 2){
         var id1 = bot[0].draggable.attr("id").substring(0,2);
         var id2 = bot[1].draggable.attr("id").substring(0,2);
         $(botm).html(
-          "<div class='two' id="+id1+">"+id1+"<button id="+id1+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id1+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"+
-          "<div class='two' id="+id2+">"+id2+"<button id="+id2+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id2+" class='cancel' onclick='cancelDrop(this.id)'>X</button>"+"</div>"
+          "<div class='two' id="+id1+">"+id1+"</div>"+
+          "<div class='two' id="+id2+">"+id2+"</div>"
         );
         $(botm).droppable("option", "disabled", false);
+        hoverBotm(id1);
+        hoverBotm(id2);
         applyChange(id1);
         applyChange(id2);
       }
     }
   }
+}
+
+function hoverBotm(id){
+  $( "#botm-three #"+id ).hover(
+    function() {
+      $( this ).append(
+        $("<button id="+id+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id+" class='cancel' onclick='cancelDrop(this.id)'>X</button>")
+      );
+    },
+    function() {
+      $( this ).find( "button" ).remove();
+    }
+  );
+}
+
+function changeNavi(){
+  param[button_id]["background-color"] = "blue";
+  $("#top-combo div."+button_id).css("background-color","blue");
 }
 
 function changeColor(button_id){
@@ -114,13 +183,26 @@ function applyChange(button_id){
 }
 
 function publish(){
-  var order = $("#botm-three").sortable("toArray");
-  param["order"] = order;
-  alert(order);
+  pa = {
+    "order": order,
+    "ordertop": ordertop,
+    "qu": param["qu"],
+    "fn": param["fn"],
+    "ts" : param["ts"],
+    "qz": param["qz"],
+    "na": param["na"],
+    "sp": param["sp"]
+  }
+  var url = 'data:text/json;charset=utf8,' + encodeURIComponent(pa);
+  window.open(url, '_blank');
+  window.focus();
+  alert(pa);
 }
 
 function refresh(){
   location.reload();
 }
+
+
 
 //document.getElementById('cancel').onclick  = reply_click;

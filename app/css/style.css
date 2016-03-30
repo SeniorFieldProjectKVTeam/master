@@ -9,6 +9,7 @@ body, html, .container-fluid {
   width:100%;
 
 }
+
 #left-side {
   float:left;
   height:100%;
@@ -32,29 +33,28 @@ body, html, .container-fluid {
   width: 100%;
 }
 
-
 #botm-three .one{
   height:100%;
   width:100%;
-  background-color: gray;
+  background-color: lightgray;
   display: inline-block;
 }
 #botm-three .two{
   height:100%;
   width:50%;
-  background-color: gray;
+  background-color: lightgray;
   display: inline-block;
 }
 #botm-three .three{
   height:100%;
   width:33.3%;
-  background-color: gray;
+  background-color: lightgray;
   display: inline-block;
 }
 #botm-three .four{
   height:100%;
   width:25%;
-  background-color: gray;
+  background-color: lightgray;
   display: inline-block;
 }
 .cancel {
@@ -64,21 +64,15 @@ body, html, .container-fluid {
   float: right;
 }
 
-#top-combo #navigation{
-  height:100%;
+#top-combo .navigation{
   width:30%;
-  background-color: yellow;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: lightgreen;
+  display: inline-block;
 }
-#top-combo #combo-player{
+#top-combo .combo-player{
   flex:1;
-  height:100%;
-  background-color: red;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: lightblue;
+  display: inline-block;
 }
 ul {
   list-style-type:none;

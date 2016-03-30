@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<!--In Electron, this is the correct way to include jQuery-->
-<script>window.$ = window.jQuery = require('./js/jquery-2.2.2.min.js');</script>
-<script type="text/javascript" src="./bower_components/jquery-ui/jquery-ui.js"></script>
-
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
 <!-- Latest compiled and minified CSS -->
@@ -16,9 +11,8 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="./css/style.css">
-<script src="./js/scripts.js"></script>
+<link rel="stylesheet" href="style.css">
+<script src="scripts.js"></script>
 
 <title>Sample Code</title>
 </head>
@@ -43,7 +37,7 @@
         </ul>
       </div>
       <button onclick="publish()">publish</button><br>
-      <button onclick="refresh()">cancel</button>
+      <button onclick="refresh()">refresh</button>
     </div>
     <div id = "right-side">
       <div id = "top-combo">

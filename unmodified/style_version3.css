@@ -1,4 +1,6 @@
 
+
+
 body, html, .container-fluid {
   height: 100%;
   width:100%;
@@ -36,25 +38,25 @@ body, html, .container-fluid {
 #botm-three .one{
   height:100%;
   width:100%;
-  background-color: lightgray;
+  background-color: gray;
   display: inline-block;
 }
 #botm-three .two{
   height:100%;
   width:50%;
-  background-color: lightgray;
+  background-color: gray;
   display: inline-block;
 }
 #botm-three .three{
   height:100%;
   width:33.3%;
-  background-color: lightgray;
+  background-color: gray;
   display: inline-block;
 }
 #botm-three .four{
   height:100%;
   width:25%;
-  background-color: lightgray;
+  background-color: gray;
   display: inline-block;
 }
 .cancel {
@@ -66,12 +68,11 @@ body, html, .container-fluid {
 
 #top-combo .navigation{
   width:30%;
-  background-color: lightgreen;
   display: inline-block;
 }
 #top-combo .combo-player{
   flex:1;
-  background-color: lightblue;
+  background-color: red;
   display: inline-block;
 }
 ul {
