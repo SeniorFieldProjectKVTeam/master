@@ -202,10 +202,3 @@ function publish(){
 function refresh(){
   location.reload();
 }
-
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 70a6f11cc9a98b135959ddc8d09fe1e5f465ff08
-//document.getElementById('cancel').onclick  = reply_click;
