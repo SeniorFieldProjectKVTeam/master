@@ -15,7 +15,6 @@ var pa;
 $( init );
 
 function init() {
-  $('[data-toggle="popover"]').popover();
   $( "#left-side" ).accordion();
   $('#left-side li').draggable({
     cursor: 'move',
@@ -28,6 +27,7 @@ function init() {
     drop: function( event, ui ) {
       $(ui.helper).remove(); //destroy clone
       $(ui.draggable).remove(); //remove from list
+      param["navigation"] = true;
       var id = ui.draggable.attr("id").substring(0,2);
       $( "#tobechange" ).html("this is the navigation")
         .attr({
@@ -35,17 +35,7 @@ function init() {
           id:id
         });
 
-      $( "#top-combo #na" ).hover(
-        function() {
-          $( this ).append(
-            $("<button class='color' onclick='changeColor(this.id)'>color</button>"+"<button class='cancel' onclick='cancelDrop(this.id)'>X</button>")
-          );
-        },
-        function() {
-          $( this ).find( "button" ).remove();
-        }
-      );
-
+      makeHover("#top-combo #",id);
       $('#top-combo').sortable({ // make it sortable
         stop: function(event,ui){
           ordertop = $("#top-combo").sortable("toArray");
@@ -83,7 +73,7 @@ function init() {
         if (bot.length == 1){
           var id1 = ui.draggable.attr("id").substring(0,2);
           $( this ).html("<div class='one' id="+id1+">"+id1+"</div>");
-          hoverBotm(id1);
+          makeHover("#botm-three #",id1);
           applyChange(id1);
         }
 
@@ -94,8 +84,8 @@ function init() {
             "<div class='two' id="+id1+">"+id1+"</div>"+
             "<div class='two' id="+id2+">"+id2+"</div>"
           );
-          hoverBotm(id1);
-          hoverBotm(id2);
+          makeHover("#botm-three #",id1);
+          makeHover("#botm-three #",id2);
           applyChange(id1);
           applyChange(id2);
         }
@@ -109,15 +99,20 @@ function init() {
             "<div class='three' id="+id3+">"+id3+"</div>"
           );
           $(this).droppable( "option", "disabled", true );
-          hoverBotm(id1);
-          hoverBotm(id2);
-          hoverBotm(id3);
+          makeHover("#botm-three #",id1);
+          makeHover("#botm-three #",id2);
+          makeHover("#botm-three #",id3);
           applyChange(id1);
           applyChange(id2);
           applyChange(id3);
         }
     }
   });
+}
+
+
+function cancelNavi(button_id){
+  $("#top-combo #"+button_id).remove();
 }
 
 function cancelDrop(button_id) {
@@ -128,12 +123,12 @@ function cancelDrop(button_id) {
       bot.splice(i, 1);
       var botm = document.getElementById("botm-three")
       if (bot.length == 0){
-        $("#botm-three ."+id).remove();
+        $("#botm-three #"+id).remove();
       }
       if (bot.length == 1){
         var id1 = bot[0].draggable.attr("id").substring(0,2);
         $(botm).html("<div class='one' id="+id1+">"+id1+"</div>");
-        hoverBotm(id1);
+        makeHover("#botm-three #",id1);
         applyChange(id1);
       }
       if (bot.length == 2){
@@ -144,8 +139,8 @@ function cancelDrop(button_id) {
           "<div class='two' id="+id2+">"+id2+"</div>"
         );
         $(botm).droppable("option", "disabled", false);
-        hoverBotm(id1);
-        hoverBotm(id2);
+        makeHover("#botm-three #",id1);
+        makeHover("#botm-three #",id2);
         applyChange(id1);
         applyChange(id2);
       }
@@ -153,11 +148,15 @@ function cancelDrop(button_id) {
   }
 }
 
-function hoverBotm(id){
-  $( "#botm-three #"+id ).hover(
+function makeHover(pref,id){
+  var func = "cancelDrop";
+  if (id == "na"){
+    func = "cancelNavi";
+  }
+  $( pref+id ).hover(
     function() {
       $( this ).append(
-        $("<button id="+id+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id+" class='cancel' onclick='cancelDrop(this.id)'>X</button>")
+        $("<button id="+id+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id+" class='font' onclick='changeFont(this.id)'>font</button>"+"<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button>")
       );
     },
     function() {
@@ -166,19 +165,18 @@ function hoverBotm(id){
   );
 }
 
-function changeNavi(){
-  param[button_id]["background-color"] = "blue";
-  $("#top-combo div."+button_id).css("background-color","blue");
-}
-
 function changeColor(button_id){
   param[button_id]["background-color"] = "blue";
-  $("#botm-three div#"+button_id).css("background-color","blue");
+  $("#right-side div#"+button_id).css("background-color","blue");
+}
+
+function changeFont(button_id){
+  param[button_id]["background-color"]
 }
 
 function applyChange(button_id){
   if (param[button_id]["background-color"]){
-    $("#botm-three div#"+button_id).css("background-color",param[button_id]["background-color"]);
+    $("#right-side div#"+button_id).css("background-color",param[button_id]["background-color"]);
   }
 }
 
@@ -193,9 +191,6 @@ function publish(){
     "na": param["na"],
     "sp": param["sp"]
   }
-  var url = 'data:text/json;charset=utf8,' + encodeURIComponent(pa);
-  window.open(url, '_blank');
-  window.focus();
   alert(pa);
 }
 

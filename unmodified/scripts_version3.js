@@ -104,7 +104,7 @@ function cancelDrop(button_id) {
       bot.splice(i, 1);
       var botm = document.getElementById("botm-three")
       if (bot.length == 0){
-        $("#botm-three ."+id).remove();
+        $("#botm-three #"+id).remove();
       }
       if (bot.length == 1){
         var id1 = bot[0].draggable.attr("id").substring(0,2);
