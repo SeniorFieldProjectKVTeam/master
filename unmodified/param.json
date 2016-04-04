@@ -1,0 +1,8 @@
+{
+  "order": ["ft","qu","ts"],
+  "ordertop": ["combo-player","na"],
+  "qu": {"background-color":"lightblue","font":"Arial","size":"12px"},
+  "fn": {"background-color":"lightgreen"},
+  "ts" : {"background-color":"lightgray"},
+  "na" : {"background-color":"lightpink"}
+}

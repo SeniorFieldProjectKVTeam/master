@@ -21,6 +21,11 @@ body, html, .container-fluid {
   width:80%;
 }
 
+.top-logo{
+  height:5%;
+  width:100%;
+}
+
 #top-combo{
   height:68%;
   width:100%;

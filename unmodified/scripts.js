@@ -1,4 +1,3 @@
-
 var bot = [];
 var order = [];
 var ordertop = [];
@@ -7,9 +6,8 @@ param["qu"] = new Object();
 param["fn"] = new Object();
 param["ts"] = new Object();
 param["qz"] = new Object();
-param["sp"] = new Object();
+param["lg"] = new Object();
 param["na"] = new Object();
-
 var pa;
 
 $( init );
@@ -21,26 +19,40 @@ function init() {
     helper: "clone"
   });
   $( "#combo-player" ).droppable({
-    accept: "#left-side li#navi",
+    accept: "#left-side li#na, li#lg",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
       $(ui.helper).remove(); //destroy clone
-      $(ui.draggable).remove(); //remove from list
-      param["navigation"] = true;
+      $(ui.draggable).hide(); //remove from list
       var id = ui.draggable.attr("id").substring(0,2);
-      $( "#tobechange" ).html("this is the navigation")
-        .attr({
-          class:"navigation",
+      if (id == "na"){
+        param["na"]["ui"] = ui.draggable;
+        param["na"]["exist"] = true;
+        $( "#tobechange" ).html("this is the navigation")
+          .attr({
+            class:"navigation",
+            id:id
+          });
+        makeHover("#top-combo #",id);
+        $('#top-combo').sortable({ // make it sortable
+          stop: function(event,ui){
+            ordertop = $("#top-combo").sortable("toArray");
+          }
+        });
+      };
+      if (id == "lg"){
+        param["lg"]["ui"] = ui.draggable;
+        param["lg"]["exist"] = true;
+        $("#top-logo-change").html("This should be the logo").attr({
+          class:"top-logo",
           id:id
         });
-
-      makeHover("#top-combo #",id);
-      $('#top-combo').sortable({ // make it sortable
-        stop: function(event,ui){
-          ordertop = $("#top-combo").sortable("toArray");
-        }
-      });
+        //alert(id);
+        applyChange(id);
+        $("#botm-three").css("height","27%");
+        makeHover("#right-side #",id);
+      }
     }
   });
 
@@ -62,7 +74,7 @@ function init() {
     }
   });
   $( "#botm-three" ).droppable({
-    accept: "#left-side li#fn,li#ts,li#qu,li#qz,li#sp",
+    accept: "#left-side li#fn,li#ts,li#qu,li#qz,li#lg",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
@@ -75,6 +87,7 @@ function init() {
           $( this ).html("<div class='one' id="+id1+">"+id1+"</div>");
           makeHover("#botm-three #",id1);
           applyChange(id1);
+          order = [id1];
         }
 
         if (bot.length == 2){
@@ -84,6 +97,7 @@ function init() {
             "<div class='two' id="+id1+">"+id1+"</div>"+
             "<div class='two' id="+id2+">"+id2+"</div>"
           );
+          order = [id1,id2];
           makeHover("#botm-three #",id1);
           makeHover("#botm-three #",id2);
           applyChange(id1);
@@ -98,6 +112,7 @@ function init() {
             "<div class='three' id="+id2+">"+id2+"</div>"+
             "<div class='three' id="+id3+">"+id3+"</div>"
           );
+          order = [id1,id2,id3];
           $(this).droppable( "option", "disabled", true );
           makeHover("#botm-three #",id1);
           makeHover("#botm-three #",id2);
@@ -113,6 +128,22 @@ function init() {
 
 function cancelNavi(button_id){
   $("#top-combo #"+button_id).remove();
+  $("#top-combo ").prepend("<div id = 'tobechange'></div>");
+  $(param["na"]["ui"]).show();
+  param["na"]["exist"] = false;
+}
+
+function cancelLogo(button_id){
+  var currentClass = $("#right-side #"+button_id).attr("class");
+  if (currentClass == "top-logo"){
+    $("#right-side #"+button_id).remove();
+    $(param["lg"]["ui"]).show();
+    param["lg"]["exist"] = false;
+    $("#right-side").prepend("<div id = 'top-logo-change'></div>");
+    $("#botm-three").css("height","32%");
+  } else {
+    cancelDrop(button_id);
+  }
 }
 
 function cancelDrop(button_id) {
@@ -153,6 +184,9 @@ function makeHover(pref,id){
   if (id == "na"){
     func = "cancelNavi";
   }
+  if (id == "lg"){
+    func = "cancelLogo";
+  }
   $( pref+id ).hover(
     function() {
       $( this ).append(
@@ -167,11 +201,12 @@ function makeHover(pref,id){
 
 function changeColor(button_id){
   param[button_id]["background-color"] = "blue";
+  //alert(param[button_id]["background-color"]);
   $("#right-side div#"+button_id).css("background-color","blue");
 }
 
 function changeFont(button_id){
-  param[button_id]["background-color"]
+  //param[button_id]["background-color"]
 }
 
 function applyChange(button_id){
@@ -189,9 +224,10 @@ function publish(){
     "ts" : param["ts"],
     "qz": param["qz"],
     "na": param["na"],
-    "sp": param["sp"]
+    "lg": param["lg"]
   }
-  alert(pa);
+
+  alert(pa["order"]);
 }
 
 function refresh(){
