@@ -7,7 +7,6 @@ body, html, .container-fluid {
 #whole-page {
   height:100%;
   width:100%;
-
 }
 
 #left-side {
@@ -20,6 +19,11 @@ body, html, .container-fluid {
   float:right;
   height:100%;
   width:80%;
+}
+
+.top-logo{
+  height:5%;
+  width:100%;
 }
 
 #top-combo{
@@ -62,6 +66,10 @@ body, html, .container-fluid {
 }
 .color {
   float: right;
+}
+
+.font {
+  float:right;
 }
 
 #top-combo .navigation{

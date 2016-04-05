@@ -226,8 +226,15 @@ function publish(){
     "na": param["na"],
     "lg": param["lg"]
   }
+  // store in local storage or session or cookies
+  //localStorage.setItem('passParams', JSON.stringify(pa));
+  //var obj = JSON.parse(localStorage.getItem('passParams'));
+  //alert(obj["order"]);
 
-  alert(pa["order"]);
+  // try to ouput as download
+  // var obj = {a: 123, b: "4 5 6"};
+  // var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj));
+  // $('<a href="data:' + data + '" download="data.json">download JSON</a>').appendTo('#download');
 }
 
 function refresh(){
