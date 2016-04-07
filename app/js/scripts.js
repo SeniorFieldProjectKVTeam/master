@@ -9,6 +9,8 @@ param["qz"] = new Object();
 param["lg"] = new Object();
 param["na"] = new Object();
 var pa;
+// THINGS I ADDED
+var fs = require('fs');
 
 $( init );
 
@@ -263,17 +265,29 @@ function applyChange(button_id){
   }
 }
 
-function publish(){
-  pa = {
-    "order": order,
-    "ordertop": ordertop,
-    "qu": param["qu"],
-    "fn": param["fn"],
-    "ts" : param["ts"],
-    "qz": param["qz"],
-    "na": param["na"],
-    "lg": param["lg"]
-  }
+function publish(){	
+	//grab the desired output
+    pa = {
+      "order": order,
+      "ordertop": ordertop,
+      "qu": param["qu"],
+      "fn": param["fn"],
+      "ts" : param["ts"],
+      "qz": param["qz"],
+      "na": param["na"],
+      "lg": param["lg"]
+    }
+	
+	// write it to file
+  //fs.writeFile(filename, data, [encoding], callback)
+  fs.writeFile("./kv.json", JSON.stringify(pa), function(err){
+	  if(err){
+		  return console.log(err);
+	  }
+	  console.log("The file was saved!");
+  });
+  
+  
 
   alert(pa);
   // store in local storage or session or cookies
