@@ -10,7 +10,7 @@ app.on('ready', function(){
 		height:600,
 		width: 800
 	});
-	mainWindow.loadURL('file://' + __dirname + '/app/switch_present.html');
+	mainWindow.loadURL('file://' + __dirname + '/app/index.html');
 });
 
 var ipc = require('electron').ipcMain;
