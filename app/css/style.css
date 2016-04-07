@@ -7,6 +7,7 @@ body, html, .container-fluid {
 #whole-page {
   height:100%;
   width:100%;
+  padding: 0px 0px 0px 10px;
 }
 
 #left-side {
@@ -43,24 +44,28 @@ body, html, .container-fluid {
   background-color: lightgray;
   display: inline-block;
 }
+
 #botm-three .two{
   height:100%;
   width:50%;
   background-color: lightgray;
   display: inline-block;
 }
+
 #botm-three .three{
   height:100%;
   width:33.3%;
   background-color: lightgray;
   display: inline-block;
 }
+
 #botm-three .four{
   height:100%;
   width:25%;
   background-color: lightgray;
   display: inline-block;
 }
+
 .cancel {
   float: right;
 }
@@ -77,11 +82,51 @@ body, html, .container-fluid {
   background-color: lightgreen;
   display: inline-block;
 }
+
 #top-combo .combo-player{
   flex:1;
   background-color: lightblue;
   display: inline-block;
 }
+
 ul {
   list-style-type:none;
+}
+
+#publishBtn{
+	background-color: #ccc;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius:6px;
+	color: #fff;
+	font-family: 'Oswald';
+	font-size: 20px;
+	text-decoration: none;
+	cursor: pointer;
+	border:none;
+}
+
+#publishBtn:hover {
+	border: none;
+	background:red;
+	box-shadow: 0px 0px 1px #777;
+}
+
+#refreshBtn{
+	background-color: #ccc;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius:6px;
+	color: #fff;
+	font-family: 'Oswald';
+	font-size: 20px;
+	text-decoration: none;
+	cursor: pointer;
+	border:none;
+}
+
+#refreshBtn:hover {
+	border: none;
+	background:red;
+	box-shadow: 0px 0px 1px #777;
 }
