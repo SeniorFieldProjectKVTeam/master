@@ -1,3 +1,4 @@
+
 var bot = [];
 var order = [];
 var ordertop = [];
@@ -6,53 +7,50 @@ param["qu"] = new Object();
 param["fn"] = new Object();
 param["ts"] = new Object();
 param["qz"] = new Object();
-param["lg"] = new Object();
+param["sp"] = new Object();
 param["na"] = new Object();
+
 var pa;
 
 $( init );
 
 function init() {
+  $('[data-toggle="popover"]').popover();
   $( "#left-side" ).accordion();
   $('#left-side li').draggable({
     cursor: 'move',
     helper: "clone"
   });
   $( "#combo-player" ).droppable({
-    accept: "#left-side li#na, li#lg",
+    accept: "#left-side li#navi",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
       $(ui.helper).remove(); //destroy clone
-      $(ui.draggable).hide(); //remove from list
+      $(ui.draggable).remove(); //remove from list
       var id = ui.draggable.attr("id").substring(0,2);
-      if (id == "na"){
-        param["na"]["ui"] = ui.draggable;
-        param["na"]["exist"] = true;
-        $( "#tobechange" ).html("this is the navigation")
-          .attr({
-            class:"navigation",
-            id:id
-          });
-        makeHover("#top-combo #",id);
-        $('#top-combo').sortable({ // make it sortable
-          stop: function(event,ui){
-            ordertop = $("#top-combo").sortable("toArray");
-          }
-        });
-      };
-      if (id == "lg"){
-        param["lg"]["ui"] = ui.draggable;
-        param["lg"]["exist"] = true;
-        $("#top-logo-change").html("This should be the logo").attr({
-          class:"top-logo",
+      $( "#tobechange" ).html("this is the navigation")
+        .attr({
+          class:"navigation",
           id:id
         });
-        //alert(id);
-        applyChange(id);
-        $("#botm-three").css("height","27%");
-        makeHover("#right-side #",id);
-      }
+
+      $( "#top-combo #na" ).hover(
+        function() {
+          $( this ).append(
+            $("<button class='color' onclick='changeColor(this.id)'>color</button>"+"<button class='cancel' onclick='cancelDrop(this.id)'>X</button>")
+          );
+        },
+        function() {
+          $( this ).find( "button" ).remove();
+        }
+      );
+
+      $('#top-combo').sortable({ // make it sortable
+        stop: function(event,ui){
+          ordertop = $("#top-combo").sortable("toArray");
+        }
+      });
     }
   });
 
@@ -74,7 +72,7 @@ function init() {
     }
   });
   $( "#botm-three" ).droppable({
-    accept: "#left-side li#fn,li#ts,li#qu,li#qz,li#lg",
+    accept: "#left-side li#fn,li#ts,li#qu,li#qz,li#sp",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
@@ -85,9 +83,8 @@ function init() {
         if (bot.length == 1){
           var id1 = ui.draggable.attr("id").substring(0,2);
           $( this ).html("<div class='one' id="+id1+">"+id1+"</div>");
-          makeHover("#botm-three #",id1);
+          hoverBotm(id1);
           applyChange(id1);
-          order = [id1];
         }
 
         if (bot.length == 2){
@@ -97,9 +94,8 @@ function init() {
             "<div class='two' id="+id1+">"+id1+"</div>"+
             "<div class='two' id="+id2+">"+id2+"</div>"
           );
-          order = [id1,id2];
-          makeHover("#botm-three #",id1);
-          makeHover("#botm-three #",id2);
+          hoverBotm(id1);
+          hoverBotm(id2);
           applyChange(id1);
           applyChange(id2);
         }
@@ -112,38 +108,16 @@ function init() {
             "<div class='three' id="+id2+">"+id2+"</div>"+
             "<div class='three' id="+id3+">"+id3+"</div>"
           );
-          order = [id1,id2,id3];
           $(this).droppable( "option", "disabled", true );
-          makeHover("#botm-three #",id1);
-          makeHover("#botm-three #",id2);
-          makeHover("#botm-three #",id3);
+          hoverBotm(id1);
+          hoverBotm(id2);
+          hoverBotm(id3);
           applyChange(id1);
           applyChange(id2);
           applyChange(id3);
         }
     }
   });
-}
-
-
-function cancelNavi(button_id){
-  $("#top-combo #"+button_id).remove();
-  $("#top-combo ").prepend("<div id = 'tobechange'></div>");
-  $(param["na"]["ui"]).show();
-  param["na"]["exist"] = false;
-}
-
-function cancelLogo(button_id){
-  var currentClass = $("#right-side #"+button_id).attr("class");
-  if (currentClass == "top-logo"){
-    $("#right-side #"+button_id).remove();
-    $(param["lg"]["ui"]).show();
-    param["lg"]["exist"] = false;
-    $("#right-side").prepend("<div id = 'top-logo-change'></div>");
-    $("#botm-three").css("height","32%");
-  } else {
-    cancelDrop(button_id);
-  }
 }
 
 function cancelDrop(button_id) {
@@ -154,12 +128,12 @@ function cancelDrop(button_id) {
       bot.splice(i, 1);
       var botm = document.getElementById("botm-three")
       if (bot.length == 0){
-        $("#botm-three #"+id).remove();
+        $("#botm-three ."+id).remove();
       }
       if (bot.length == 1){
         var id1 = bot[0].draggable.attr("id").substring(0,2);
         $(botm).html("<div class='one' id="+id1+">"+id1+"</div>");
-        makeHover("#botm-three #",id1);
+        hoverBotm(id1);
         applyChange(id1);
       }
       if (bot.length == 2){
@@ -170,8 +144,8 @@ function cancelDrop(button_id) {
           "<div class='two' id="+id2+">"+id2+"</div>"
         );
         $(botm).droppable("option", "disabled", false);
-        makeHover("#botm-three #",id1);
-        makeHover("#botm-three #",id2);
+        hoverBotm(id1);
+        hoverBotm(id2);
         applyChange(id1);
         applyChange(id2);
       }
@@ -179,18 +153,11 @@ function cancelDrop(button_id) {
   }
 }
 
-function makeHover(pref,id){
-  var func = "cancelDrop";
-  if (id == "na"){
-    func = "cancelNavi";
-  }
-  if (id == "lg"){
-    func = "cancelLogo";
-  }
-  $( pref+id ).hover(
+function hoverBotm(id){
+  $( "#botm-three #"+id ).hover(
     function() {
       $( this ).append(
-        $("<button id="+id+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id+" class='font' onclick='changeFont(this.id)'>font</button>"+"<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button>")
+        $("<button id="+id+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id+" class='cancel' onclick='cancelDrop(this.id)'>X</button>")
       );
     },
     function() {
@@ -199,19 +166,19 @@ function makeHover(pref,id){
   );
 }
 
-function changeColor(button_id){
+function changeNavi(){
   param[button_id]["background-color"] = "blue";
-  //alert(param[button_id]["background-color"]);
-  $("#right-side div#"+button_id).css("background-color","blue");
+  $("#top-combo div."+button_id).css("background-color","blue");
 }
 
-function changeFont(button_id){
-  //param[button_id]["background-color"]
+function changeColor(button_id){
+  param[button_id]["background-color"] = "blue";
+  $("#botm-three div#"+button_id).css("background-color","blue");
 }
 
 function applyChange(button_id){
   if (param[button_id]["background-color"]){
-    $("#right-side div#"+button_id).css("background-color",param[button_id]["background-color"]);
+    $("#botm-three div#"+button_id).css("background-color",param[button_id]["background-color"]);
   }
 }
 
@@ -224,23 +191,14 @@ function publish(){
     "ts" : param["ts"],
     "qz": param["qz"],
     "na": param["na"],
-    "lg": param["lg"]
+    "sp": param["sp"]
   }
-  // store in local storage or session or cookies
-  //localStorage.setItem('passParams', JSON.stringify(pa));
-  //var obj = JSON.parse(localStorage.getItem('passParams'));
-  //alert(obj["order"]);
-
-  // try to ouput as download
-  var obj = {a: 123, b: "4 5 6"};
-  var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj));
-  $('<a href="data:' + data + '" download="data.json">download JSON</a>').appendTo('#download');
+  var url = 'data:text/json;charset=utf8,' + encodeURIComponent(pa);
+  window.open(url, '_blank');
+  window.focus();
+  alert(pa);
 }
 
 function refresh(){
   location.reload();
 }
-
-
-
-//document.getElementById('cancel').onclick  = reply_click;

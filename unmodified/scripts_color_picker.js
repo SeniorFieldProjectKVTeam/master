@@ -13,14 +13,13 @@ var pa;
 $( init );
 
 function init() {
-  $( "#left-side #left-top" ).accordion();
-  $('#left-top li').draggable({
+  $( "#left-side" ).accordion();
+  $('#left-side li').draggable({
     cursor: 'move',
     helper: "clone"
   });
-  $('#color-picker').hide();
   $( "#combo-player" ).droppable({
-    accept: "#left-top li#na, li#lg",
+    accept: "#left-side li#na, li#lg",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
@@ -75,7 +74,7 @@ function init() {
     }
   });
   $( "#botm-three" ).droppable({
-    accept: "#left-top li#fn,li#ts,li#qu,li#qz,li#lg",
+    accept: "#left-side li#fn,li#ts,li#qu,li#qz,li#lg",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
@@ -124,6 +123,49 @@ function init() {
         }
     }
   });
+
+  $("#color-picker").spectrum({
+    color: "#ECC",
+    showInput: true,
+    className: "full-spectrum",
+    showInitial: true,
+    showPalette: true,
+    showSelectionPalette: true,
+    maxSelectionSize: 10,
+    preferredFormat: "hex",
+    localStorageKey: "spectrum.demo",
+    move: function (color) {
+
+    },
+    show: function () {
+
+    },
+    beforeShow: function () {
+
+    },
+    hide: function () {
+
+    },
+    change: function() {
+
+    },
+    palette: [
+        ["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)",
+        "rgb(204, 204, 204)", "rgb(217, 217, 217)","rgb(255, 255, 255)"],
+        ["rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
+        "rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)"],
+        ["rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)", "rgb(217, 234, 211)",
+        "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)", "rgb(217, 210, 233)", "rgb(234, 209, 220)",
+        "rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)",
+        "rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
+        "rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)",
+        "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)", "rgb(142, 124, 195)", "rgb(194, 123, 160)",
+        "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)",
+        "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)",
+        "rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)",
+        "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
+    ]
+});
 }
 
 
@@ -191,66 +233,19 @@ function makeHover(pref,id){
   $( pref+id ).hover(
     function() {
       $( this ).append(
-        // "<button href=''#popupMenu' data-rel='popup' data-transition='slideup' id='hover-modification' class='hover-modification btn btn-danger'>Modify</button>" +
-        // "<div data-role='popup' id='popupMenu'>" +
-        //   "<ul data-role='listview' data-inset='true'>" +
-        //     "<li data-role='list-divider'>Choose an action</li>"+
-        //     "<li><input type='text' class='color-picker' id='color-picker'/></li>"+
-        //     "<li><button id="+id+" class='font' onclick='changeFont(this.id)'>font</button></li>"+
-        //     "<li><button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></li>" +
-        //     "</ul></div>"
-        "<div class='hover-modification'><input type='text' class='color-picker' id='color-picker'/>"+"<button id="+id+" class='font' onclick='changeFont(this.id)'>font</button>"+"<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>"
+        $("<button id="+id+" class='color' onclick='changeColor(this.id)'>color</button>"+"<button id="+id+" class='font' onclick='changeFont(this.id)'>font</button>"+"<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button>")
       );
-      // $(pref+id+" .hover-modification").css({
-      //   "align-items": "center",
-      //   "justify-content": "center",
-      // });
-      $("#color-picker").spectrum({
-        color: "#ECC",
-        showInput: false,
-        className: "full-spectrum",
-        showInitial: true,
-        showPalette: true,
-        showSelectionPalette: true,
-        maxSelectionSize: 10,
-        preferredFormat: "hex",
-        localStorageKey: "spectrum.demo",
-        move: function(color) {
-          updateColor(id,(color ? color.toHexString() : ""));
-        },
-        palette: [
-            ["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)",
-            "rgb(204, 204, 204)", "rgb(217, 217, 217)","rgb(255, 255, 255)"],
-            ["rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
-            "rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)"],
-            ["rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)", "rgb(217, 234, 211)",
-            "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)", "rgb(217, 210, 233)", "rgb(234, 209, 220)",
-            "rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)",
-            "rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
-            "rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)",
-            "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)", "rgb(142, 124, 195)", "rgb(194, 123, 160)",
-            "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)",
-            "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)",
-            "rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)",
-            "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
-        ]
-      });
-      // if ($("#color-picker .sp-replacer")){
-      //   alert("found");
-      // }
     },
     function() {
       $( this ).find( "button" ).remove();
-      $( this ).find( "input" ).remove();
-      $( this ).find(".sp-replacer").remove();
     }
   );
 }
 
-function updateColor(button_id,color){
-  param[button_id]["background-color"] = color;
+function changeColor(button_id){
+  param[button_id]["background-color"] = "blue";
   //alert(param[button_id]["background-color"]);
-  $("#right-side div#"+button_id).css("background-color",color);
+  $("#right-side div#"+button_id).css("background-color","blue");
 }
 
 function changeFont(button_id){
@@ -274,8 +269,6 @@ function publish(){
     "na": param["na"],
     "lg": param["lg"]
   }
-
-  alert(pa);
   // store in local storage or session or cookies
   //localStorage.setItem('passParams', JSON.stringify(pa));
   //var obj = JSON.parse(localStorage.getItem('passParams'));

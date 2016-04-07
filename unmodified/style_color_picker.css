@@ -40,25 +40,36 @@ body, html, .container-fluid {
 #botm-three .one{
   height:100%;
   width:100%;
+  background-color: lightgray;
   display: inline-block;
 }
 #botm-three .two{
   height:100%;
   width:50%;
+  background-color: lightgray;
   display: inline-block;
 }
 #botm-three .three{
   height:100%;
   width:33.3%;
+  background-color: lightgray;
   display: inline-block;
 }
 #botm-three .four{
   height:100%;
   width:25%;
+  background-color: lightgray;
   display: inline-block;
 }
-.hover-modification {
-  margin: 0 auto;
+.cancel {
+  float: right;
+}
+.color {
+  float: right;
+}
+
+.font {
+  float:right;
 }
 
 #top-combo .navigation{
@@ -76,5 +87,5 @@ ul {
 }
 
 .full-spectrum .sp-palette {
-  max-width: 200px;
+max-width: 200px;
 }
