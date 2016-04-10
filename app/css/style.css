@@ -41,40 +41,25 @@ body, html, .container-fluid {
 #botm-three .one{
   height:100%;
   width:100%;
-  background-color: lightgray;
   display: inline-block;
 }
-
 #botm-three .two{
   height:100%;
   width:50%;
-  background-color: lightgray;
   display: inline-block;
 }
-
 #botm-three .three{
   height:100%;
   width:33.3%;
-  background-color: lightgray;
   display: inline-block;
 }
-
 #botm-three .four{
   height:100%;
   width:25%;
-  background-color: lightgray;
   display: inline-block;
 }
-
-.cancel {
-  float: right;
-}
-.color {
-  float: right;
-}
-
-.font {
-  float:right;
+.hover-modification {
+  margin: 0 auto;
 }
 
 #top-combo .navigation{
@@ -82,15 +67,17 @@ body, html, .container-fluid {
   background-color: lightgreen;
   display: inline-block;
 }
-
 #top-combo .combo-player{
   flex:1;
   background-color: lightblue;
   display: inline-block;
 }
-
 ul {
   list-style-type:none;
+}
+
+.full-spectrum .sp-palette {
+  max-width: 200px;
 }
 
 #publishBtn{
