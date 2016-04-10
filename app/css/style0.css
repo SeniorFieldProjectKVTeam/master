@@ -57,6 +57,9 @@ body, html, .container-fluid {
   width:25%;
   display: inline-block;
 }
+.hover-modification {
+  margin: 0 auto;
+}
 
 #top-combo .navigation{
   width:30%;
