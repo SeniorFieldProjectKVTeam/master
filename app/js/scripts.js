@@ -1,3 +1,6 @@
+
+// create all the variables that we need
+// all the data are stored in param
 var bot = [];
 var order = [];
 var ordertop = [];
@@ -9,20 +12,21 @@ param["qz"] = new Object();
 param["lg"] = new Object();
 param["na"] = new Object();
 var pa;
-// THINGS I ADDED
+
 var fs = require('fs');
 
-$( init );
+$( init ); // load this function when the page was load
 
 function init() {
-  $( "#left-side #left-top" ).accordion();
+  $( "#left-side #left-top" ).accordion(); // make the effect of accordion
+
   $('#left-top li').draggable({
     cursor: 'move',
     helper: "clone"
-  });
-  $('#color-picker').hide();
+  }); // make the left-top draggable and change cusor when move
+
   $( "#combo-player" ).droppable({
-    accept: "#left-top li#na, li#lg",
+    accept: "#left-top li#na, li#lg", // specify certain elements can be drag into 
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
@@ -58,8 +62,6 @@ function init() {
       }
     }
   });
-
-
 
   $('#botm-three').sortable({
     stop: function(event,ui){ /* do whatever here */
@@ -126,6 +128,7 @@ function init() {
         }
     }
   });
+  // continue
 }
 
 
@@ -183,6 +186,7 @@ function cancelDrop(button_id) {
 }
 
 function makeHover(pref,id){
+
   var func = "cancelDrop";
   if (id == "na"){
     func = "cancelNavi";
@@ -190,69 +194,23 @@ function makeHover(pref,id){
   if (id == "lg"){
     func = "cancelLogo";
   }
+  var fontButton = "<div id='fontSelect' class='fontSelect'><div class='arrow-down'></div></div>"
+  var fontSize = "<div id='fontSizeSelect'>Here should be Font Size</div>"
+  var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
+  var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
+  var selections = colorPicker+fontButton+fontSize+cancelButton;
   $( pref+id ).hover(
     function() {
       $( this ).append(
-        // "<button href=''#popupMenu' data-rel='popup' data-transition='slideup' id='hover-modification' class='hover-modification btn btn-danger'>Modify</button>" +
-        // "<div data-role='popup' id='popupMenu'>" +
-        //   "<ul data-role='listview' data-inset='true'>" +
-        //     "<li data-role='list-divider'>Choose an action</li>"+
-        //     "<li><input type='text' class='color-picker' id='color-picker'/></li>"+
-        //     "<li><button id="+id+" class='font' onclick='changeFont(this.id)'>font</button></li>"+
-        //     "<li><button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></li>" +
-        //     "</ul></div>"
-        "<div class='hover-modification'><input type='text' class='color-picker' id='color-picker'/>"+"<button id="+id+" class='font' onclick='changeFont(this.id)'>font</button>"+"<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>"
+        "<div id='modification-selections'>"+selections+"</div>"
       );
-      // $(pref+id+" .hover-modification").css({
-      //   "align-items": "center",
-      //   "justify-content": "center",
-      // });
-<<<<<<< HEAD
-      alert(here);
-=======
->>>>>>> caf7097aa849255075fbfbcb06d6c10bf0804d57
-      $("#color-picker").spectrum({
-        color: "#ECC",
-        showInput: false,
-        className: "full-spectrum",
-        showInitial: true,
-        showPalette: true,
-        showSelectionPalette: true,
-        maxSelectionSize: 10,
-        preferredFormat: "hex",
-        localStorageKey: "spectrum.demo",
-        move: function(color) {
-<<<<<<< HEAD
-          alert(color);
-=======
->>>>>>> caf7097aa849255075fbfbcb06d6c10bf0804d57
-          updateColor(id,(color ? color.toHexString() : ""));
-        },
-        palette: [
-            ["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)",
-            "rgb(204, 204, 204)", "rgb(217, 217, 217)","rgb(255, 255, 255)"],
-            ["rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
-            "rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)"],
-            ["rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)", "rgb(217, 234, 211)",
-            "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)", "rgb(217, 210, 233)", "rgb(234, 209, 220)",
-            "rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)",
-            "rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
-            "rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)",
-            "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)", "rgb(142, 124, 195)", "rgb(194, 123, 160)",
-            "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)",
-            "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)",
-            "rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)",
-            "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
-        ]
-      });
-      // if ($("#color-picker .sp-replacer")){
-      //   alert("found");
-      // }
+      //alert();
+      triggerColorPicker(id);
+      selectFontStyle(id);
+      removeRedundant();
     },
     function() {
-      $( this ).find( "button" ).remove();
-      $( this ).find( "input" ).remove();
-      $( this ).find(".sp-replacer").remove();
+      $("#modification-selections").remove();
     }
   );
 }
@@ -271,9 +229,11 @@ function applyChange(button_id){
   if (param[button_id]["background-color"]){
     $("#right-side div#"+button_id).css("background-color",param[button_id]["background-color"]);
   }
+  if (param[button_id]["font"]){
+    $("#right-side div#"+button_id).css("font-family",param[button_id]["font"]);
+  }
 }
 
-<<<<<<< HEAD
 function publish(){
   pa = {
     "order": order,
@@ -285,47 +245,117 @@ function publish(){
     "na": param["na"],
     "lg": param["lg"]
   }
-=======
-function publish(){	
-	//grab the desired output
-    pa = {
-      "order": order,
-      "ordertop": ordertop,
-      "qu": param["qu"],
-      "fn": param["fn"],
-      "ts" : param["ts"],
-      "qz": param["qz"],
-      "na": param["na"],
-      "lg": param["lg"]
-    }
-	
-	// write it to file
+  // write it to file
   //fs.writeFile(filename, data, [encoding], callback)
   fs.writeFile("./kv.json", JSON.stringify(pa), function(err){
-	  if(err){
-		  return console.log(err);
-	  }
-	  console.log("The file was saved!");
+    if(err){
+      return console.log(err);
+    }
+    alert();
+    console.log("The file was saved!");
   });
-  
-  
->>>>>>> caf7097aa849255075fbfbcb06d6c10bf0804d57
-
-  alert(pa);
-  // store in local storage or session or cookies
-  //localStorage.setItem('passParams', JSON.stringify(pa));
-  //var obj = JSON.parse(localStorage.getItem('passParams'));
-  //alert(obj["order"]);
-
-  // try to ouput as download
-  // var obj = {a: 123, b: "4 5 6"};
-  // var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj));
-  // $('<a href="data:' + data + '" download="data.json">download JSON</a>').appendTo('#download');
 }
 
 function refresh(){
   location.reload();
 }
+
+function triggerColorPicker(id){
+  $("#color-picker").spectrum({
+    color: "#ECC",
+    showInput: false,
+    showInitial: true,
+    showPalette: true,
+    showSelectionPalette: true,
+    maxSelectionSize: 10,
+    preferredFormat: "hex",
+    cancelText:"",
+    change: function(color) {
+      var col = (color ? color.toHexString() : "");
+      updateColor(id,col);
+    },
+    hide: function() {
+      $(".sp-container").remove();
+    },
+    palette: [
+        ["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)",
+        "rgb(204, 204, 204)", "rgb(217, 217, 217)","rgb(255, 255, 255)"],
+        ["rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
+        "rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)"],
+        ["rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)", "rgb(217, 234, 211)",
+        "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)", "rgb(217, 210, 233)", "rgb(234, 209, 220)",
+        "rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)",
+        "rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
+        "rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)",
+        "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)", "rgb(142, 124, 195)", "rgb(194, 123, 160)",
+        "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)",
+        "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)",
+        "rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)",
+        "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
+    ]
+  });
+  $(".sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
+}
+
+function selectFontStyle(id){
+  $('#fontSelect').fontSelector({
+    'hide_fallbacks' : true,
+    'initial' : checkFont(id),
+    'selected' : function(style) {
+      param[id]["font"]= style;
+      $("#right-side div#"+id).css("font-family",param[id]["font"]);
+      //alert(param[id]["font"] + "id: "+id);
+    },
+    'opened' : function(style) {
+      //alert('opened');
+    },
+    'closed' : function(style) {
+      $(".fontSelectUl").remove();
+      //alert('closed');
+    },
+    'fonts' : [
+      'Arial,Arial,Helvetica,sans-serif',
+      'Arial Black,Arial Black,Gadget,sans-serif',
+      'Comic Sans MS,Comic Sans MS,cursive',
+      'Courier New,Courier New,Courier,monospace',
+      'Georgia,Georgia,serif',
+      'Impact,Charcoal,sans-serif',
+      'Lucida Console,Monaco,monospace',
+      'Lucida Sans Unicode,Lucida Grande,sans-serif',
+      'Palatino Linotype,Book Antiqua,Palatino,serif',
+      'Tahoma,Geneva,sans-serif',
+      'Times New Roman,Times,serif',
+      'Trebuchet MS,Helvetica,sans-serif',
+      'Verdana,Geneva,sans-serif',
+      'Gill Sans,Geneva,sans-serif'
+    ]
+  });
+}
+
+function checkFont(id){
+  if (param[id]["font"]){
+    return param[id]["font"];
+  }else{
+    return "";
+  }
+}
+
+function removeRedundant(){
+  var i = 0;
+  var colorArray = $(".sp-container");
+  var fontArray= $(".fontSelectUl");
+  if (colorArray.length > 1){
+    for (i = 0; i < colorArray.length-1; i++) {
+      colorArray[i].remove();
+    }
+  }
+  if (fontArray.length > 1){
+    for (i = 0; i < fontArray.length-1; i++) {
+      fontArray[i].remove();
+    }
+  }
+}
+
 
 
 
