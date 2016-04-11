@@ -26,13 +26,13 @@ function init() {
   }); // make the left-top draggable and change cusor when move
 
   $( "#combo-player" ).droppable({
-    accept: "#left-top li#na, li#lg", // specify certain elements can be drag into 
+    accept: "#left-top li#na, li#lg", // specify certain elements can be drag into the bottom
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
-      $(ui.helper).remove(); //destroy clone
-      $(ui.draggable).hide(); //remove from list
-      var id = ui.draggable.attr("id").substring(0,2);
+      $(ui.helper).remove(); // destroy clone
+      $(ui.draggable).hide(); // remove from list
+      var id = ui.draggable.attr("id").substring(0,2); // get the id of drag element
       if (id == "na"){
         param["na"]["ui"] = ui.draggable;
         param["na"]["exist"] = true;
@@ -40,8 +40,8 @@ function init() {
           .attr({
             class:"navigation",
             id:id
-          });
-        makeHover("#top-combo #",id);
+          }); // change the navigation div
+        makeHover("#top-combo #",id); // apply hover
         $('#top-combo').sortable({ // make it sortable
           stop: function(event,ui){
             ordertop = $("#top-combo").sortable("toArray");
@@ -64,7 +64,7 @@ function init() {
   });
 
   $('#botm-three').sortable({
-    stop: function(event,ui){ /* do whatever here */
+    stop: function(event,ui){
       order = $("#botm-three").sortable("toArray");
       var temp = [];
       for (i = 0; i < order.length; i++) {
@@ -83,8 +83,8 @@ function init() {
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
-        $(ui.helper).remove(); //destroy clone
-        $(ui.draggable).hide(); //remove from list
+        $(ui.helper).remove(); // destroy clone
+        $(ui.draggable).hide(); // remove from list
         bot.push(ui);
 
         if (bot.length == 1){
@@ -93,7 +93,7 @@ function init() {
           makeHover("#botm-three #",id1);
           applyChange(id1);
           order = [id1];
-        }
+        } // resize the bottom if there is only one box
 
         if (bot.length == 2){
           var id1 = bot[0].draggable.attr("id").substring(0,2);
@@ -107,7 +107,8 @@ function init() {
           makeHover("#botm-three #",id2);
           applyChange(id1);
           applyChange(id2);
-        }
+        } // resize the bottom if there are two boxes
+
         if (bot.length == 3){
           var id1 = bot[0].draggable.attr("id").substring(0,2);
           var id2 = bot[1].draggable.attr("id").substring(0,2);
@@ -125,7 +126,7 @@ function init() {
           applyChange(id1);
           applyChange(id2);
           applyChange(id3);
-        }
+        } // resize the bottom if there are three boxes
     }
   });
   // continue
@@ -137,7 +138,7 @@ function cancelNavi(button_id){
   $("#top-combo ").prepend("<div id = 'tobechange'></div>");
   $(param["na"]["ui"]).show();
   param["na"]["exist"] = false;
-}
+} // drop the navigation box
 
 function cancelLogo(button_id){
   var currentClass = $("#right-side #"+button_id).attr("class");
@@ -152,7 +153,7 @@ function cancelLogo(button_id){
   }
 }
 
-function cancelDrop(button_id) {
+function cancelDrop(button_id) { // drop the box at the bottom and resize the rest
   for (i = 0; i < bot.length; i++) {
     var id = bot[i].draggable.attr("id").substring(0,2);
     if (button_id == id){
@@ -186,19 +187,18 @@ function cancelDrop(button_id) {
 }
 
 function makeHover(pref,id){
-
   var func = "cancelDrop";
   if (id == "na"){
     func = "cancelNavi";
   }
   if (id == "lg"){
-    func = "cancelLogo";
+    func = "cancelLogo"; // call diffrent funtion according to the div
   }
   var fontButton = "<div id='fontSelect' class='fontSelect'><div class='arrow-down'></div></div>"
   var fontSize = "<div id='fontSizeSelect'>Here should be Font Size</div>"
   var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
-  var selections = colorPicker+fontButton+fontSize+cancelButton;
+  var selections = colorPicker+fontButton+fontSize+cancelButton; // generate new html
   $( pref+id ).hover(
     function() {
       $( this ).append(
@@ -207,10 +207,10 @@ function makeHover(pref,id){
       //alert();
       triggerColorPicker(id);
       selectFontStyle(id);
-      removeRedundant();
+      removeRedundant(); // apply the pluggin and remove all the redundant stuff
     },
     function() {
-      $("#modification-selections").remove();
+      $("#modification-selections").remove(); // delete all the divs appears when hover
     }
   );
 }
@@ -219,11 +219,7 @@ function updateColor(button_id,color){
   param[button_id]["background-color"] = color;
   //alert(param[button_id]["background-color"]);
   $("#right-side div#"+button_id).css("background-color",color);
-}
-
-function changeFont(button_id){
-  //param[button_id]["background-color"]
-}
+} // change the certain color of corresponding div
 
 function applyChange(button_id){
   if (param[button_id]["background-color"]){
@@ -232,7 +228,7 @@ function applyChange(button_id){
   if (param[button_id]["font"]){
     $("#right-side div#"+button_id).css("font-family",param[button_id]["font"]);
   }
-}
+} // apply all the changes the user made
 
 function publish(){
   pa = {
@@ -295,6 +291,7 @@ function triggerColorPicker(id){
     ]
   });
   $(".sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
+  // remove all the redundant thing
 }
 
 function selectFontStyle(id){
@@ -353,7 +350,7 @@ function removeRedundant(){
     for (i = 0; i < fontArray.length-1; i++) {
       fontArray[i].remove();
     }
-  }
+  } // clear all the redundant thing
 }
 
 
