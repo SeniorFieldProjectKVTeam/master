@@ -46,7 +46,7 @@ function init() {
       if (id == "lg"){
         param["lg"]["ui"] = ui.draggable;
         param["lg"]["exist"] = true;
-        $("#top-logo-change").html("This should be the logo").attr({
+        $("#top-logo-change").html("<p>logo</p>").attr({
           class:"top-logo",
           id:id
         });
@@ -84,7 +84,7 @@ function init() {
 
         if (bot.length == 1){
           var id1 = ui.draggable.attr("id").substring(0,2);
-          $( this ).html("<div class='one' id="+id1+">"+id1+"</div>");
+          $( this ).html(botmDiv("one",id1));
           makeHover("#botm-three #",id1);
           applyChange(id1);
           order = [id1];
@@ -94,8 +94,7 @@ function init() {
           var id1 = bot[0].draggable.attr("id").substring(0,2);
           var id2 = bot[1].draggable.attr("id").substring(0,2);
           $( this ).html(
-            "<div class='two' id="+id1+">"+id1+"</div>"+
-            "<div class='two' id="+id2+">"+id2+"</div>"
+            botmDiv("two",id1) + botmDiv("two",id2)
           );
           order = [id1,id2];
           makeHover("#botm-three #",id1);
@@ -108,9 +107,7 @@ function init() {
           var id2 = bot[1].draggable.attr("id").substring(0,2);
           var id3 = ui.draggable.attr("id").substring(0,2);
           $( this ).html(
-            "<div class='three' id="+id1+">"+id1+"</div>"+
-            "<div class='three' id="+id2+">"+id2+"</div>"+
-            "<div class='three' id="+id3+">"+id3+"</div>"
+            botmDiv("three",id1)+botmDiv("three",id2)+botmDiv("three",id3)
           );
           order = [id1,id2,id3];
           $(this).droppable( "option", "disabled", true );
@@ -126,6 +123,9 @@ function init() {
   // continue
 }
 
+function botmDiv(classname,id){
+  return "<div class="+classname+" id="+id+"><p>"+id+"</p><div id='modification'></div></div>"
+}
 
 function cancelNavi(button_id){
   $("#top-combo #"+button_id).remove();
@@ -159,7 +159,7 @@ function cancelDrop(button_id) {
       }
       if (bot.length == 1){
         var id1 = bot[0].draggable.attr("id").substring(0,2);
-        $(botm).html("<div class='one' id="+id1+">"+id1+"</div>");
+        $(botm).html(botmDiv("one",id1));
         makeHover("#botm-three #",id1);
         applyChange(id1);
       }
@@ -167,8 +167,7 @@ function cancelDrop(button_id) {
         var id1 = bot[0].draggable.attr("id").substring(0,2);
         var id2 = bot[1].draggable.attr("id").substring(0,2);
         $(botm).html(
-          "<div class='two' id="+id1+">"+id1+"</div>"+
-          "<div class='two' id="+id2+">"+id2+"</div>"
+          botmDiv("two",id1)+botmDiv("two",id2)
         );
         $(botm).droppable("option", "disabled", false);
         makeHover("#botm-three #",id1);
@@ -199,13 +198,16 @@ function makeHover(pref,id){
       $( this ).append(
         "<div id='modification-selections'>"+selections+"</div>"
       );
-      //alert();
       triggerColorPicker(id);
       selectFontStyle(id);
-      removeRedundant();
+      //alert();
+      if (id == "lg") {
+        $(".top-logo p,div,button").css("display","inline-block");
+      }
     },
     function() {
       $("#modification-selections").remove();
+      removeRedundant();
     }
   );
 }
@@ -249,20 +251,24 @@ function refresh(){
 
 function triggerColorPicker(id){
   $("#color-picker").spectrum({
-    color: "#ECC",
-    showInput: false,
+    color: initColorPicker(id),
+    showInput: true,
+    className: "full-spectrum",
     showInitial: true,
     showPalette: true,
     showSelectionPalette: true,
     maxSelectionSize: 10,
     preferredFormat: "hex",
-    cancelText:"",
+    localStorageKey: "spectrum.demo",
     change: function(color) {
       var col = (color ? color.toHexString() : "");
       updateColor(id,col);
     },
+    show: function() {
+      // alert("show");
+    },
     hide: function() {
-      $(".sp-container").remove();
+      // alert("hide");
     },
     palette: [
         ["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)",
@@ -282,6 +288,14 @@ function triggerColorPicker(id){
     ]
   });
   $(".sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
+}
+
+function initColorPicker(id){
+  if (param[id]["background-color"]){
+    return param[id]["background-color"]
+  }else{
+    return "#ECC";
+  }
 }
 
 function selectFontStyle(id){

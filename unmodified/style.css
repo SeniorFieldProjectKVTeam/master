@@ -41,16 +41,19 @@ body, html, .container-fluid {
   height:100%;
   width:100%;
   display: inline-block;
+  vertical-align: text-top;
 }
 #botm-three .two{
   height:100%;
   width:50%;
   display: inline-block;
+  vertical-align: text-top;
 }
 #botm-three .three{
   height:100%;
   width:33.3%;
   display: inline-block;
+  vertical-align: text-top;
 }
 #botm-three .four{
   height:100%;

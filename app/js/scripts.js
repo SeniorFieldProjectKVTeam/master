@@ -20,30 +20,30 @@ var fs = require('fs');
 $( init ); // load this function when the page was load
 
 function init() {
-  $( "#left-side #left-top" ).accordion(); // make the effect of accordion
-
+  $( "#left-side #left-top" ).accordion();
   $('#left-top li').draggable({
     cursor: 'move',
     helper: "clone"
-  }); // make the left-top draggable and change cusor when move
+  });
+  $('#color-picker').hide();
 
   $( "#top-combo" ).droppable({
-    accept: "#left-top li#na, li#lg", // specify certain elements can be drag into the bottom
+    accept: "#left-top li#na, li#lg",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
-      $(ui.helper).remove(); // destroy clone
-      $(ui.draggable).hide(); // remove from list
-      var id = ui.draggable.attr("id").substring(0,2); // get the id of drag element
+      $(ui.helper).remove(); //destroy clone
+      $(ui.draggable).hide(); //remove from list
+      var id = ui.draggable.attr("id").substring(0,2);
       if (id == "na"){
-        saveUI["na"] = ui.draggable;
+        param["na"]["ui"] = ui.draggable;
         param["na"]["exist"] = true;
         $( "#tobechange" ).html("this is the navigation")
           .attr({
             class:"navigation",
             id:id
-          }); // change the navigation div
-        makeHover("#top-combo #",id); // apply hover
+          });
+        makeHover("#top-combo #",id);
         $('#top-combo').sortable({ // make it sortable
           stop: function(event,ui){
             ordertop = $("#top-combo").sortable("toArray");
@@ -51,9 +51,9 @@ function init() {
         });
       };
       if (id == "lg"){
-        saveUI["lg"] = ui.draggable;
+        param["lg"]["ui"] = ui.draggable;
         param["lg"]["exist"] = true;
-        $("#top-logo-change").html("This should be the logo").attr({
+        $("#top-logo-change").html("<p>This should be the logo</p>").attr({
           class:"top-logo",
           id:id
         });
@@ -66,7 +66,7 @@ function init() {
   });
 
   $('#botm-three').sortable({
-    stop: function(event,ui){
+    stop: function(event,ui){ /* do whatever here */
       order = $("#botm-three").sortable("toArray");
       var temp = [];
       for (i = 0; i < order.length; i++) {
@@ -85,40 +85,36 @@ function init() {
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
-        $(ui.helper).remove(); // destroy clone
-        $(ui.draggable).hide(); // remove from list
+        $(ui.helper).remove(); //destroy clone
+        $(ui.draggable).hide(); //remove from list
         bot.push(ui);
 
         if (bot.length == 1){
           var id1 = ui.draggable.attr("id").substring(0,2);
-          $( this ).html("<div class='one' id="+id1+">"+id1+"</div>");
+          $( this ).html(botmDiv("one",id1));
           makeHover("#botm-three #",id1);
           applyChange(id1);
           order = [id1];
-        } // resize the bottom if there is only one box
+        }
 
         if (bot.length == 2){
           var id1 = bot[0].draggable.attr("id").substring(0,2);
           var id2 = bot[1].draggable.attr("id").substring(0,2);
           $( this ).html(
-            "<div class='two' id="+id1+">"+id1+"</div>"+
-            "<div class='two' id="+id2+">"+id2+"</div>"
+            botmDiv("two",id1) + botmDiv("two",id2)
           );
           order = [id1,id2];
           makeHover("#botm-three #",id1);
           makeHover("#botm-three #",id2);
           applyChange(id1);
           applyChange(id2);
-        } // resize the bottom if there are two boxes
-
+        }
         if (bot.length == 3){
           var id1 = bot[0].draggable.attr("id").substring(0,2);
           var id2 = bot[1].draggable.attr("id").substring(0,2);
           var id3 = ui.draggable.attr("id").substring(0,2);
           $( this ).html(
-            "<div class='three' id="+id1+">"+id1+"</div>"+
-            "<div class='three' id="+id2+">"+id2+"</div>"+
-            "<div class='three' id="+id3+">"+id3+"</div>"
+            botmDiv("three",id1)+botmDiv("three",id2)+botmDiv("three",id3)
           );
           order = [id1,id2,id3];
           $(this).droppable( "option", "disabled", true );
@@ -128,25 +124,28 @@ function init() {
           applyChange(id1);
           applyChange(id2);
           applyChange(id3);
-        } // resize the bottom if there are three boxes
+        }
     }
   });
   // continue
 }
 
+function botmDiv(classname,id){
+  return "<div class="+classname+" id="+id+"><p>"+id+"</p><div id='modification'></div></div>"
+}
 
 function cancelNavi(button_id){
   $("#top-combo #"+button_id).remove();
   $("#top-combo ").prepend("<div id = 'tobechange'></div>");
-  $(saveUI["na"]).show();
+  $(param["na"]["ui"]).show();
   param["na"]["exist"] = false;
-} // drop the navigation box
+}
 
 function cancelLogo(button_id){
   var currentClass = $("#right-side #"+button_id).attr("class");
   if (currentClass == "top-logo"){
     $("#right-side #"+button_id).remove();
-    $(saveUI["lg"]).show();
+    $(param["lg"]["ui"]).show();
     param["lg"]["exist"] = false;
     $("#right-side").prepend("<div id = 'top-logo-change'></div>");
     $("#botm-three").css("height","32%");
@@ -155,7 +154,7 @@ function cancelLogo(button_id){
   }
 }
 
-function cancelDrop(button_id) { // drop the box at the bottom and resize the rest
+function cancelDrop(button_id) {
   for (i = 0; i < bot.length; i++) {
     var id = bot[i].draggable.attr("id").substring(0,2);
     if (button_id == id){
@@ -167,7 +166,7 @@ function cancelDrop(button_id) { // drop the box at the bottom and resize the re
       }
       if (bot.length == 1){
         var id1 = bot[0].draggable.attr("id").substring(0,2);
-        $(botm).html("<div class='one' id="+id1+">"+id1+"</div>");
+        $(botm).html(botmDiv("one",id1));
         makeHover("#botm-three #",id1);
         applyChange(id1);
       }
@@ -175,8 +174,7 @@ function cancelDrop(button_id) { // drop the box at the bottom and resize the re
         var id1 = bot[0].draggable.attr("id").substring(0,2);
         var id2 = bot[1].draggable.attr("id").substring(0,2);
         $(botm).html(
-          "<div class='two' id="+id1+">"+id1+"</div>"+
-          "<div class='two' id="+id2+">"+id2+"</div>"
+          botmDiv("two",id1)+botmDiv("two",id2)
         );
         $(botm).droppable("option", "disabled", false);
         makeHover("#botm-three #",id1);
@@ -189,30 +187,31 @@ function cancelDrop(button_id) { // drop the box at the bottom and resize the re
 }
 
 function makeHover(pref,id){
+
   var func = "cancelDrop";
   if (id == "na"){
     func = "cancelNavi";
   }
   if (id == "lg"){
-    func = "cancelLogo"; // call diffrent funtion according to the div
+    func = "cancelLogo";
   }
   var fontButton = "<div id='fontSelect' class='fontSelect'><div class='arrow-down'></div></div>"
   var fontSize = "<div id='fontSizeSelect'>Here should be Font Size</div>"
   var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
-  var selections = colorPicker+fontButton+fontSize+cancelButton; // generate new html
+  var selections = colorPicker+fontButton+fontSize+cancelButton;
   $( pref+id ).hover(
     function() {
       $( this ).append(
         "<div id='modification-selections'>"+selections+"</div>"
       );
-      //alert();
       triggerColorPicker(id);
       selectFontStyle(id);
-      removeRedundant(); // apply the pluggin and remove all the redundant stuff
+      // $("#botm-three").sortable('refresh');
     },
     function() {
-      $("#modification-selections").remove(); // delete all the divs appears when hover
+      $("#modification-selections").remove();
+      removeRedundant();
     }
   );
 }
@@ -245,9 +244,7 @@ function publish(){
   }
   // write it to file
   //fs.writeFile(filename, data, [encoding], callback)
-  alert("outside");
   fs.writeFile("kv.json", JSON.stringify(pa), function(err){
-    alert("inside");
     if(err){
       alert(err);
     }else{
@@ -262,20 +259,24 @@ function refresh(){
 
 function triggerColorPicker(id){
   $("#color-picker").spectrum({
-    color: "#ECC",
-    showInput: false,
+    color: initColorPicker(id),
+    showInput: true,
+    className: "full-spectrum",
     showInitial: true,
     showPalette: true,
     showSelectionPalette: true,
     maxSelectionSize: 10,
     preferredFormat: "hex",
-    cancelText:"",
+    localStorageKey: "spectrum.demo",
     change: function(color) {
       var col = (color ? color.toHexString() : "");
       updateColor(id,col);
     },
+    show: function() {
+      // alert("show");
+    },
     hide: function() {
-      $(".sp-container").remove();
+      // alert("hide");
     },
     palette: [
         ["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)",
@@ -295,7 +296,14 @@ function triggerColorPicker(id){
     ]
   });
   $(".sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
-  // remove all the redundant thing
+}
+
+function initColorPicker(id){
+  if (param[id]["background-color"]){
+    return param[id]["background-color"]
+  }else{
+    return "#ECC";
+  }
 }
 
 function selectFontStyle(id){
