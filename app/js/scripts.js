@@ -4,6 +4,7 @@
 var bot = [];
 var order = [];
 var ordertop = [];
+var saveUI = new Object();
 var param = new Object();
 param["qu"] = new Object();
 param["fn"] = new Object();
@@ -11,6 +12,7 @@ param["ts"] = new Object();
 param["qz"] = new Object();
 param["lg"] = new Object();
 param["na"] = new Object();
+
 var pa;
 
 var fs = require('fs');
@@ -25,7 +27,7 @@ function init() {
     helper: "clone"
   }); // make the left-top draggable and change cusor when move
 
-  $( "#combo-player" ).droppable({
+  $( "#top-combo" ).droppable({
     accept: "#left-top li#na, li#lg", // specify certain elements can be drag into the bottom
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
@@ -34,7 +36,7 @@ function init() {
       $(ui.draggable).hide(); // remove from list
       var id = ui.draggable.attr("id").substring(0,2); // get the id of drag element
       if (id == "na"){
-        param["na"]["ui"] = ui.draggable;
+        saveUI["na"] = ui.draggable;
         param["na"]["exist"] = true;
         $( "#tobechange" ).html("this is the navigation")
           .attr({
@@ -49,7 +51,7 @@ function init() {
         });
       };
       if (id == "lg"){
-        param["lg"]["ui"] = ui.draggable;
+        saveUI["lg"] = ui.draggable;
         param["lg"]["exist"] = true;
         $("#top-logo-change").html("This should be the logo").attr({
           class:"top-logo",
@@ -136,7 +138,7 @@ function init() {
 function cancelNavi(button_id){
   $("#top-combo #"+button_id).remove();
   $("#top-combo ").prepend("<div id = 'tobechange'></div>");
-  $(param["na"]["ui"]).show();
+  $(saveUI["na"]).show();
   param["na"]["exist"] = false;
 } // drop the navigation box
 
@@ -144,7 +146,7 @@ function cancelLogo(button_id){
   var currentClass = $("#right-side #"+button_id).attr("class");
   if (currentClass == "top-logo"){
     $("#right-side #"+button_id).remove();
-    $(param["lg"]["ui"]).show();
+    $(saveUI["lg"]).show();
     param["lg"]["exist"] = false;
     $("#right-side").prepend("<div id = 'top-logo-change'></div>");
     $("#botm-three").css("height","32%");
@@ -243,12 +245,14 @@ function publish(){
   }
   // write it to file
   //fs.writeFile(filename, data, [encoding], callback)
-  fs.writeFile("./kv.json", JSON.stringify(pa), function(err){
+  alert("outside");
+  fs.writeFile("kv.json", JSON.stringify(pa), function(err){
+    alert("inside");
     if(err){
-      return console.log(err);
+      alert(err);
+    }else{
+      alert("The file was saved!");
     }
-    alert();
-    console.log("The file was saved!");
   });
 }
 

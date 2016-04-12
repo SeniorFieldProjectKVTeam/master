@@ -19,7 +19,8 @@ function init() {
     helper: "clone"
   });
   $('#color-picker').hide();
-  $( "#combo-player" ).droppable({
+
+  $( "#top-combo" ).droppable({
     accept: "#left-top li#na, li#lg",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
