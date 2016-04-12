@@ -53,7 +53,7 @@ function init() {
       if (id == "lg"){
         param["lg"]["ui"] = ui.draggable;
         param["lg"]["exist"] = true;
-        $("#top-logo-change").html("<p>This should be the logo</p>").attr({
+        $("#top-logo-change").html("<p>logo</p>").attr({
           class:"top-logo",
           id:id
         });
@@ -199,7 +199,12 @@ function makeHover(pref,id){
   var fontSize = "<div id='fontSizeSelect'>Here should be Font Size</div>"
   var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
-  var selections = colorPicker+fontButton+fontSize+cancelButton;
+  var selections;
+  if (id == "lg"){
+    selections = colorPicker+cancelButton;
+  }else{
+    selections = colorPicker+fontButton+fontSize+cancelButton;
+  }
   $( pref+id ).hover(
     function() {
       $( this ).append(

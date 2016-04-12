@@ -192,17 +192,23 @@ function makeHover(pref,id){
   var fontSize = "<div id='fontSizeSelect'>Here should be Font Size</div>"
   var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
-  var selections = colorPicker+fontButton+fontSize+cancelButton;
+  var selections;
+  if (id == "lg"){
+    selections = colorPicker+cancelButton;
+  }else{
+    selections = colorPicker+fontButton+fontSize+cancelButton;
+  }
   $( pref+id ).hover(
     function() {
       $( this ).append(
         "<div id='modification-selections'>"+selections+"</div>"
       );
       triggerColorPicker(id);
-      selectFontStyle(id);
+      if (id != "lg"){ selectFontStyle(id);}
       //alert();
       if (id == "lg") {
-        $(".top-logo p,div,button").css("display","inline-block");
+        alert();
+        $("#lg.top-logo p,div").css("display","inline-block");
       }
     },
     function() {
