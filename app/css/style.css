@@ -7,13 +7,21 @@ body, html, .container-fluid {
 #whole-page {
   height:100%;
   width:100%;
-
+  padding: 0px 0px 0px 10px;
 }
 
 #left-side {
   float:left;
   height:100%;
   width:20%;
+}
+
+#maincomponents{
+	padding: 0px 0px 0px 10px;
+}
+
+#botmcomponents{
+	padding: 0px 0px 0px 10px;
 }
 
 #right-side{
@@ -75,6 +83,12 @@ ul {
 
 .full-spectrum .sp-palette {
   max-width: 200px;
+}
+
+#left-btom {
+	position: fixed;
+	bottom: 0;
+	padding: 0px 0px 10px 5px;
 }
 
 #publishBtn{
