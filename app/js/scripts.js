@@ -54,7 +54,7 @@ function init() {
       if (id == "lg"){
         saveUI["lg"] = ui.draggable;
         param["lg"]["exist"] = true;
-        $("#top-logo-change").html("<p>logo</p>").attr({
+        $("#top-logo-change").html("<p>Logo</p>").attr({
           class:"top-logo",
           id:id
         });
