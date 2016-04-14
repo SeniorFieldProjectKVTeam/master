@@ -37,7 +37,7 @@ function init() {
       $(ui.draggable).hide(); //remove from list
       var id = ui.draggable.attr("id").substring(0,2);
       if (id == "na"){
-        param["na"]["ui"] = ui.draggable;
+        saveUI["na"] = ui.draggable;
         param["na"]["exist"] = true;
         $( "#tobechange" ).html("this is the navigation")
           .attr({
@@ -52,7 +52,7 @@ function init() {
         });
       };
       if (id == "lg"){
-        param["lg"]["ui"] = ui.draggable;
+        saveUI["lg"] = ui.draggable;
         param["lg"]["exist"] = true;
         $("#top-logo-change").html("<p>logo</p>").attr({
           class:"top-logo",
@@ -138,7 +138,7 @@ function botmDiv(classname,id){
 function cancelNavi(button_id){
   $("#top-combo #"+button_id).remove();
   $("#top-combo ").prepend("<div id = 'tobechange'></div>");
-  $(param["na"]["ui"]).show();
+  $(saveUI["na"]).show();
   param["na"]["exist"] = false;
 }
 
@@ -150,7 +150,7 @@ function cancelLogo(button_id){
   var currentClass = $("#right-side #"+button_id).attr("class");
   if (currentClass == "top-logo"){
     $("#right-side #"+button_id).remove();
-    $(param["lg"]["ui"]).show();
+    $(saveUI["lg"]).show();
     param["lg"]["exist"] = false;
     $("#right-side").prepend("<div id = 'top-logo-change'></div>");
     $("#botm-three").css("height","32%");
@@ -200,8 +200,7 @@ function makeHover(pref,id){
   if (id == "lg"){
     func = "cancelLogo";
   }
-  var fontButton = "<div id='fontSelect' class='fontSelect'><div class='arrow-down'></div></div>"
-  var fontSize = "<div id='fontSizeSelect'>Here should be Font Size</div>"
+  var fontButton = "<div id='fontSelect' class='fontSelect'><div class='arrow-down'></div></div>";
   var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
   var fontSize = generateFontSize();
@@ -231,7 +230,7 @@ function makeHover(pref,id){
 }
 
 function generateFontSize(){
-  var fontSize = "<select class='simple-select'>";
+  var fontSize = "<select class='fontsize-select'>";
   fontSize+="<option value='10px'>10px</option>";
   fontSize+="<option value='20px'>20px</option>";
   fontSize+="<option value='30px'>30px</option>";
@@ -240,7 +239,7 @@ function generateFontSize(){
 
 function changeFontSize(id){
   var size;
-  $('.simple-select').chosen({ width: "100px" }).change(function(){
+  $('.fontsize-select').chosen({ width: "100px" }).change(function(){
     param[id]["fontsize"] = $(this).val();
     $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
   });

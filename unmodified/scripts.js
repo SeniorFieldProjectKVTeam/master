@@ -13,7 +13,7 @@ var pa;
 $( init );
 
 function init() {
-  document.getElementById("combo-player").style.background = "black url('video.png') no-repeat center top";
+  document.getElementById("combo-player").style.background = "black url('video.png') no-repeat center center";
   // document.getElementById("combo-player").style.backgroundImage = "url('video.png')";
   // document.getElementById("combo-player").style.backgroundRepeat = "no-repeat";
 
@@ -33,7 +33,7 @@ function init() {
       $(ui.draggable).hide(); //remove from list
       var id = ui.draggable.attr("id").substring(0,2);
       if (id == "na"){
-        param["na"]["ui"] = ui.draggable;
+        saveUI["na"] = ui.draggable;
         param["na"]["exist"] = true;
         $( "#tobechange" ).html("this is the navigation")
           .attr({
@@ -48,7 +48,7 @@ function init() {
         });
       };
       if (id == "lg"){
-        param["lg"]["ui"] = ui.draggable;
+        saveUI["lg"] = ui.draggable;
         param["lg"]["exist"] = true;
         $("#top-logo-change").html("<p>logo</p>").attr({
           class:"top-logo",
@@ -134,7 +134,7 @@ function botmDiv(classname,id){
 function cancelNavi(button_id){
   $("#top-combo #"+button_id).remove();
   $("#top-combo ").prepend("<div id = 'tobechange'></div>");
-  $(param["na"]["ui"]).show();
+  $(saveUI["na"]).show();
   param["na"]["exist"] = false;
 }
 
@@ -142,7 +142,7 @@ function cancelLogo(button_id){
   var currentClass = $("#right-side #"+button_id).attr("class");
   if (currentClass == "top-logo"){
     $("#right-side #"+button_id).remove();
-    $(param["lg"]["ui"]).show();
+    $(saveUI["lg"]).show();
     param["lg"]["exist"] = false;
     $("#right-side").prepend("<div id = 'top-logo-change'></div>");
     $("#botm-three").css("height","32%");
@@ -184,7 +184,6 @@ function cancelDrop(button_id) {
 }
 
 function makeHover(pref,id){
-
   var func = "cancelDrop";
   if (id == "na"){
     func = "cancelNavi";
@@ -192,28 +191,24 @@ function makeHover(pref,id){
   if (id == "lg"){
     func = "cancelLogo";
   }
-  var fontButton = "<div id='fontSelect' class='fontSelect'><div class='arrow-down'></div></div>"
-  var fontSize = "<div id='fontSizeSelect'>Here should be Font Size</div>"
-  var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
+  var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)' style='background-color:black;width:30px;'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
   var fontSize = generateFontSize();
+  var fontButton = generateFont();
   var selections;
   if (id == "lg"){
     selections = cancelButton;
   }else{
-    selections = colorPicker+fontButton+cancelButton+fontSize;
+    selections = fontSize+fontButton+colorPicker+cancelButton;
   }
   $( pref+id ).hover(
     function() {
-      $( this ).find("#modification").html(
-        selections
-      );
+      $( this ).find("#modification").html(selections);
       triggerColorPicker(id);
       if (id != "lg"){
-        selectFontStyle(id);
         changeFontSize(id);
+        changeFont(id);
       }
-      //alert();
     },
     function() {
       $(pref+id).find("#modification").empty();
@@ -223,30 +218,51 @@ function makeHover(pref,id){
 }
 
 function generateFontSize(){
-  var fontSize = "<select class='simple-select'>";
+  var fontSize = "<select id='fontsize-select'>";
   fontSize+="<option value='10px'>10px</option>";
   fontSize+="<option value='20px'>20px</option>";
   fontSize+="<option value='30px'>30px</option>";
   return fontSize;
 }
+function generateFont(){
+  var font = "<select id='font-select'>";
+  font+="<option value='Arial,Arial,Helvetica,sans-serif'>Arial,Arial,Helvetica,sans-serif</option>";
+  font+="<option value='Arial Black,Arial Black,Gadget,sans-serif'>Arial Black,Arial Black,Gadget,sans-serif</option>";
+  font+="<option value='Comic Sans MS,Comic Sans MS,cursive'>Comic Sans MS,Comic Sans MS,cursive</option>";
+  font+="<option value='Courier New,Courier New,Courier,monospace'>Courier New,Courier New,Courier,monospace</option>";
+  font+="<option value='Georgia,Georgia,serif'>Georgia,Georgia,serif</option>";
+  font+="<option value='Impact,Charcoal,sans-serif'>Impact,Charcoal,sans-serif</option>";
+  font+="<option value='Lucida Console,Monaco,monospace'>Lucida Console,Monaco,monospace</option>";
+  font+="<option value='Lucida Sans Unicode,Lucida Grande,sans-serif'>Lucida Sans Unicode,Lucida Grande,sans-serif</option>";
+  font+="<option value='Palatino Linotype,Book Antiqua,Palatino,serif'>Palatino Linotype,Book Antiqua,Palatino,serif</option>";
+  font+="<option value='Tahoma,Geneva,sans-serif'>Tahoma,Geneva,sans-serif</option>";
+  font+="<option value='Times New Roman,Times,serif'>Times New Roman,Times,serif</option>";
+  font+="<option value='Trebuchet MS,Helvetica,sans-serif'>Trebuchet MS,Helvetica,sans-serif</option>";
+  font+="<option value='Verdana,Geneva,sans-serif'>Verdana,Geneva,sans-serif</option>";
+  font+="<option value='Gill Sans,Geneva,sans-serif'>Gill Sans,Geneva,sans-serif</option>";
+  return font;
+}
 
 function changeFontSize(id){
   var size;
-  $('.simple-select').chosen({ width: "100px" }).change(function(){
+  $('#fontsize-select').chosen({ width: "100px" }).change(function(){
     param[id]["fontsize"] = $(this).val();
     $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
   });
+}
 
+function changeFont(id){
+  var font;
+  $('#font-select').chosen({ width: "100px" }).change(function(){
+    param[id]["font"] = $(this).val();
+    $("#right-side div#"+id).css("font",param[id]["font"]);
+  });
 }
 
 function updateColor(button_id,color){
   param[button_id]["background-color"] = color;
   //alert(param[button_id]["background-color"]);
   $("#right-side div#"+button_id).css("background-color",color);
-}
-
-function changeFont(button_id){
-  //param[button_id]["background-color"]
 }
 
 function applyChange(button_id){
@@ -328,61 +344,12 @@ function initColorPicker(id){
   }
 }
 
-function selectFontStyle(id){
-  $('#fontSelect').fontSelector({
-    'hide_fallbacks' : true,
-    'initial' : checkFont(id),
-    'selected' : function(style) {
-      param[id]["font"]= style;
-      $("#right-side div#"+id).css("font-family",param[id]["font"]);
-      //alert(param[id]["font"] + "id: "+id);
-    },
-    'opened' : function(style) {
-      //alert('opened');
-    },
-    'closed' : function(style) {
-      $(".fontSelectUl").remove();
-      //alert('closed');
-    },
-    'fonts' : [
-      'Arial,Arial,Helvetica,sans-serif',
-      'Arial Black,Arial Black,Gadget,sans-serif',
-      'Comic Sans MS,Comic Sans MS,cursive',
-      'Courier New,Courier New,Courier,monospace',
-      'Georgia,Georgia,serif',
-      'Impact,Charcoal,sans-serif',
-      'Lucida Console,Monaco,monospace',
-      'Lucida Sans Unicode,Lucida Grande,sans-serif',
-      'Palatino Linotype,Book Antiqua,Palatino,serif',
-      'Tahoma,Geneva,sans-serif',
-      'Times New Roman,Times,serif',
-      'Trebuchet MS,Helvetica,sans-serif',
-      'Verdana,Geneva,sans-serif',
-      'Gill Sans,Geneva,sans-serif'
-    ]
-  });
-}
-
-function checkFont(id){
-  if (param[id]["font"]){
-    return param[id]["font"];
-  }else{
-    return "";
-  }
-}
-
 function removeRedundant(){
   var i = 0;
   var colorArray = $(".sp-container");
-  var fontArray= $(".fontSelectUl");
   if (colorArray.length > 1){
     for (i = 0; i < colorArray.length-1; i++) {
       colorArray[i].remove();
-    }
-  }
-  if (fontArray.length > 1){
-    for (i = 0; i < fontArray.length-1; i++) {
-      fontArray[i].remove();
     }
   }
 }
