@@ -200,27 +200,25 @@ function makeHover(pref,id){
   if (id == "lg"){
     func = "cancelLogo";
   }
-  var fontButton = "<div id='fontSelect' class='fontSelect'><div class='arrow-down'></div></div>";
+
   var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
   var fontSize = generateFontSize();
+  var fontButton = generateFont();
   var selections;
   if (id == "lg"){
     selections = cancelButton;
   }else{
-    selections = colorPicker+fontButton+cancelButton+fontSize;
+    selections = fontSize+fontButton+colorPicker+cancelButton;
   }
   $( pref+id ).hover(
     function() {
-      $( this ).find("#modification").html(
-        selections
-      );
+      $( this ).find("#modification").html(selections);
       triggerColorPicker(id);
       if (id != "lg"){
-        selectFontStyle(id);
         changeFontSize(id);
+        changeFont(id);
       }
-      //alert();
     },
     function() {
       $(pref+id).find("#modification").empty();
@@ -234,7 +232,27 @@ function generateFontSize(){
   fontSize+="<option value='10px'>10px</option>";
   fontSize+="<option value='20px'>20px</option>";
   fontSize+="<option value='30px'>30px</option>";
+  fontSize+="</select>";
   return fontSize;
+}
+function generateFont(){
+  var font = "<select id='font-select'>";
+  font+="<option value='Arial,Arial,Helvetica,sans-serif'>Arial,Arial,Helvetica,sans-serif</option>";
+  font+="<option value='Arial Black,Arial Black,Gadget,sans-serif'>Arial Black,Arial Black,Gadget,sans-serif</option>";
+  font+="<option value='Comic Sans MS,Comic Sans MS,cursive'>Comic Sans MS,Comic Sans MS,cursive</option>";
+  font+="<option value='Courier New,Courier New,Courier,monospace'>Courier New,Courier New,Courier,monospace</option>";
+  font+="<option value='Georgia,Georgia,serif'>Georgia,Georgia,serif</option>";
+  font+="<option value='Impact,Charcoal,sans-serif'>Impact,Charcoal,sans-serif</option>";
+  font+="<option value='Lucida Console,Monaco,monospace'>Lucida Console,Monaco,monospace</option>";
+  font+="<option value='Lucida Sans Unicode,Lucida Grande,sans-serif'>Lucida Sans Unicode,Lucida Grande,sans-serif</option>";
+  font+="<option value='Palatino Linotype,Book Antiqua,Palatino,serif'>Palatino Linotype,Book Antiqua,Palatino,serif</option>";
+  font+="<option value='Tahoma,Geneva,sans-serif'>Tahoma,Geneva,sans-serif</option>";
+  font+="<option value='Times New Roman,Times,serif'>Times New Roman,Times,serif</option>";
+  font+="<option value='Trebuchet MS,Helvetica,sans-serif'>Trebuchet MS,Helvetica,sans-serif</option>";
+  font+="<option value='Verdana,Geneva,sans-serif'>Verdana,Geneva,sans-serif</option>";
+  font+="<option value='Gill Sans,Geneva,sans-serif'>Gill Sans,Geneva,sans-serif</option>";
+  font+="</select>";
+  return font;
 }
 
 function changeFontSize(id){
@@ -243,7 +261,13 @@ function changeFontSize(id){
     param[id]["fontsize"] = $(this).val();
     $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
   });
-
+}
+function changeFont(id){
+  var font;
+  $('#font-select').chosen({ width: "100px" }).change(function(){
+    param[id]["font"] = $(this).val();
+    $("#right-side div#"+id).css("font",param[id]["font"]);
+  });
 }
 
 function updateColor(button_id,color){
@@ -339,41 +363,6 @@ function initColorPicker(id){
   }
 }
 
-function selectFontStyle(id){
-  $('#fontSelect').fontSelector({
-    'hide_fallbacks' : true,
-    'initial' : checkFont(id),
-    'selected' : function(style) {
-      param[id]["font"]= style;
-      $("#right-side div#"+id).css("font-family",param[id]["font"]);
-      //alert(param[id]["font"] + "id: "+id);
-    },
-    'opened' : function(style) {
-      //alert('opened');
-    },
-    'closed' : function(style) {
-      $(".fontSelectUl").remove();
-      //alert('closed');
-    },
-    'fonts' : [
-      'Arial,Arial,Helvetica,sans-serif',
-      'Arial Black,Arial Black,Gadget,sans-serif',
-      'Comic Sans MS,Comic Sans MS,cursive',
-      'Courier New,Courier New,Courier,monospace',
-      'Georgia,Georgia,serif',
-      'Impact,Charcoal,sans-serif',
-      'Lucida Console,Monaco,monospace',
-      'Lucida Sans Unicode,Lucida Grande,sans-serif',
-      'Palatino Linotype,Book Antiqua,Palatino,serif',
-      'Tahoma,Geneva,sans-serif',
-      'Times New Roman,Times,serif',
-      'Trebuchet MS,Helvetica,sans-serif',
-      'Verdana,Geneva,sans-serif',
-      'Gill Sans,Geneva,sans-serif'
-    ]
-  });
-}
-
 function checkFont(id){
   if (param[id]["font"]){
     return param[id]["font"];
@@ -383,19 +372,12 @@ function checkFont(id){
 }
 
 function removeRedundant(){
-  var i = 0;
   var colorArray = $(".sp-container");
-  var fontArray= $(".fontSelectUl");
   if (colorArray.length > 1){
-    for (i = 0; i < colorArray.length-1; i++) {
+    for (var i = 0; i < colorArray.length-1; i++) {
       colorArray[i].remove();
     }
   }
-  if (fontArray.length > 1){
-    for (i = 0; i < fontArray.length-1; i++) {
-      fontArray[i].remove();
-    }
-  } // clear all the redundant thing
 }
 
 

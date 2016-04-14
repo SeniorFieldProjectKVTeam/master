@@ -222,6 +222,7 @@ function generateFontSize(){
   fontSize+="<option value='10px'>10px</option>";
   fontSize+="<option value='20px'>20px</option>";
   fontSize+="<option value='30px'>30px</option>";
+  fontSize+="</select>";
   return fontSize;
 }
 function generateFont(){
@@ -240,6 +241,7 @@ function generateFont(){
   font+="<option value='Trebuchet MS,Helvetica,sans-serif'>Trebuchet MS,Helvetica,sans-serif</option>";
   font+="<option value='Verdana,Geneva,sans-serif'>Verdana,Geneva,sans-serif</option>";
   font+="<option value='Gill Sans,Geneva,sans-serif'>Gill Sans,Geneva,sans-serif</option>";
+  font+="</select>";
   return font;
 }
 
