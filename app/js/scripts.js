@@ -199,26 +199,47 @@ function makeHover(pref,id){
   var fontSize = "<div id='fontSizeSelect'>Here should be Font Size</div>"
   var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
+  var fontSize = generateFontSize();
   var selections;
   if (id == "lg"){
-    selections = colorPicker+cancelButton;
+    selections = cancelButton;
   }else{
-    selections = colorPicker+fontButton+fontSize+cancelButton;
+    selections = colorPicker+fontButton+cancelButton+fontSize;
   }
   $( pref+id ).hover(
     function() {
-      $( this ).append(
-        "<div id='modification-selections'>"+selections+"</div>"
+      $( this ).find("#modification").html(
+        selections
       );
       triggerColorPicker(id);
-      selectFontStyle(id);
-      // $("#botm-three").sortable('refresh');
+      if (id != "lg"){
+        selectFontStyle(id);
+        changeFontSize(id);
+      }
+      //alert();
     },
     function() {
-      $("#modification-selections").remove();
+      $(pref+id).find("#modification").empty();
       removeRedundant();
     }
   );
+}
+
+function generateFontSize(){
+  var fontSize = "<select class='simple-select'>";
+  fontSize+="<option value='10px'>10px</option>";
+  fontSize+="<option value='20px'>20px</option>";
+  fontSize+="<option value='30px'>30px</option>";
+  return fontSize;
+}
+
+function changeFontSize(id){
+  var size;
+  $('.simple-select').chosen({ width: "100px" }).change(function(){
+    param[id]["fontsize"] = $(this).val();
+    $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
+  });
+
 }
 
 function updateColor(button_id,color){
@@ -233,6 +254,9 @@ function applyChange(button_id){
   }
   if (param[button_id]["font"]){
     $("#right-side div#"+button_id).css("font-family",param[button_id]["font"]);
+  }
+  if (param[button_id]["fontsize"]){
+    $("#right-side div#"+button_id).css("font-size",param[button_id]["fontsize"]);
   }
 } // apply all the changes the user made
 
