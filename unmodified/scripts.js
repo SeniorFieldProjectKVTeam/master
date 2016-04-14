@@ -13,6 +13,10 @@ var pa;
 $( init );
 
 function init() {
+  document.getElementById("combo-player").style.background = "black url('video.png') no-repeat center top";
+  // document.getElementById("combo-player").style.backgroundImage = "url('video.png')";
+  // document.getElementById("combo-player").style.backgroundRepeat = "no-repeat";
+
   $( "#left-side #left-top" ).accordion();
   $('#left-top li').draggable({
     cursor: 'move',
@@ -212,7 +216,7 @@ function makeHover(pref,id){
       //alert();
     },
     function() {
-      $("#modification").empty();
+      $(pref+id).find("#modification").empty();
       removeRedundant();
     }
   );

@@ -20,6 +20,7 @@ var fs = require('fs');
 $( init ); // load this function when the page was load
 
 function init() {
+  comboBackground();
   $( "#left-side #left-top" ).accordion();
   $('#left-top li').draggable({
     cursor: 'move',
@@ -139,6 +140,10 @@ function cancelNavi(button_id){
   $("#top-combo ").prepend("<div id = 'tobechange'></div>");
   $(param["na"]["ui"]).show();
   param["na"]["exist"] = false;
+}
+
+function comboBackground(){
+  document.getElementById("combo-player").style.background = "black url('./images/video.png') no-repeat center center";
 }
 
 function cancelLogo(button_id){
