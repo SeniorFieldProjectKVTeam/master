@@ -6,7 +6,7 @@ body, html, .container-fluid {
 
 #whole-page {
   height:100%;
-  width:100
+  width:100%;
 }
 
 #left-side {
@@ -22,7 +22,7 @@ body, html, .container-fluid {
 }
 
 #left-side h3{
-	font-size: 18px;
+	font-size: 15px;
 }
 
 #maincomponents{
@@ -37,6 +37,10 @@ body, html, .container-fluid {
   margin-bottom:3px;
 }
 
+#maincomponents li:hover{
+	background: #6c6c6c;
+}
+
 
 #botmcomponents{
   cursor: move;
@@ -49,6 +53,10 @@ body, html, .container-fluid {
 	border-width: 2px;
 	border-color: #9a9a9a;
 	margin-bottom:3px;
+}
+
+#botmcomponents li:hover{
+	background: #6c6c6c;
 }
 
 #right-side{

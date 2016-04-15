@@ -40,7 +40,7 @@ function init() {
       if (id == "na"){
         saveUI["na"] = ui.draggable;
         param["na"]["exist"] = true;
-        $( "#tobechange" ).html("<p>this is the navigation</p><div id='modification'></div>")
+        $( "#tobechange" ).html("<h3>Navigation</h3><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></ul><div id='modification'></div>")
           .attr({
             class:"navigation",
             id:id
@@ -156,7 +156,20 @@ function comboBackground(){
 }
 
 function botmDiv(classname,id){
-  return "<div class="+classname+" id="+id+"><p>"+id+"</p><div id='modification'></div></div>"
+	var tempstring = ""
+	if(id == "fn"){
+		return "<div class="+classname+" id="+id+"><p>Footnotes</p><div></div><p>Example footnotes here. Add links or contact information.</p><div id='modification'></div></div>"
+	} else if(id == "ts"){
+		return "<div class="+classname+" id="+id+"><p>Transcript</p><div></div><p>Here are some example notes for the presentation. Transcriptions can be very important part of your KnowledgeVision presentation.</p><div id='modification'></div></div>"
+	} else if(id == "qu"){
+		return "<div class="+classname+" id="+id+"><p>Questions</p><div></div><p>Any questions that you want people to consider as they are watching your video? Add them here.</p><div id='modification'></div></div>"
+	} else if(id == "qz"){
+		return "<div class="+classname+" id="+id+"><p>Quizzes</p><div id='modification'></div></div>"
+	} else if (id == "lg"){
+		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/logo.png') no-repeat 100%";
+		return "<div class="+classname+" id="+id+"><p>Logo</p><div id='modification'></div></div>"
+	}
+	//return "<div class="+classname+" id="+id+"><p>"+id+"</p><div id='modification'></div></div>"
 }
 
 function cancelNavi(button_id){
