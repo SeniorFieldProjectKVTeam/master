@@ -38,7 +38,7 @@ function init() {
       if (id == "na"){
         saveUI["na"] = ui.draggable;
         param["na"]["exist"] = true;
-        $( "#tobechange" ).html("<p>this is the navigation</p><div id='modification'></div>")
+        $( "#tobechange" ).html("this is the navigation")
           .attr({
             class:"navigation",
             id:id
@@ -53,7 +53,7 @@ function init() {
       if (id == "lg"){
         saveUI["lg"] = ui.draggable;
         param["lg"]["exist"] = true;
-        $("#top-logo-change").html("<div id='modification'></div>").attr({
+        $("#top-logo-change").html("<p>Logo</p>").attr({
           class:"top-logo",
           id:id
         });
@@ -212,18 +212,13 @@ function makeHover(pref,id){
   var fontSize = generateFontSize();
   var fontButton = generateFont();
   var selections;
+  if (id == "lg"){
+    selections = cancelButton;
+  }else{
+    selections = fontSize+fontButton+colorPicker+cancelButton;
+  }
   $( pref+id ).hover(
     function() {
-      if (id == "lg"){
-        var parent_id = $(this).parent().attr("id");
-        if (parent_id == "botm-three"){
-          selections = colorPicker+cancelButton;
-        }else{
-          selections = cancelButton;
-        }
-      }else{
-        selections = fontSize+fontButton+colorPicker+cancelButton;
-      }
       $( this ).find("#modification").html(selections);
       triggerColorPicker(id);
       if (id != "lg"){
@@ -239,7 +234,7 @@ function makeHover(pref,id){
 }
 
 function generateFontSize(){
-  var fontSize = "<select id='fontsize-select'>";
+  var fontSize = "<select class='fontsize-select'>";
   fontSize+="<option value='10px'>10px</option>";
   fontSize+="<option value='20px'>20px</option>";
   fontSize+="<option value='30px'>30px</option>";
@@ -300,7 +295,7 @@ function updateColor(button_id,color){
     //alert(param[button_id]["background-color"]);
     $("#right-side div#"+button_id).css("background-color",color);
   }else{
-    param["theme"]["background-color"] = color;
+    param[button_id]["background-color"] = color;
     $("#right-side").css("background-color",color);
   }
 }// change the certain color of corresponding div
@@ -327,8 +322,7 @@ function publish(){
     "ts" : param["ts"],
     "qz": param["qz"],
     "na": param["na"],
-    "lg": param["lg"],
-    "theme":param["theme"]
+    "lg": param["lg"]
   }
   // write it to file
   //fs.writeFile(filename, data, [encoding], callback)
