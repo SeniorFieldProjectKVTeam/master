@@ -86,24 +86,36 @@ body, html, .container-fluid {
   width:100%;
   display: inline-block;
   vertical-align: text-top;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #9a9a9a;
 }
 #botm-three .two{
   height:100%;
   width:50%;
   display: inline-block;
   vertical-align: text-top;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #9a9a9a;
 }
 #botm-three .three{
   height:100%;
   width:33.3%;
   display: inline-block;
   vertical-align: text-top;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #9a9a9a;
 }
 #botm-three .four{
   height:100%;
   width:25%;
   display: inline-block;
   vertical-align: text-top;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #9a9a9a;
 }
 
 #top-combo .navigation{
