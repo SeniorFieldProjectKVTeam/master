@@ -16,6 +16,7 @@ param["theme"] = new Object();
 param["combo-player"] = new Object();
 var pa;
 var fs = require('fs');
+var ids = ["qu","fn","ts","qz","lg","na"]
 
 $( init ); // load this function when the page was load
 
@@ -306,6 +307,7 @@ function changeFontSize(id){
     $('#left-side #fontsize-select').chosen({ width: "100px" }).change(function(){
       param["theme"]["fontsize"] = $(this).val();
       $("#right-side").css("font-size",param["theme"]["fontsize"]);
+      applyThemeFontSize(param["theme"]["fontsize"]);
     });
   }
 }
@@ -320,6 +322,7 @@ function changeFont(id){
     $('#left-side #font-select').chosen({ width: "100px" }).change(function(){
       param["theme"]["font"] = $(this).val();
       $("#right-side").css("font-family",param["theme"]["font"]);
+      applyThemeFont(param["theme"]["font"]);
     });
   }
 }
@@ -332,6 +335,7 @@ function updateColor(button_id,color){
   }else{
     param["theme"]["background-color"] = color;
     $("#right-side").css("background-color",color);
+    applyThemeColor(color);
   }
 }// change the certain color of corresponding div
 
@@ -426,6 +430,27 @@ function triggerColorPicker(id){
     $("#left-side .sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
   }
 }
+
+function applyThemeColor(color){
+  for (var i=0; i <= ids.length-1; i++){
+    param[ids[i]]["background-color"] = color;
+    $("#right-side div#"+ids[i]).css("background-color",color);
+  }
+}
+
+function applyThemeFont(font){
+  for (var i=0; i <= ids.length-1; i++){
+    param[ids[i]]["font"] = font;
+    $("#right-side div#"+ids[i]).css("font-family",font);
+  }
+}
+function applyThemeFontSize(size){
+  for (var i=0; i <= ids.length-1; i++){
+    param[ids[i]]["fontSize"] = size;
+    $("#right-side div#"+ids[i]).css("font-size",size);
+  }
+}
+
 
 function initColorPicker(id){
   if (id != "theme"){
