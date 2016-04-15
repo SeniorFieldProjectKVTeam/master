@@ -19,11 +19,11 @@ body, html, .container-fluid {
 }
 
 #maincomponents{
-
+  cursor: move;
 }
 
 #botmcomponents{
-
+  cursor: move;
 }
 
 #right-side{

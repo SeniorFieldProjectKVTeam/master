@@ -217,7 +217,7 @@ function makeHover(pref,id){
   if (id == "lg"){
     func = "cancelLogo";
   }
-  var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)' style='background-color:black;width:30px;'>X</button></div>";
+  var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)' style='background-color:#9a9a9a;width:30px;'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
   var fontSize = generateFontSize();
   var fontButton = generateFont();
