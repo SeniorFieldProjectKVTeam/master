@@ -1,3 +1,5 @@
+// create all the variables that we need
+// all the data are stored in param
 var bot = [];
 var order = [];
 var ordertop = [];
@@ -8,12 +10,13 @@ param["ts"] = new Object();
 param["qz"] = new Object();
 param["lg"] = new Object();
 param["na"] = new Object();
+param["theme"] = new Object();
+var saveUI = new Object();
 var pa;
-
 $( init );
 
 function init() {
-  document.getElementById("combo-player").style.background = "black url('video.png') no-repeat center center";
+  comboBackground();
   // document.getElementById("combo-player").style.backgroundImage = "url('video.png')";
   // document.getElementById("combo-player").style.backgroundRepeat = "no-repeat";
 
@@ -125,6 +128,19 @@ function init() {
     }
   });
   // continue
+   addTheme();
+}
+
+function addTheme(){
+  var html = generateFont()+generateFontSize()+"<input type='text' class='color-picker' id='color-picker'/>";
+  $("#theme").html(html);
+  changeFont("theme");
+  changeFontSize("theme");
+  triggerColorPicker("theme");
+}
+
+function comboBackground(){
+  document.getElementById("combo-player").style.background = "black url('./images/video.png') no-repeat center center";
 }
 
 function botmDiv(classname,id){
@@ -246,25 +262,42 @@ function generateFont(){
 }
 
 function changeFontSize(id){
-  var size;
-  $('#fontsize-select').chosen({ width: "100px" }).change(function(){
-    param[id]["fontsize"] = $(this).val();
-    $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
-  });
+  if (id != "theme"){
+    $('#right-side #fontsize-select').chosen({ width: "100px" }).change(function(){
+      param[id]["fontsize"] = $(this).val();
+      $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
+    });
+  }else{
+    $('#left-side #fontsize-select').chosen({ width: "100px" }).change(function(){
+      param["theme"]["fontsize"] = $(this).val();
+      $("#right-side").css("font-size",param["theme"]["fontsize"]);
+    });
+  }
 }
 
 function changeFont(id){
-  var font;
-  $('#font-select').chosen({ width: "100px" }).change(function(){
-    param[id]["font"] = $(this).val();
-    $("#right-side div#"+id).css("font",param[id]["font"]);
-  });
+  if (id != "theme"){
+    $('#right-side #font-select').chosen({ width: "100px" }).change(function(){
+      param[id]["font"] = $(this).val();
+      $("#right-side div#"+id).css("font-family",param[id]["font"]);
+    });
+  }else{
+    $('#left-side #font-select').chosen({ width: "100px" }).change(function(){
+      param["theme"]["font"] = $(this).val();
+      $("#right-side").css("font-family",param["theme"]["font"]);
+    });
+  }
 }
 
 function updateColor(button_id,color){
-  param[button_id]["background-color"] = color;
-  //alert(param[button_id]["background-color"]);
-  $("#right-side div#"+button_id).css("background-color",color);
+  if (button_id != "theme"){
+    param[button_id]["background-color"] = color;
+    //alert(param[button_id]["background-color"]);
+    $("#right-side div#"+button_id).css("background-color",color);
+  }else{
+    param[button_id]["background-color"] = color;
+    $("#right-side").css("background-color",color);
+  }
 }
 
 function applyChange(button_id){
@@ -288,7 +321,8 @@ function publish(){
     "ts" : param["ts"],
     "qz": param["qz"],
     "na": param["na"],
-    "lg": param["lg"]
+    "lg": param["lg"],
+    "theme":param["theme"]
   }
   alert(pa);
 }
@@ -298,7 +332,13 @@ function refresh(){
 }
 
 function triggerColorPicker(id){
-  $("#color-picker").spectrum({
+  var picker;
+  if (id == "theme"){
+    picker = "#left-side #color-picker";
+  }else{
+    picker = "#right-side #color-picker";
+  }
+  $(picker).spectrum({
     color: initColorPicker(id),
     showInput: true,
     className: "full-spectrum",
@@ -335,14 +375,26 @@ function triggerColorPicker(id){
         "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
     ]
   });
-  $(".sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
+  if (id != "theme"){
+    $("#right-side .sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
+  }else{
+    $("#left-side .sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
+  }
 }
 
 function initColorPicker(id){
-  if (param[id]["background-color"]){
-    return param[id]["background-color"]
+  if (id != "theme"){
+    if (param[id]["background-color"]){
+      return param[id]["background-color"];
+    }else{
+      return "#ECC";
+    }
   }else{
-    return "#ECC";
+    if (param["theme"]["background-color"]){
+      return param["theme"]["background-color"];
+    }else{
+      return "#ECC";
+    }
   }
 }
 
@@ -350,7 +402,7 @@ function removeRedundant(){
   var i = 0;
   var colorArray = $(".sp-container");
   if (colorArray.length > 1){
-    for (i = 0; i < colorArray.length-1; i++) {
+    for (i = colorArray.length-2; i >= 1; i--) {
       colorArray[i].remove();
     }
   }

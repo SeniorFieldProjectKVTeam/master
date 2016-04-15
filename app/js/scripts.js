@@ -12,9 +12,8 @@ param["ts"] = new Object();
 param["qz"] = new Object();
 param["lg"] = new Object();
 param["na"] = new Object();
-
+param["theme"] = new Object();
 var pa;
-
 var fs = require('fs');
 
 $( init ); // load this function when the page was load
@@ -129,6 +128,19 @@ function init() {
     }
   });
   // continue
+  addTheme();
+}
+
+function addTheme(){
+  var html = generateFont()+generateFontSize()+"<input type='text' class='color-picker' id='color-picker'/>";
+  $("#theme").html(html);
+  changeFont("theme");
+  changeFontSize("theme");
+  triggerColorPicker("theme");
+}
+
+function comboBackground(){
+  document.getElementById("combo-player").style.background = "black url('./images/video.png') no-repeat center center";
 }
 
 function botmDiv(classname,id){
@@ -140,10 +152,6 @@ function cancelNavi(button_id){
   $("#top-combo ").prepend("<div id = 'tobechange'></div>");
   $(saveUI["na"]).show();
   param["na"]["exist"] = false;
-}
-
-function comboBackground(){
-  document.getElementById("combo-player").style.background = "black url('./images/video.png') no-repeat center center";
 }
 
 function cancelLogo(button_id){
@@ -192,7 +200,6 @@ function cancelDrop(button_id) {
 }
 
 function makeHover(pref,id){
-
   var func = "cancelDrop";
   if (id == "na"){
     func = "cancelNavi";
@@ -200,8 +207,7 @@ function makeHover(pref,id){
   if (id == "lg"){
     func = "cancelLogo";
   }
-
-  var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
+  var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)' style='background-color:black;width:30px;'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
   var fontSize = generateFontSize();
   var fontButton = generateFont();
@@ -256,25 +262,44 @@ function generateFont(){
 }
 
 function changeFontSize(id){
-  var size;
-  $('.fontsize-select').chosen({ width: "100px" }).change(function(){
-    param[id]["fontsize"] = $(this).val();
-    $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
-  });
+  if (id != "theme"){
+    $('#right-side #fontsize-select').chosen({ width: "100px" }).change(function(){
+      param[id]["fontsize"] = $(this).val();
+      $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
+    });
+  }else{
+    $('#left-side #fontsize-select').chosen({ width: "100px" }).change(function(){
+      param["theme"]["fontsize"] = $(this).val();
+      $("#right-side").css("font-size",param["theme"]["fontsize"]);
+    });
+  }
 }
+
 function changeFont(id){
-  var font;
-  $('#font-select').chosen({ width: "100px" }).change(function(){
-    param[id]["font"] = $(this).val();
-    $("#right-side div#"+id).css("font",param[id]["font"]);
-  });
+  if (id != "theme"){
+    $('#right-side #font-select').chosen({ width: "100px" }).change(function(){
+      param[id]["font"] = $(this).val();
+      $("#right-side div#"+id).css("font-family",param[id]["font"]);
+    });
+  }else{
+    $('#left-side #font-select').chosen({ width: "100px" }).change(function(){
+      param["theme"]["font"] = $(this).val();
+      $("#right-side").css("font-family",param["theme"]["font"]);
+    });
+  }
 }
 
 function updateColor(button_id,color){
-  param[button_id]["background-color"] = color;
-  //alert(param[button_id]["background-color"]);
-  $("#right-side div#"+button_id).css("background-color",color);
-} // change the certain color of corresponding div
+  if (button_id != "theme"){
+    param[button_id]["background-color"] = color;
+    //alert(param[button_id]["background-color"]);
+    $("#right-side div#"+button_id).css("background-color",color);
+  }else{
+    param[button_id]["background-color"] = color;
+    $("#right-side").css("background-color",color);
+  }
+}// change the certain color of corresponding div
+
 
 function applyChange(button_id){
   if (param[button_id]["background-color"]){
@@ -315,7 +340,13 @@ function refresh(){
 }
 
 function triggerColorPicker(id){
-  $("#color-picker").spectrum({
+  var picker;
+  if (id == "theme"){
+    picker = "#left-side #color-picker";
+  }else{
+    picker = "#right-side #color-picker";
+  }
+  $(picker).spectrum({
     color: initColorPicker(id),
     showInput: true,
     className: "full-spectrum",
@@ -327,7 +358,7 @@ function triggerColorPicker(id){
     localStorageKey: "spectrum.demo",
     change: function(color) {
       var col = (color ? color.toHexString() : "");
-      updateColor(id,col);
+      updateColor(id,col); // update the color to correspoding hash
     },
     show: function() {
       // alert("show");
@@ -350,37 +381,37 @@ function triggerColorPicker(id){
         "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)",
         "rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)",
         "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
-    ]
+    ] // preload some of the colors
   });
-  $(".sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
+  if (id != "theme"){ // change the color of in the color picker after select
+    $("#right-side .sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
+  }else{
+    $("#left-side .sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
+  }
 }
 
 function initColorPicker(id){
-  if (param[id]["background-color"]){
-    return param[id]["background-color"]
+  if (id != "theme"){
+    if (param[id]["background-color"]){
+      return param[id]["background-color"];
+    }else{
+      return "#ECC";
+    }
   }else{
-    return "#ECC";
-  }
-}
-
-function checkFont(id){
-  if (param[id]["font"]){
-    return param[id]["font"];
-  }else{
-    return "";
-  }
-}
-
-function removeRedundant(){
-  var colorArray = $(".sp-container");
-  if (colorArray.length > 1){
-    for (var i = 0; i < colorArray.length-1; i++) {
-      colorArray[i].remove();
+    if (param["theme"]["background-color"]){
+      return param["theme"]["background-color"];
+    }else{
+      return "#ECC";
     }
   }
+} // check if the background-color already decleared
+
+function removeRedundant(){
+  var i = 0;
+  var colorArray = $(".sp-container");
+  if (colorArray.length > 1){
+    for (i = colorArray.length-2; i >= 1; i--) {
+      colorArray[i].remove();
+    }
+  } // remove all the redundant div, especially cover by the hover
 }
-
-
-
-
-//document.getElementById('cancel').onclick  = reply_click;
