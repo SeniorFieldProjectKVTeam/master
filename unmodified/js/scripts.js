@@ -38,7 +38,7 @@ function init() {
       if (id == "na"){
         saveUI["na"] = ui.draggable;
         param["na"]["exist"] = true;
-        $( "#tobechange" ).html("this is the navigation")
+        $( "#tobechange" ).html("<p>this is the navigation</p><div id='modification'></div>")
           .attr({
             class:"navigation",
             id:id
@@ -53,7 +53,7 @@ function init() {
       if (id == "lg"){
         saveUI["lg"] = ui.draggable;
         param["lg"]["exist"] = true;
-        $("#top-logo-change").html("<p>logo</p>").attr({
+        $("#top-logo-change").html("<div id='modification'></div>").attr({
           class:"top-logo",
           id:id
         });
@@ -212,13 +212,19 @@ function makeHover(pref,id){
   var fontSize = generateFontSize();
   var fontButton = generateFont();
   var selections;
-  if (id == "lg"){
-    selections = cancelButton;
-  }else{
-    selections = fontSize+fontButton+colorPicker+cancelButton;
-  }
   $( pref+id ).hover(
     function() {
+      if (id == "lg"){
+        var parent_id = $(this).parent().attr("id");
+        if (parent_id == "botm-three"){
+          selections = colorPicker+cancelButton;
+        }else{
+          selections = cancelButton;
+        }
+      }else{
+        selections = fontSize+fontButton+colorPicker+cancelButton;
+      }
+
       $( this ).find("#modification").html(selections);
       triggerColorPicker(id);
       if (id != "lg"){
