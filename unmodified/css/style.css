@@ -13,6 +13,16 @@ body, html, .container-fluid {
   float:left;
   height:100%;
   width:20%;
+  padding: 0px 0px 0px 10px;
+  background-color: #F0F2F4;
+}
+
+#maincomponents{
+	padding: 0px 0px 0px 10px;
+}
+
+#botmcomponents{
+	padding: 0px 0px 0px 10px;
 }
 
 #right-side{
@@ -59,16 +69,15 @@ body, html, .container-fluid {
   height:100%;
   width:25%;
   display: inline-block;
+  vertical-align: text-top;
 }
 
 #top-combo .navigation{
   width:30%;
-  background-color: lightgreen;
   display: inline-block;
 }
 #top-combo .combo-player{
   flex:1;
-  background-color: lightblue;
   display: inline-block;
 }
 ul {
@@ -77,4 +86,49 @@ ul {
 
 .full-spectrum .sp-palette {
   max-width: 200px;
+}
+
+
+#left-btom {
+	position: fixed;
+	bottom: 0;
+	padding: 0px 0px 10px 5px;
+}
+
+#publishBtn{
+    background-color: #ccc;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:6px;
+    color: #fff;
+    font-family: 'Oswald';
+    font-size: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    border:none;
+}
+
+#publishBtn:hover {
+    border: none;
+    background:red;
+    box-shadow: 0px 0px 1px #777;
+}
+
+#refreshBtn{
+    background-color: #ccc;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:6px;
+    color: #fff;
+    font-family: 'Oswald';
+    font-size: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    border:none;
+}
+
+#refreshBtn:hover {
+    border: none;
+    background:red;
+    box-shadow: 0px 0px 1px #777;
 }

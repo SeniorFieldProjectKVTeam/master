@@ -239,7 +239,7 @@ function makeHover(pref,id){
 }
 
 function generateFontSize(){
-  var fontSize = "<select class='fontsize-select'>";
+  var fontSize = "<select id='fontsize-select'>";
   fontSize+="<option value='10px'>10px</option>";
   fontSize+="<option value='20px'>20px</option>";
   fontSize+="<option value='30px'>30px</option>";
