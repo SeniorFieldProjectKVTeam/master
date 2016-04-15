@@ -11,6 +11,7 @@ param["qz"] = new Object();
 param["lg"] = new Object();
 param["na"] = new Object();
 param["theme"] = new Object();
+param["combo-player"] = new Object();
 var saveUI = new Object();
 var pa;
 $( init );
@@ -141,6 +142,14 @@ function addTheme(){
 
 function comboBackground(){
   document.getElementById("combo-player").style.background = "black url('./images/video.png') no-repeat center center";
+  $("#combo-player").css("background","z-index: -1")
+  $("#combo-player").html("<div id='modification'></div></div>").css({
+    "color":"white",
+    "font-size":"20px",
+    "font-family":"Arial,Arial,Helvetica,sans-serif",
+    "text-align": "left"
+  });
+  makeHover("#top-combo #","combo-player");
 }
 
 function botmDiv(classname,id){
@@ -222,14 +231,24 @@ function makeHover(pref,id){
           selections = cancelButton;
         }
       }else{
-        selections = fontSize+fontButton+colorPicker+cancelButton;
+        if (id=="combo-player"){
+          selections = "<input type='radio' name='cp-option' value='combo'>combo<br>";
+          selections += "<input type='radio' name='cp-option' value='fixed'>fixed<br>";
+          selections += "<input type='radio' name='cp-option' value='video'>video";
+        }else{
+          selections = fontSize+fontButton+colorPicker+cancelButton;
+        }
       }
 
       $( this ).find("#modification").html(selections);
-      triggerColorPicker(id);
-      if (id != "lg"){
-        changeFontSize(id);
-        changeFont(id);
+      if (id != "combo-player"){
+        triggerColorPicker(id);
+        if (id != "lg"){
+          changeFontSize(id);
+          changeFont(id);
+        }
+      }else{
+        saveOption();
       }
     },
     function() {
@@ -237,6 +256,16 @@ function makeHover(pref,id){
       removeRedundant();
     }
   );
+}
+
+function saveOption(){
+  var ch = document.getElementsByName('cp-option');
+  for (var i = ch.length; i--;) {
+      ch[i].onchange = function() {
+        param["combo-player"]=this.value;
+        alert(param["combo-player"]);
+      }
+  }
 }
 
 function generateFontSize(){
@@ -328,7 +357,9 @@ function publish(){
     "qz": param["qz"],
     "na": param["na"],
     "lg": param["lg"],
-    "theme":param["theme"]
+    "theme":param["theme"],
+    "combo-player":param["combo-player"]
+
   }
   alert(pa);
 }

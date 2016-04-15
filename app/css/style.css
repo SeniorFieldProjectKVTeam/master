@@ -88,6 +88,10 @@ ul {
   max-width: 200px;
 }
 
+.cancel {
+  font-size: 14px;
+}
+
 #left-btom {
 	position: fixed;
 	bottom: 0;
