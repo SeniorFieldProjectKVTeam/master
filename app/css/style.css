@@ -120,13 +120,11 @@ body, html, .container-fluid {
 
 #top-combo .navigation{
   width:30%;
-  background-color: lightgreen;
   display: inline-block;
 }
 
 #top-combo .combo-player{
   flex:1;
-  background-color: lightblue;
   display: inline-block;
 }
 
