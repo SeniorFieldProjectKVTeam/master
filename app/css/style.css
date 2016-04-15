@@ -16,14 +16,35 @@ body, html, .container-fluid {
   padding: 0px 10px 0px 10px;
   background-color: #F0F2F4;
   font-family: 'Lucida Grande';
+  border-style: solid;
+  border-width: 0px 5px 0px 0px;
+  border-color: #e1e5e9;
 }
 
 #maincomponents{
   cursor: move;
 }
 
+#maincomponents li{
+  text-align: center;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #9a9a9a;
+  margin-bottom:3px;
+}
+
+
 #botmcomponents{
   cursor: move;
+
+}
+
+#botmcomponents li{
+	text-align: center;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #9a9a9a;
+	margin-bottom:3px;
 }
 
 #right-side{
