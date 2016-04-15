@@ -13,16 +13,17 @@ body, html, .container-fluid {
   float:left;
   height:100%;
   width:20%;
-  padding: 0px 0px 0px 10px;
+  padding: 0px 10px 0px 10px;
   background-color: #F0F2F4;
+  font-family: 'Lucida Grande';
 }
 
 #maincomponents{
-	padding: 0px 0px 0px 10px;
+
 }
 
 #botmcomponents{
-	padding: 0px 0px 0px 10px;
+
 }
 
 #right-side{
@@ -76,10 +77,12 @@ body, html, .container-fluid {
   width:30%;
   display: inline-block;
 }
+
 #top-combo .combo-player{
   flex:1;
   display: inline-block;
 }
+
 ul {
   list-style-type:none;
 }
@@ -95,7 +98,7 @@ ul {
 #left-btom {
 	position: fixed;
 	bottom: 0;
-	padding: 0px 0px 10px 5px;
+	padding: 0px 10px 5px 5px;
 }
 
 #publishBtn{
@@ -104,7 +107,6 @@ ul {
     -webkit-border-radius: 5px;
     border-radius:6px;
     color: #fff;
-    font-family: 'Oswald';
     font-size: 20px;
     text-decoration: none;
     cursor: pointer;
@@ -123,7 +125,6 @@ ul {
     -webkit-border-radius: 5px;
     border-radius:6px;
     color: #fff;
-    font-family: 'Oswald';
     font-size: 20px;
     text-decoration: none;
     cursor: pointer;
