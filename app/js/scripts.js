@@ -301,6 +301,7 @@ function changeFontSize(id){
   if (id != "theme"){
     $('#right-side #fontsize-select').chosen({ width: "100px" }).change(function(){
       param[id]["fontsize"] = $(this).val();
+      alert(id + ": "+param[id]["fontsize"]);
       $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
     });
   }else{
@@ -316,6 +317,7 @@ function changeFont(id){
   if (id != "theme"){
     $('#right-side #font-select').chosen({ width: "100px" }).change(function(){
       param[id]["font"] = $(this).val();
+      alert(id + ": "+param[id]["font"]);
       $("#right-side div#"+id).css("font-family",param[id]["font"]);
     });
   }else{
@@ -446,7 +448,7 @@ function applyThemeFont(font){
 }
 function applyThemeFontSize(size){
   for (var i=0; i <= ids.length-1; i++){
-    param[ids[i]]["fontSize"] = size;
+    param[ids[i]]["fontsize"] = size;
     $("#right-side div#"+ids[i]).css("font-size",size);
   }
 }
