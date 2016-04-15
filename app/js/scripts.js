@@ -279,20 +279,20 @@ function generateFontSize(){
 }
 function generateFont(){
   var font = "<select id='font-select'>";
-  font+="<option value='Arial,Arial,Helvetica,sans-serif'>Arial,Arial,Helvetica,sans-serif</option>";
-  font+="<option value='Arial Black,Arial Black,Gadget,sans-serif'>Arial Black,Arial Black,Gadget,sans-serif</option>";
-  font+="<option value='Comic Sans MS,Comic Sans MS,cursive'>Comic Sans MS,Comic Sans MS,cursive</option>";
-  font+="<option value='Courier New,Courier New,Courier,monospace'>Courier New,Courier New,Courier,monospace</option>";
-  font+="<option value='Georgia,Georgia,serif'>Georgia,Georgia,serif</option>";
-  font+="<option value='Impact,Charcoal,sans-serif'>Impact,Charcoal,sans-serif</option>";
-  font+="<option value='Lucida Console,Monaco,monospace'>Lucida Console,Monaco,monospace</option>";
-  font+="<option value='Lucida Sans Unicode,Lucida Grande,sans-serif'>Lucida Sans Unicode,Lucida Grande,sans-serif</option>";
-  font+="<option value='Palatino Linotype,Book Antiqua,Palatino,serif'>Palatino Linotype,Book Antiqua,Palatino,serif</option>";
-  font+="<option value='Tahoma,Geneva,sans-serif'>Tahoma,Geneva,sans-serif</option>";
-  font+="<option value='Times New Roman,Times,serif'>Times New Roman,Times,serif</option>";
-  font+="<option value='Trebuchet MS,Helvetica,sans-serif'>Trebuchet MS,Helvetica,sans-serif</option>";
-  font+="<option value='Verdana,Geneva,sans-serif'>Verdana,Geneva,sans-serif</option>";
-  font+="<option value='Gill Sans,Geneva,sans-serif'>Gill Sans,Geneva,sans-serif</option>";
+  font+="<option value='Arial,Arial,Helvetica,sans-serif'>Arial</option>";
+  font+="<option value='Arial Black,Arial Black,Gadget,sans-serif'>Arial Black</option>";
+  font+="<option value='Comic Sans MS,Comic Sans MS,cursive'>Comic Sans MS</option>";
+  font+="<option value='Courier New,Courier New,Courier,monospace'>Courier New</option>";
+  font+="<option value='Georgia,Georgia,serif'>Georgia</option>";
+  font+="<option value='Impact,Charcoal,sans-serif'>Impact</option>";
+  font+="<option value='Lucida Console,Monaco,monospace'>Lucida Console</option>";
+  font+="<option value='Lucida Sans Unicode,Lucida Grande,sans-serif'>Lucida Sans Unicode</option>";
+  font+="<option value='Palatino Linotype,Book Antiqua,Palatino,serif'>Palatino Linotype</option>";
+  font+="<option value='Tahoma,Geneva,sans-serif'>Tahoma</option>";
+  font+="<option value='Times New Roman,Times,serif'>Times New Roman</option>";
+  font+="<option value='Trebuchet MS,Helvetica,sans-serif'>Trebuchet MS</option>";
+  font+="<option value='Verdana,Geneva,sans-serif'>Verdana</option>";
+  font+="<option value='Gill Sans,Geneva,sans-serif'>Gill Sans</option>";
   font+="</select>";
   return font;
 }
