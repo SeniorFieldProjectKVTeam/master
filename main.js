@@ -4,6 +4,7 @@ var app = require('app');
 var BrowserWindow = require('browser-window');
 
 var mainWindow = null;
+var fs = require('fs')
 
 app.on('ready', function(){
 	mainWindow = new BrowserWindow({

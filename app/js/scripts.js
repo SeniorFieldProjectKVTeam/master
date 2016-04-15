@@ -279,7 +279,7 @@ function saveOption(){
   for (var i = ch.length; i--;) {
       ch[i].onchange = function() {
         param["combo-player"]=this.value;
-        alert(param["combo-player"]);
+        //alert(param["combo-player"]);
       }
   }
 }
