@@ -300,7 +300,7 @@ function updateColor(button_id,color){
     //alert(param[button_id]["background-color"]);
     $("#right-side div#"+button_id).css("background-color",color);
   }else{
-    param[button_id]["background-color"] = color;
+    param["theme"]["background-color"] = color;
     $("#right-side").css("background-color",color);
   }
 }// change the certain color of corresponding div
