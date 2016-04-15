@@ -55,6 +55,8 @@ function init() {
       if (id == "lg"){
         saveUI["lg"] = ui.draggable;
         param["lg"]["exist"] = true;
+	    document.getElementById("top-logo-change").style.background = "grey url('./images/logo.png') no-repeat 100%";
+	    $("#top-logo-change").css("background","z-index: -1")
         $("#top-logo-change").html("<div id='modification'></div>").attr({
           class:"top-logo",
           id:id

@@ -21,6 +21,10 @@ body, html, .container-fluid {
   border-color: #e1e5e9;
 }
 
+#left-side h3{
+	font-size: 18px;
+}
+
 #maincomponents{
   cursor: move;
 }
