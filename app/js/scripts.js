@@ -327,7 +327,8 @@ function publish(){
     "ts" : param["ts"],
     "qz": param["qz"],
     "na": param["na"],
-    "lg": param["lg"]
+    "lg": param["lg"],
+    "theme":param["theme"]
   }
   // write it to file
   //fs.writeFile(filename, data, [encoding], callback)
