@@ -2,8 +2,10 @@
 // create all the variables that we need
 // all the data are stored in param
 var bot = [];
+var topUI = [];
 var order = [];
-var ordertop = [];
+var orderCombo = ["combo-player"];
+var orderTopThree = [];
 var saveUI = new Object();
 var param = new Object();
 param["qu"] = new Object();
@@ -12,11 +14,13 @@ param["ts"] = new Object();
 param["qz"] = new Object();
 param["lg"] = new Object();
 param["na"] = new Object();
+param["tt"] = new Object();
+param["zm"] = new Object();
 param["theme"] = new Object();
 param["combo-player"] = new Object();
 var pa;
-var fs = require('fs');
-var ids = ["qu","fn","ts","qz","lg","na"]
+fs = require('fs');
+var ids = ["qu","fn","ts","qz","lg","na","tt","zm"]
 
 $( init ); // load this function when the page was load
 
@@ -29,8 +33,8 @@ function init() {
   });
   $('#color-picker').hide();
 
-  $( "#top-combo" ).droppable({
-    accept: "#left-top li#na, li#lg",
+  $( "#top-combo,#top-three").droppable({
+    accept: "#left-top li#na, li#lg, li#tt, li#zm",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
@@ -48,23 +52,52 @@ function init() {
         makeHover("#top-combo #",id);
         $('#top-combo').sortable({ // make it sortable
           stop: function(event,ui){
-            ordertop = $("#top-combo").sortable("toArray");
+            orderCombo = $("#top-combo").sortable("toArray");
           }
         });
+      } else {
+        topUI.push(ui.draggable);
+        var checkHeight = $("#top-three").css("height");
+        if (checkHeight == "0px"){
+          $("#top-three").attr({
+            style:"height:10%;width:100%;"
+          });
+          $("#botm-three").css("height","22%");
+        }
+      };
+      if (topUI.length == 1){
+        var id1 = ui.draggable.attr("id").substring(0,2);
+        $("#top-three").html(divHtml("one",id1));
+        orderTopThree = [id1];
+        applyChange(id1);
+        makeHover("#top-three #",id1);
+      };
+      if (topUI.length == 2){
+        var id1 = topUI[0].attr("id").substring(0,2);
+        var id2 = topUI[1].attr("id").substring(0,2);
+        $("#top-three").html(divHtml("two",id1)+divHtml("two",id2));
+        orderTopThree = [id1,id2];
+        applyChange(id1);
+        applyChange(id2);
+        makeHover("#top-three #",id1);
+        makeHover("#top-three #",id2);
+      };
+      if (topUI.length == 3){
+        var id1 = topUI[0].attr("id").substring(0,2);
+        var id2 = topUI[1].attr("id").substring(0,2);
+        var id3 = topUI[2].attr("id").substring(0,2);
+        $("#top-three").html(divHtml("three",id1)+divHtml("three",id2)+divHtml("three",id3));
+        orderTopThree = [id1,id2,id3];
+        applyChange(id1);
+        applyChange(id2);
+        applyChange(id3);
+        makeHover("#top-three #",id1);
+        makeHover("#top-three #",id2);
+        makeHover("#top-three #",id3);
       };
       if (id == "lg"){
-        saveUI["lg"] = ui.draggable;
-        param["lg"]["exist"] = true;
-	    document.getElementById("top-logo-change").style.background = "grey url('./images/logo.png') no-repeat 100%";
-	    $("#top-logo-change").css("background","z-index: -1")
-        $("#top-logo-change").html("<div id='modification'></div>").attr({
-          class:"top-logo",
-          id:id
-        });
-        //alert(id);
-        applyChange(id);
-        $("#botm-three").css("height","27%");
-        makeHover("#right-side #",id);
+        document.getElementById(id).style.background = "grey url('./images/logo.png') no-repeat 100%";
+  	    $("#right-side #"+id).css("background","z-index: -1");
       }
     }
   });
@@ -84,6 +117,23 @@ function init() {
       bot = temp; // update the order according to the sort order in bot
     }
   });
+
+  $('#top-three').sortable({
+    stop: function(event,ui){ /* do whatever here */
+      orderTopThree = $("#top-three").sortable("toArray");
+      var temp = [];
+      for (i = 0; i < orderTopThree.length; i++) {
+        for (j = 0; j < topUI.length; j++) {
+          var id = topUI[j].attr("id").substring(0,2);
+          if (id == orderTopThree[i]){
+            temp.push(topUI[j]);
+          }
+        }
+      }
+      topUI = temp; // update the order according to the sort order in top
+    }
+  });
+
   $( "#botm-three" ).droppable({
     accept: "#left-top li#fn,li#ts,li#qu,li#qz,li#lg",
     activeClass: "ui-state-hover",
@@ -95,7 +145,7 @@ function init() {
 
         if (bot.length == 1){
           var id1 = ui.draggable.attr("id").substring(0,2);
-          $( this ).html(botmDiv("one",id1));
+          $( this ).html(divHtml("one",id1));
           makeHover("#botm-three #",id1);
           applyChange(id1);
           order = [id1];
@@ -105,7 +155,7 @@ function init() {
           var id1 = bot[0].draggable.attr("id").substring(0,2);
           var id2 = bot[1].draggable.attr("id").substring(0,2);
           $( this ).html(
-            botmDiv("two",id1) + botmDiv("two",id2)
+            divHtml("two",id1) + divHtml("two",id2)
           );
           order = [id1,id2];
           makeHover("#botm-three #",id1);
@@ -118,7 +168,7 @@ function init() {
           var id2 = bot[1].draggable.attr("id").substring(0,2);
           var id3 = ui.draggable.attr("id").substring(0,2);
           $( this ).html(
-            botmDiv("three",id1)+botmDiv("three",id2)+botmDiv("three",id3)
+            divHtml("three",id1)+divHtml("three",id2)+divHtml("three",id3)
           );
           order = [id1,id2,id3];
           $(this).droppable( "option", "disabled", true );
@@ -155,20 +205,24 @@ function comboBackground(){
   makeHover("#top-combo #","combo-player");
 }
 
-function botmDiv(classname,id){
+function divHtml(classname,id){
 	var tempstring = ""
 	if(id == "fn"){
-		return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Footnotes</p><div></div><p>Example footnotes here. Add links or contact information.</p></div>"
+		return "<div class="+classname+" id="+id+"><div id='modification'></div><h3>Footnotes</h3><div></div><p>Example footnotes here. Add links or contact information.</p></div>"
 	} else if(id == "ts"){
-		return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Transcript</p><div></div><p>Here are some example notes for the presentation. Transcriptions can be very important part of your KnowledgeVision presentation.</p></div>"
+		return "<div class="+classname+" id="+id+"><div id='modification'></div><h3>Transcript</h3><div></div><p>Here are some example notes for the presentation. Transcriptions can be very important part of your KnowledgeVision presentation.</p></div>"
 	} else if(id == "qu"){
-		return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Questions</p><div></div><p>Any questions that you want people to consider as they are watching your video? Add them here.</p></div>"
+		return "<div class="+classname+" id="+id+"><div id='modification'></div><h3>Questions</h3><div></div><p>Any questions that you want people to consider as they are watching your video? Add them here.</p></div>"
 	} else if(id == "qz"){
-		return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Quizzes</p></div>"
+		return "<div class="+classname+" id="+id+"><div id='modification'></div><h3>Quizzes</h3></div>"
 	} else if (id == "lg"){
 		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/logo.png') no-repeat 100%";
 		return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Logo</p></div>"
-	}
+	} else if (id == "tt"){
+    return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Title</p></div>"
+  } else if (id == "zm"){
+    return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Zoom</p></div>"
+  }
 	//return "<div class="+classname+" id="+id+"><p>"+id+"</p><div id='modification'></div></div>"
 }
 
@@ -179,32 +233,52 @@ function cancelNavi(button_id){
   param["na"]["exist"] = false;
 }
 
-function cancelLogo(button_id){
-  var currentClass = $("#right-side #"+button_id).attr("class");
-  if (currentClass == "top-logo"){
-    $("#right-side #"+button_id).remove();
-    $(saveUI["lg"]).show();
-    param["lg"]["exist"] = false;
-    $("#right-side").prepend("<div id = 'top-logo-change'></div>");
-    $("#botm-three").css("height","32%");
-  } else {
-    cancelDrop(button_id);
+function cancelTop(button_id){  // special case LOGO !!!!!!!!!!!!!!!
+  for (var i=0; i<topUI.length;i++){
+    var id = topUI[i].attr("id").substring(0,2);
+    if (button_id == id){
+      $(topUI[i]).show();
+      topUI.splice(i, 1);
+      orderTopThree.splice(i, 1);
+      if (topUI.length==0){
+        $("#right-side #"+button_id).remove();
+        $("#top-three").css("height","0%");
+        $("#botm-three").css("height","32%");
+      }
+      if (topUI.length==1){
+        var id1 = topUI[0].attr("id").substring(0,2);
+        $("#right-side #"+button_id).remove();
+        $("#right-side #"+id1).attr({class:"one"});
+        applyChange(id1);
+      }
+      if (topUI.length==2){
+        var id1 = topUI[0].attr("id").substring(0,2);
+        var id2 = topUI[1].attr("id").substring(0,2);
+        $("#right-side #"+button_id).remove();
+        $("#right-side #"+id1).attr({class:"two"});
+        $("#right-side #"+id2).attr({class:"two"});
+        applyChange(id1);
+        applyChange(id2);
+      }
+    }
   }
+
 }
 
-function cancelDrop(button_id) {
+function cancelBotm(button_id) {
   for (i = 0; i < bot.length; i++) {
     var id = bot[i].draggable.attr("id").substring(0,2);
     if (button_id == id){
       $(bot[i].draggable).show();
       bot.splice(i, 1);
+      order.splice(i, 1);
       var botm = document.getElementById("botm-three")
       if (bot.length == 0){
         $("#botm-three #"+id).remove();
       }
       if (bot.length == 1){
         var id1 = bot[0].draggable.attr("id").substring(0,2);
-        $(botm).html(botmDiv("one",id1));
+        $(botm).html(divHtml("one",id1));
         makeHover("#botm-three #",id1);
         applyChange(id1);
       }
@@ -212,7 +286,7 @@ function cancelDrop(button_id) {
         var id1 = bot[0].draggable.attr("id").substring(0,2);
         var id2 = bot[1].draggable.attr("id").substring(0,2);
         $(botm).html(
-          botmDiv("two",id1)+botmDiv("two",id2)
+          divHtml("two",id1)+divHtml("two",id2)
         );
         $(botm).droppable("option", "disabled", false);
         makeHover("#botm-three #",id1);
@@ -225,13 +299,22 @@ function cancelDrop(button_id) {
 }
 
 function makeHover(pref,id){
-  var func = "cancelDrop";
+  var func = "cancelBotm";
   if (id == "na"){
     func = "cancelNavi";
   }
-  if (id == "lg"){
-    func = "cancelLogo";
+  if (id == "tt" || id == "zm"){
+    func = "cancelTop";
   }
+  if (id == "lg"){
+    var parentID = $("#right-side #"+id).parent().attr("id");
+    if (parentID == "top-three"){
+      func = "cancelTop";
+    } else {
+      func = "cancelBotm";
+    }
+  }
+
   var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)' style='background-color:#9a9a9a;width:30px;'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
   var fontSize = generateFontSize();
@@ -372,18 +455,22 @@ function applyChange(button_id){
 function publish(){
   pa = {
     "order": order,
-    "ordertop": ordertop,
+    "orderCombo": orderCombo,
+    "orderTopThree": orderTopThree,
     "qu": param["qu"],
     "fn": param["fn"],
-    "ts" : param["ts"],
+    "ts": param["ts"],
     "qz": param["qz"],
     "na": param["na"],
     "lg": param["lg"],
+    "tt": param["tt"],
+    "zm": param["zm"],
     "theme":param["theme"],
     "combo-player":param["combo-player"]
   }
+
   // write it to file
-  //fs.writeFile(filename, data, [encoding], callback)
+  // fs.writeFile(filename, data, [encoding], callback)
   fs.writeFile("kv.json", JSON.stringify(pa), function(err){
     if(err){
       alert(err);
