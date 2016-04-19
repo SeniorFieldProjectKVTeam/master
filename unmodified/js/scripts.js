@@ -9,6 +9,7 @@ var orderTopThree = [];
 var saveUI = new Object();
 var param = new Object();
 var aList = [];
+var themeString;
 param["qu"] = new Object();
 param["fn"] = new Object();
 param["ts"] = new Object();
@@ -26,6 +27,7 @@ var ids = ["qu","fn","ts","qz","lg","na","tt","zm"]
 $( init ); // load this function when the page was load
 
 function init() {
+  loadTheme();
   comboBackground();
   $( "#left-side #left-top" ).accordion();
   $('#left-top li').draggable({
@@ -523,6 +525,34 @@ function saveTheme(){
     });
   } else {
     alert("You have set the theme yet");
+  }
+}
+
+function loadTheme(){
+  document.getElementById('load-theme').addEventListener('change', handleFileSelect, false);
+}
+
+function handleFileSelect(evt) {
+  var file = evt.target.files[0]; // FileList object
+  var read = new FileReader();
+  read.readAsBinaryString(file);
+  read.onloadend = function(){
+    themeString = read.result;
+    var theme = JSON.parse(themeString);
+    if (theme["theme"]["font"] || theme["theme"]["fontsize"] || theme["theme"]["background-color"]){
+      param["theme"] = theme["theme"];
+      for (var i=0; i <= ids.length-1; i++){
+        if (theme["theme"]["font"]){
+          param[ids[i]]["font"] = theme["theme"]["font"];
+        }
+        if (theme["theme"]["fontsize"]){
+          param[ids[i]]["fontsize"] = theme["theme"]["fontsize"];
+        }
+        if (theme["theme"]["background-color"]){
+          param[ids[i]]["background-color"] = theme["theme"]["background-color"];
+        }
+      }
+    }
   }
 }
 
