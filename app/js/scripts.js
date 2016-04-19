@@ -410,13 +410,11 @@ function changeFontSize(id){
   if (id != "theme"){
     $('#right-side #fontsize-select').chosen({ width: "100px" }).change(function(){
       param[id]["fontsize"] = $(this).val();
-      //alert(id + ": "+param[id]["fontsize"]);
       $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
     });
   }else{
     $('#left-side #fontsize-select').chosen({ width: "100px" }).change(function(){
       param["theme"]["fontsize"] = $(this).val();
-      $("#right-side").css("font-size",param["theme"]["fontsize"]);
       applyThemeFontSize(param["theme"]["fontsize"]);
     });
   }
@@ -426,13 +424,11 @@ function changeFont(id){
   if (id != "theme"){
     $('#right-side #font-select').chosen({ width: "100px" }).change(function(){
       param[id]["font"] = $(this).val();
-      //alert(id + ": "+param[id]["font"]);
       $("#right-side div#"+id).css("font-family",param[id]["font"]);
     });
   }else{
     $('#left-side #font-select').chosen({ width: "100px" }).change(function(){
       param["theme"]["font"] = $(this).val();
-      $("#right-side").css("font-family",param["theme"]["font"]);
       applyThemeFont(param["theme"]["font"]);
     });
   }
@@ -445,7 +441,6 @@ function updateColor(button_id,color){
     $("#right-side div#"+button_id).css("background-color",color);
   }else{
     param["theme"]["background-color"] = color;
-    $("#right-side").css("background-color",color);
     applyThemeColor(color);
   }
 }// change the certain color of corresponding div
