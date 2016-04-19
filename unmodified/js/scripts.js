@@ -506,20 +506,24 @@ function saveTheme(){
   p = {
     "theme":param["theme"]
   };
-  var json = JSON.stringify(p);
-  var blob = new Blob([json], {type: "application/json"});
-  var url  = URL.createObjectURL(blob);
+  if (param["theme"]["font"] || param["theme"]["fontsize"] || param["theme"]["background-color"]){
+    var json = JSON.stringify(p);
+    var blob = new Blob([json], {type: "application/json"});
+    var url  = URL.createObjectURL(blob);
 
-  var a = document.createElement('a');
-  a.download    = "theme.json";
-  a.href        = url;
-  a.textContent = "Download them.json";
-  a.id = "download-theme";
-  $("#download").replaceWith(a);
+    var a = document.createElement('a');
+    a.download    = "theme.json";
+    a.href        = url;
+    a.textContent = "Click to Download";
+    a.id = "download-theme";
+    $("#download").replaceWith(a);
 
-  document.getElementById("download-theme").addEventListener("click", function(){
-    $("#download-theme").replaceWith("<a id='download'></a>");
-  });
+    document.getElementById("download-theme").addEventListener("click", function(){
+      $("#download-theme").replaceWith("<a id='download'></a>");
+    });
+  } else {
+    alert("You have set the theme yet");
+  }
 }
 
 function refresh(){
