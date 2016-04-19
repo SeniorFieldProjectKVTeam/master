@@ -8,6 +8,7 @@ var orderCombo = [];
 var orderTopThree = [];
 var saveUI = new Object();
 var param = new Object();
+var aList = [];
 param["qu"] = new Object();
 param["fn"] = new Object();
 param["ts"] = new Object();
@@ -95,12 +96,6 @@ function init() {
         makeHover("#top-three #",id2);
         makeHover("#top-three #",id3);
       };
-      if (id == "lg"){
-        //alert("inside");
-        document.getElementById("lg").style.background = "grey url('./images/logo.png') no-repeat 100%";
-
-        //$("#right-side #"+id).css("background","z-index: -1");
-      }
     }
   });
 
@@ -144,9 +139,9 @@ function init() {
         $(ui.helper).remove(); //destroy clone
         $(ui.draggable).hide(); //remove from list
         bot.push(ui);
-
+        var id = ui.draggable.attr("id").substring(0,2);
         if (bot.length == 1){
-          var id1 = ui.draggable.attr("id").substring(0,2);
+          var id1 = id;
           $( this ).html(divHtml("one",id1));
           makeHover("#botm-three #",id1);
           applyChange(id1);
@@ -155,7 +150,7 @@ function init() {
 
         if (bot.length == 2){
           var id1 = bot[0].draggable.attr("id").substring(0,2);
-          var id2 = bot[1].draggable.attr("id").substring(0,2);
+          var id2 = id;
           $( this ).html(
             divHtml("two",id1) + divHtml("two",id2)
           );
@@ -165,10 +160,11 @@ function init() {
           applyChange(id1);
           applyChange(id2);
         }
+
         if (bot.length == 3){
           var id1 = bot[0].draggable.attr("id").substring(0,2);
           var id2 = bot[1].draggable.attr("id").substring(0,2);
-          var id3 = ui.draggable.attr("id").substring(0,2);
+          var id3 = id;
           $( this ).html(
             divHtml("three",id1)+divHtml("three",id2)+divHtml("three",id3)
           );
@@ -193,6 +189,18 @@ function addTheme(){
   changeFont("theme");
   changeFontSize("theme");
   triggerColorPicker("theme");
+}
+
+function logoBackground(id){
+  if (id == "lg"){
+    var parentID = $("#right-side #"+id).parent().attr("id");
+    if (parentID == "top-three" || parentID == "botm-three"){
+      $("#right-side #"+id).css("background","grey url('./images/logo.png') no-repeat center");
+      $("#right-side #"+id).css("background","z-index: -1");
+      // document.getElementById("lg").style.background = "grey url('./images/logo.png') no-repeat 100%";
+      // $("#right-side #"+id).css("background","z-index: -1");
+    }
+  }
 }
 
 function comboBackground(){
@@ -452,6 +460,7 @@ function applyChange(button_id){
   if (param[button_id]["fontsize"]){
     $("#right-side div#"+button_id).css("font-size",param[button_id]["fontsize"]);
   }
+
 } // apply all the changes the user made
 
 function publish(){
@@ -470,6 +479,17 @@ function publish(){
     "theme":param["theme"],
     "combo-player":param["combo-player"]
   }
+
+  // var json = JSON.stringify(pa);
+  // var blob = new Blob([json], {type: "application/json"});
+  // var url  = URL.createObjectURL(blob);
+  //
+  // var a = document.createElement('a');
+  // a.download    = "backup.json";
+  // a.href        = url;
+  // a.textContent = "Download backup.json";
+  //
+  // document.getElementById('publishBtn').appendChild(a);
   alert("saved");
   // write it to file
   //fs.writeFile(filename, data, [encoding], callback)
@@ -480,6 +500,26 @@ function publish(){
   //     alert("The file was saved!");
   //   }
   // });
+}
+
+function saveTheme(){
+  p = {
+    "theme":param["theme"]
+  };
+  var json = JSON.stringify(p);
+  var blob = new Blob([json], {type: "application/json"});
+  var url  = URL.createObjectURL(blob);
+
+  var a = document.createElement('a');
+  a.download    = "theme.json";
+  a.href        = url;
+  a.textContent = "Download them.json";
+  a.id = "download-theme";
+  $("#download").replaceWith(a);
+
+  document.getElementById("download-theme").addEventListener("click", function(){
+    $("#download-theme").replaceWith("<a id='download'></a>");
+  });
 }
 
 function refresh(){
@@ -550,13 +590,13 @@ function applyThemeFont(font){
     $("#right-side div#"+ids[i]).css("font-family",font);
   }
 }
+
 function applyThemeFontSize(size){
   for (var i=0; i <= ids.length-1; i++){
     param[ids[i]]["fontsize"] = size;
     $("#right-side div#"+ids[i]).css("font-size",size);
   }
 }
-
 
 function initColorPicker(id){
   if (id != "theme"){

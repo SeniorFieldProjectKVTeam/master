@@ -162,6 +162,12 @@ ul {
   max-width: 200px;
 }
 
+#right-side #lg{
+  background-image: url('../images/logo.png');
+  background-repeat: no-repeat;
+  background-position: center; 
+}
+
 #left-btom {
 	position: fixed;
 	bottom: 0;

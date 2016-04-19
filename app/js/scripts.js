@@ -8,6 +8,7 @@ var orderCombo = ["combo-player"];
 var orderTopThree = [];
 var saveUI = new Object();
 var param = new Object();
+var aList = [];
 param["qu"] = new Object();
 param["fn"] = new Object();
 param["ts"] = new Object();
@@ -95,10 +96,6 @@ function init() {
         makeHover("#top-three #",id2);
         makeHover("#top-three #",id3);
       };
-      if (id == "lg"){
-        document.getElementById(id).style.background = "grey url('./images/logo.png') no-repeat 100%";
-  	    $("#right-side #"+id).css("background","z-index: -1");
-      }
     }
   });
 
@@ -191,6 +188,18 @@ function addTheme(){
   changeFont("theme");
   changeFontSize("theme");
   triggerColorPicker("theme");
+}
+
+function logoBackground(id){
+  if (id == "lg"){
+    var parentID = $("#right-side #"+id).parent().attr("id");
+    if (parentID == "top-three" || parentID == "botm-three"){
+      $("#right-side #"+id).css("background","grey url('./images/logo.png') no-repeat center");
+      $("#right-side #"+id).css("background","z-index: -1");
+      // document.getElementById("lg").style.background = "grey url('./images/logo.png') no-repeat 100%";
+      // $("#right-side #"+id).css("background","z-index: -1");
+    }
+  }
 }
 
 function comboBackground(){
@@ -375,6 +384,7 @@ function generateFontSize(){
   fontSize+="</select>";
   return fontSize;
 }
+
 function generateFont(){
   var font = "<select id='font-select'>";
   font+="<option value='Arial,Arial,Helvetica,sans-serif'>Arial</option>";
@@ -467,7 +477,7 @@ function publish(){
     "zm": param["zm"],
     "theme":param["theme"],
     "combo-player":param["combo-player"]
-  }
+  };
 
   // write it to file
   // fs.writeFile(filename, data, [encoding], callback)
@@ -477,6 +487,26 @@ function publish(){
     }else{
       alert("The file was saved!");
     }
+  });
+}
+
+function saveTheme(){
+  p = {
+    "theme":param["theme"]
+  };
+  var json = JSON.stringify(p);
+  var blob = new Blob([json], {type: "application/json"});
+  var url  = URL.createObjectURL(blob);
+
+  var a = document.createElement('a');
+  a.download    = "theme.json";
+  a.href        = url;
+  a.textContent = "Download them.json";
+  a.id = "download-theme";
+  $("#download").replaceWith(a);
+
+  document.getElementById("download-theme").addEventListener("click", function(){
+    $("#download-theme").replaceWith("<a id='download'></a>");
   });
 }
 
