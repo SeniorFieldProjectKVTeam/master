@@ -28,6 +28,7 @@ $( init ); // load this function when the page was load
 function init() {
   comboBackground();
   loadTheme();
+  loadWhole();
   $( "#left-side #left-top" ).accordion();
   $('#left-top li').draggable({
     cursor: 'move',
@@ -535,6 +536,22 @@ function handleFileSelect(evt) {
         }
       }
     }
+  }
+}
+
+function loadWhole(){
+  document.getElementById('load-whole').addEventListener('change', handleLoadWhole, false);
+}
+
+function handleLoadWhole(evt) {
+  var file = evt.target.files[0]; // FileList object
+  var read = new FileReader();
+  read.readAsBinaryString(file);
+  read.onloadend = function(){
+    wholeString = read.result;
+    console.log(wholeString);
+    alert("loaded");
+    //var whole = JSON.parse(wholeString);
   }
 }
 

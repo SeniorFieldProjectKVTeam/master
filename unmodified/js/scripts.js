@@ -22,12 +22,13 @@ param["theme"] = new Object();
 param["combo-player"] = new Object();
 var pa;
 // var fs = require('fs');
-var ids = ["qu","fn","ts","qz","lg","na","tt","zm"]
+var ids = ["qu","fn","ts","qz","lg","na","tt","zm"];
 
 $( init ); // load this function when the page was load
 
 function init() {
   loadTheme();
+  loadWhole();
   comboBackground();
   $( "#left-side #left-top" ).accordion();
   $('#left-top li').draggable({
@@ -310,7 +311,7 @@ function cancelBotm(button_id) {
   }
 }
 
-function makeHover(pref,id){
+function cancelHelper(id){
   var func = "cancelBotm";
   if (id == "na"){
     func = "cancelNavi";
@@ -326,7 +327,11 @@ function makeHover(pref,id){
       func = "cancelBotm";
     }
   }
+  return func;
+}
 
+function makeHover(pref,id){
+  var func = cancelHelper(id);
   var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)' style='background-color:#9a9a9a;width:30px;'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
   var fontSize = generateFontSize();
@@ -529,15 +534,16 @@ function saveTheme(){
 }
 
 function loadTheme(){
-  document.getElementById('load-theme').addEventListener('change', handleFileSelect, false);
+  document.getElementById('load-theme').addEventListener('change', handleLoadTheme, false);
 }
 
-function handleFileSelect(evt) {
+function handleLoadTheme(evt) {
   var file = evt.target.files[0]; // FileList object
   var read = new FileReader();
   read.readAsBinaryString(file);
   read.onloadend = function(){
     themeString = read.result;
+    console.log(themeString);
     var theme = JSON.parse(themeString);
     if (theme["theme"]["font"] || theme["theme"]["fontsize"] || theme["theme"]["background-color"]){
       param["theme"] = theme["theme"];
@@ -551,6 +557,65 @@ function handleFileSelect(evt) {
         if (theme["theme"]["background-color"]){
           param[ids[i]]["background-color"] = theme["theme"]["background-color"];
         }
+      }
+    }
+  }
+}
+function loadWhole(){
+  document.getElementById('load-whole').addEventListener('change', handleLoadWhole, false);
+}
+
+function handleLoadWhole(evt) {
+  var file = evt.target.files[0]; // FileList object
+  var read = new FileReader();
+  read.readAsBinaryString(file);
+  read.onloadend = function(){
+    wholeString = read.result;
+    console.log(wholeString);
+    var whole = JSON.parse(wholeString);
+    if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"]){
+      param["theme"] = whole["theme"];
+    }
+    for (var i=0; i<=ids.length; i++){
+      if (whole[ids[i]]){
+        param[ids[i]] = whole[ids[i]];
+      }
+      if (ids[i] == "na"){
+        cancelNavi(ids[i]);
+      } else if (ids[i] == "tt" || ids[i] == "zm"){
+        cancelTop(ids[i]);
+      } else if (ids[i] == "lg"){
+        var parentID = $("#right-side #"+ids[i]).parent().attr("id");
+        if (parentID == "top-three"){
+          cancelTop(ids[i]);
+        } else {
+          cancelBotm(ids[i]);
+        }
+      } else{
+        cancelBotm(ids[i]);
+      }
+    }
+    if (whole["order"]){
+      order = whole["order"];
+
+      if(order.length == 1){
+        $("#botm-three").html(divHtml("one",order[0]));
+        makeHover("#botm-three #",order[0]);
+        applyChange(order[0]);
+      } else if (order.length == 2){
+        $("#botm-three").html(divHtml("two",order[0])+divHtml("two",order[1]));
+        makeHover("#botm-three #",order[0]);
+        makeHover("#botm-three #",order[1]);
+        applyChange(order[0]);
+        applyChange(order[1]);
+      } else if (order.length == 3){
+        $("#botm-three").html(divHtml("three",order[0])+divHtml("three",order[1])+divHtml("three",order[2]));
+        makeHover("#botm-three #",order[0]);
+        makeHover("#botm-three #",order[1]);
+        makeHover("#botm-three #",order[2]);
+        applyChange(order[0]);
+        applyChange(order[1]);
+        applyChange(order[2]);
       }
     }
   }
