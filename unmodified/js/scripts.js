@@ -59,33 +59,33 @@ function init() {
       } else {
         orderTopThree.push(id);
         checkTopHeight();
-      };
-      if (orderTopThree.length == 1){
-        var id1 = id;
-        $("#top-three").html(divHtml("one",id1));
-        applyChange(id1);
-        makeHover("#top-three #",id1);
-      };
-      if (orderTopThree.length == 2){
-        var id1 = orderTopThree[0];
-        var id2 = id;
-        $("#top-three").html(divHtml("two",id1)+divHtml("two",id2));
-        applyChange(id1);
-        applyChange(id2);
-        makeHover("#top-three #",id1);
-        makeHover("#top-three #",id2);
-      };
-      if (orderTopThree.length == 3){
-        var id1 = orderTopThree[0];
-        var id2 = orderTopThree[1];
-        var id3 = id;
-        $("#top-three").html(divHtml("three",id1)+divHtml("three",id2)+divHtml("three",id3));
-        applyChange(id1);
-        applyChange(id2);
-        applyChange(id3);
-        makeHover("#top-three #",id1);
-        makeHover("#top-three #",id2);
-        makeHover("#top-three #",id3);
+        if (orderTopThree.length == 1){
+          var id1 = id;
+          $("#top-three").html(divHtml("one",id1));
+          applyChange(id1);
+          makeHover("#top-three #",id1);
+        };
+        if (orderTopThree.length == 2){
+          var id1 = orderTopThree[0];
+          var id2 = id;
+          $("#top-three").html(divHtml("two",id1)+divHtml("two",id2));
+          applyChange(id1);
+          applyChange(id2);
+          makeHover("#top-three #",id1);
+          makeHover("#top-three #",id2);
+        };
+        if (orderTopThree.length == 3){
+          var id1 = orderTopThree[0];
+          var id2 = orderTopThree[1];
+          var id3 = id;
+          $("#top-three").html(divHtml("three",id1)+divHtml("three",id2)+divHtml("three",id3));
+          applyChange(id1);
+          applyChange(id2);
+          applyChange(id3);
+          makeHover("#top-three #",id1);
+          makeHover("#top-three #",id2);
+          makeHover("#top-three #",id3);
+        };
       };
     }
   });
@@ -537,6 +537,7 @@ function handleLoadWhole(evt) {
   read.readAsBinaryString(file);
   read.onloadend = function(){
     wholeString = read.result;
+    console.log(wholeString);
     var whole = JSON.parse(wholeString);
     if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"]){
       param["theme"] = whole["theme"];
