@@ -6,7 +6,6 @@ var bot = [];
 var orderBotm = [];
 var orderCombo =[];
 var orderTopThree = [];
-var aList = [];
 var themeString;
 var param = new Object();
 param["qu"] = new Object();
@@ -60,13 +59,7 @@ function init() {
         });
       } else {
         orderTopThree.push(id);
-        var checkHeight = $("#top-three").css("height");
-        if (checkHeight == "0px"){
-          $("#top-three").attr({
-            style:"height:10%;width:100%;"
-          });
-          $("#botm-three").css("height","22%");
-        }
+        checkTopHeight();
       };
       if (orderTopThree.length == 1){
         var id1 = id;
@@ -165,6 +158,16 @@ function addTheme(){
   changeFont("theme");
   changeFontSize("theme");
   triggerColorPicker("theme");
+}
+
+function checkTopHeight(){
+  var checkHeight = $("#top-three").css("height");
+  if (checkHeight == "0px"){
+    $("#top-three").attr({
+      style:"height:10%;width:100%;"
+    });
+    $("#botm-three").css("height","22%");
+  }
 }
 
 function logoBackground(id){
@@ -478,7 +481,7 @@ function saveTheme(){
       $("#download-theme").replaceWith("<a id='download'></a>");
     });
   } else {
-    alert("You have set the theme yet");
+    alert("You have NOT set the theme yet");
   }
 }
 
@@ -520,9 +523,117 @@ function handleLoadWhole(evt) {
   read.readAsBinaryString(file);
   read.onloadend = function(){
     wholeString = read.result;
-    console.log(wholeString);
-    alert("loaded");
-    //var whole = JSON.parse(wholeString);
+    var whole = JSON.parse(wholeString);
+    if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"]){
+      param["theme"] = whole["theme"];
+    }
+
+    for (var i=0; i<=ids.length; i++){
+      if (whole[ids[i]]){
+        param[ids[i]] = whole[ids[i]];
+      }
+      if (ids[i] == "na"){
+        cancelNavi(ids[i]);
+      } else if (ids[i] == "tt" || ids[i] == "zm"){
+        cancelTop(ids[i]);
+      } else if (ids[i] == "lg"){
+        var parentID = $("#right-side #"+ids[i]).parent().attr("id");
+        if (parentID == "top-three"){
+          cancelTop(ids[i]);
+        } else {
+          cancelBotm(ids[i]);
+        }
+      } else{
+        cancelBotm(ids[i]);
+      }
+    }
+
+    if (whole["orderBotm"]){
+      orderBotm = whole["orderBotm"];
+      for (var i=0;i<orderBotm.length;i++){
+        $("#left-side #"+orderBotm[i]).hide();
+      }
+      if(orderBotm.length == 1){
+        var id1 = orderBotm[0];
+        $("#botm-three").html(divHtml("one",id1));
+        makeHover("#botm-three #",id1);
+        applyChange(id1);
+      } else if (orderBotm.length == 2){
+        var id1 = orderBotm[0];
+        var id2 = orderBotm[1];
+        $("#botm-three").html(divHtml("two",id1)+divHtml("two",id2));
+        makeHover("#botm-three #",id1);
+        makeHover("#botm-three #",id2);
+        applyChange(id1);
+        applyChange(id2);
+      } else if (orderBotm.length == 3){
+        var id1 = orderBotm[0];
+        var id2 = orderBotm[1];
+        var id3 = orderBotm[2];
+        $("#botm-three").html(divHtml("three",id1)+divHtml("three",id2)+divHtml("three",id3));
+        makeHover("#botm-three #",id1);
+        makeHover("#botm-three #",id2);
+        makeHover("#botm-three #",id3);
+        applyChange(id1);
+        applyChange(id2);
+        applyChange(id3);
+      }
+    }
+
+    if (whole["orderCombo"].length == 2){
+      $("#left-side #na").hide();
+      param["na"]["exist"] = true;
+      orderCombo = ["na","combo-player"];
+      $( "#tobechange" ).html("<h3>Navigation</h3><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></ul><div id='modification'></div>")
+      .attr({
+        class:"navigation",
+        id:"na"
+      });
+      makeHover("#top-combo #","na");
+      applyChange("na");
+      $('#top-combo').sortable({ // make it sortable
+        stop: function(event,ui){
+          orderCombo = $("#top-combo").sortable("toArray");
+        }
+      });
+    }
+
+    if (whole["combo-player"]){
+      param["combo-player"] = whole["combo-player"];
+    }
+
+    if (whole["orderTopThree"]){
+      orderTopThree = whole["orderTopThree"];
+      checkTopHeight();
+      for (var i=0;i<orderTopThree.length;i++){
+        $("#left-side #" + orderTopThree[i]).hide();
+      }
+      if (orderTopThree.length == 1){
+        var id1 = orderTopThree[0];
+        $("#top-three").html(divHtml("one",id1));
+        applyChange(id1);
+        makeHover("#top-three #",id1);
+      } else if (orderTopThree.length == 2){
+        var id1 = orderTopThree[0];
+        var id2 = orderTopThree[1];
+        $("#top-three").html(divHtml("two",id1)+divHtml("two",id2));
+        applyChange(id1);
+        applyChange(id2);
+        makeHover("#top-three #",id1);
+        makeHover("#top-three #",id2);
+      } else if (orderTopThree.length == 3){
+        var id1 = orderTopThree[0];
+        var id2 = orderTopThree[1];
+        var id3 = orderTopThree[2];
+        $("#top-three").html(divHtml("three",id1)+divHtml("three",id2)+divHtml("three",id3));
+        applyChange(id1);
+        applyChange(id2);
+        applyChange(id3);
+        makeHover("#top-three #",id1);
+        makeHover("#top-three #",id2);
+        makeHover("#top-three #",id3);
+      }
+    }
   }
 }
 
