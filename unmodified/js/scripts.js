@@ -2,11 +2,9 @@
 // create all the variables that we need
 // all the data are stored in param
 var bot = [];
-var topUI = [];
-var order = [];
-var orderCombo = [];
+var orderBotm = [];
+var orderCombo =[];
 var orderTopThree = [];
-var saveUI = new Object();
 var param = new Object();
 var aList = [];
 var themeString;
@@ -43,11 +41,11 @@ function init() {
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
       $(ui.helper).remove(); //destroy clone
-      $(ui.draggable).hide(); //remove from list
       var id = ui.draggable.attr("id").substring(0,2);
+      $("#left-side #"+id).hide();
       if (id == "na"){
-        saveUI["na"] = ui.draggable;
         param["na"]["exist"] = true;
+        orderCombo = ["na","combo-player"];
         $( "#tobechange" ).html("<h3>Navigation</h3><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></ul><div id='modification'></div>")
           .attr({
             class:"navigation",
@@ -60,7 +58,7 @@ function init() {
           }
         });
       } else {
-        topUI.push(ui.draggable);
+        orderTopThree.push(id);
         var checkHeight = $("#top-three").css("height");
         if (checkHeight == "0px"){
           $("#top-three").attr({
@@ -69,29 +67,26 @@ function init() {
           $("#botm-three").css("height","22%");
         }
       };
-      if (topUI.length == 1){
-        var id1 = ui.draggable.attr("id").substring(0,2);
+      if (orderTopThree.length == 1){
+        var id1 = id;
         $("#top-three").html(divHtml("one",id1));
-        orderTopThree = [id1];
         applyChange(id1);
         makeHover("#top-three #",id1);
       };
-      if (topUI.length == 2){
-        var id1 = topUI[0].attr("id").substring(0,2);
-        var id2 = topUI[1].attr("id").substring(0,2);
+      if (orderTopThree.length == 2){
+        var id1 = orderTopThree[0];
+        var id2 = id;
         $("#top-three").html(divHtml("two",id1)+divHtml("two",id2));
-        orderTopThree = [id1,id2];
         applyChange(id1);
         applyChange(id2);
         makeHover("#top-three #",id1);
         makeHover("#top-three #",id2);
       };
-      if (topUI.length == 3){
-        var id1 = topUI[0].attr("id").substring(0,2);
-        var id2 = topUI[1].attr("id").substring(0,2);
-        var id3 = topUI[2].attr("id").substring(0,2);
+      if (orderTopThree.length == 3){
+        var id1 = orderTopThree[0];
+        var id2 = orderTopThree[1];
+        var id3 = id;
         $("#top-three").html(divHtml("three",id1)+divHtml("three",id2)+divHtml("three",id3));
-        orderTopThree = [id1,id2,id3];
         applyChange(id1);
         applyChange(id2);
         applyChange(id3);
@@ -104,33 +99,13 @@ function init() {
 
   $('#botm-three').sortable({
     stop: function(event,ui){ /* do whatever here */
-      order = $("#botm-three").sortable("toArray");
-      var temp = [];
-      for (i = 0; i < order.length; i++) {
-        for (j = 0; j < bot.length; j++) {
-          var id = bot[j].draggable.attr("id").substring(0,2);
-          if (id == order[i]){
-            temp.push(bot[j]);
-          }
-        }
-      }
-      bot = temp; // update the order according to the sort order in bot
+      orderBotm = $("#botm-three").sortable("toArray");
     }
   });
 
   $('#top-three').sortable({
     stop: function(event,ui){ /* do whatever here */
       orderTopThree = $("#top-three").sortable("toArray");
-      var temp = [];
-      for (i = 0; i < orderTopThree.length; i++) {
-        for (j = 0; j < topUI.length; j++) {
-          var id = topUI[j].attr("id").substring(0,2);
-          if (id == orderTopThree[i]){
-            temp.push(topUI[j]);
-          }
-        }
-      }
-      topUI = temp; // update the order according to the sort order in top
     }
   });
 
@@ -140,38 +115,35 @@ function init() {
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
         $(ui.helper).remove(); //destroy clone
-        $(ui.draggable).hide(); //remove from list
-        bot.push(ui);
         var id = ui.draggable.attr("id").substring(0,2);
-        if (bot.length == 1){
+        $("#left-side #" +id).hide();
+        orderBotm.push(id);
+        if (orderBotm.length == 1){
           var id1 = id;
           $( this ).html(divHtml("one",id1));
           makeHover("#botm-three #",id1);
           applyChange(id1);
-          order = [id1];
         }
 
-        if (bot.length == 2){
-          var id1 = bot[0].draggable.attr("id").substring(0,2);
+        if (orderBotm.length == 2){
+          var id1 = orderBotm[0];
           var id2 = id;
           $( this ).html(
             divHtml("two",id1) + divHtml("two",id2)
           );
-          order = [id1,id2];
           makeHover("#botm-three #",id1);
           makeHover("#botm-three #",id2);
           applyChange(id1);
           applyChange(id2);
         }
 
-        if (bot.length == 3){
-          var id1 = bot[0].draggable.attr("id").substring(0,2);
-          var id2 = bot[1].draggable.attr("id").substring(0,2);
+        if (orderBotm.length == 3){
+          var id1 = orderBotm[0];
+          var id2 = orderBotm[1];
           var id3 = id;
           $( this ).html(
             divHtml("three",id1)+divHtml("three",id2)+divHtml("three",id3)
           );
-          order = [id1,id2,id3];
           $(this).droppable( "option", "disabled", true );
           makeHover("#botm-three #",id1);
           makeHover("#botm-three #",id2);
@@ -242,36 +214,35 @@ function divHtml(classname,id){
 function cancelNavi(button_id){
   $("#top-combo #"+button_id).remove();
   $("#top-combo ").prepend("<div id = 'tobechange'></div>");
-  $(saveUI["na"]).show();
+  $("#left-side #na").show();
   param["na"]["exist"] = false;
 }
 
 function cancelTop(button_id){  // special case LOGO !!!!!!!!!!!!!!!
-  for (var i=0; i<topUI.length;i++){
-    var id = topUI[i].attr("id").substring(0,2);
+  for (var i=0; i<3;i++){
+    var id = orderTopThree[i];
     if (button_id == id){
-      $(topUI[i]).show();
-      topUI.splice(i, 1);
+      $("#left-side #"+id).show();
       orderTopThree.splice(i, 1);
-      if (topUI.length==0){
+      console.log(orderTopThree);
+      if (orderTopThree.length==0){
         $("#right-side #"+button_id).remove();
         $("#top-three").css("height","0%");
         $("#botm-three").css("height","32%");
       }
-      if (topUI.length==1){
-        var id1 = topUI[0].attr("id").substring(0,2);
+      if (orderTopThree.length==1){
+        var id1 = orderTopThree[0];
         $("#right-side #"+button_id).remove();
         $("#right-side #"+id1).attr({class:"one"});
-        applyChange(id1);
       }
-      if (topUI.length==2){
-        var id1 = topUI[0].attr("id").substring(0,2);
-        var id2 = topUI[1].attr("id").substring(0,2);
+      if (orderTopThree.length==2){
+        var id1 = orderTopThree[0];
+        var id2 = orderTopThree[1];
+        console.log(id1);
+        console.log(id2);
         $("#right-side #"+button_id).remove();
         $("#right-side #"+id1).attr({class:"two"});
         $("#right-side #"+id2).attr({class:"two"});
-        applyChange(id1);
-        applyChange(id2);
       }
     }
   }
@@ -279,33 +250,26 @@ function cancelTop(button_id){  // special case LOGO !!!!!!!!!!!!!!!
 }
 
 function cancelBotm(button_id) {
-  for (i = 0; i < bot.length; i++) {
-    var id = bot[i].draggable.attr("id").substring(0,2);
+  for (i = 0; i < 3; i++) {
+    var id = orderBotm[i];
     if (button_id == id){
-      $(bot[i].draggable).show();
-      bot.splice(i, 1);
-      order.splice(i, 1);
-      var botm = document.getElementById("botm-three")
-      if (bot.length == 0){
-        $("#botm-three #"+id).remove();
+      $("#left-side #"+id).show();
+      orderBotm.splice(i, 1);
+      if (orderBotm.length == 0){
+        $("#right-side #"+button_id).remove();
       }
-      if (bot.length == 1){
-        var id1 = bot[0].draggable.attr("id").substring(0,2);
-        $(botm).html(divHtml("one",id1));
-        makeHover("#botm-three #",id1);
-        applyChange(id1);
+      if (orderBotm.length == 1){
+        var id1 = orderBotm[0];
+        $("#right-side #"+button_id).remove();
+        $("#right-side #"+id1).attr({class:"one"});
       }
-      if (bot.length == 2){
-        var id1 = bot[0].draggable.attr("id").substring(0,2);
-        var id2 = bot[1].draggable.attr("id").substring(0,2);
-        $(botm).html(
-          divHtml("two",id1)+divHtml("two",id2)
-        );
-        $(botm).droppable("option", "disabled", false);
-        makeHover("#botm-three #",id1);
-        makeHover("#botm-three #",id2);
-        applyChange(id1);
-        applyChange(id2);
+      if (orderBotm.length == 2){
+        var id1 = orderBotm[0];
+        var id2 = orderBotm[1];
+        $("#right-side #"+button_id).remove();
+        $("#right-side #"+id1).attr({class:"two"});
+        $("#right-side #"+id2).attr({class:"two"});
+        $("#botm-three").droppable("option", "disabled", false);
       }
     }
   }
@@ -459,20 +423,20 @@ function updateColor(button_id,color){
 
 function applyChange(button_id){
   if (param[button_id]["background-color"]){
-    $("#right-side div#"+button_id).css("background-color",param[button_id]["background-color"]);
+    $("#right-side #"+button_id).css("background-color",param[button_id]["background-color"]);
   }
-  if (param[button_id]["font"]){
-    $("#right-side div#"+button_id).css("font-family",param[button_id]["font"]);
+  if ( param[button_id]["font"] ){
+    alert();
+    $("#right-side #"+button_id).css("font-family",param[button_id]["font"]);
   }
   if (param[button_id]["fontsize"]){
-    $("#right-side div#"+button_id).css("font-size",param[button_id]["fontsize"]);
+    $("#right-side #"+button_id).css("font-size",param[button_id]["fontsize"]);
   }
-
 } // apply all the changes the user made
 
 function publish(){
   pa = {
-    "order": order,
+    "orderBotm": orderBotm,
     "orderCombo": orderCombo,
     "orderTopThree": orderTopThree,
     "qu": param["qu"],
@@ -595,27 +559,27 @@ function handleLoadWhole(evt) {
         cancelBotm(ids[i]);
       }
     }
-    if (whole["order"]){
-      order = whole["order"];
+    if (whole["orderBotm"]){
+      orderBotm = whole["orderBotm"];
 
-      if(order.length == 1){
-        $("#botm-three").html(divHtml("one",order[0]));
-        makeHover("#botm-three #",order[0]);
-        applyChange(order[0]);
-      } else if (order.length == 2){
-        $("#botm-three").html(divHtml("two",order[0])+divHtml("two",order[1]));
-        makeHover("#botm-three #",order[0]);
-        makeHover("#botm-three #",order[1]);
-        applyChange(order[0]);
-        applyChange(order[1]);
-      } else if (order.length == 3){
-        $("#botm-three").html(divHtml("three",order[0])+divHtml("three",order[1])+divHtml("three",order[2]));
-        makeHover("#botm-three #",order[0]);
-        makeHover("#botm-three #",order[1]);
-        makeHover("#botm-three #",order[2]);
-        applyChange(order[0]);
-        applyChange(order[1]);
-        applyChange(order[2]);
+      if(orderBotm.length == 1){
+        $("#botm-three").html(divHtml("one",orderBotm[0]));
+        makeHover("#botm-three #",orderBotm[0]);
+        applyChange(orderBotm[0]);
+      } else if (orderBotm.length == 2){
+        $("#botm-three").html(divHtml("two",orderBotm[0])+divHtml("two",orderBotm[1]));
+        makeHover("#botm-three #",orderBotm[0]);
+        makeHover("#botm-three #",orderBotm[1]);
+        applyChange(orderBotm[0]);
+        applyChange(orderBotm[1]);
+      } else if (orderBotm.length == 3){
+        $("#botm-three").html(divHtml("three",orderBotm[0])+divHtml("three",orderBotm[1])+divHtml("three",orderBotm[2]));
+        makeHover("#botm-three #",orderBotm[0]);
+        makeHover("#botm-three #",orderBotm[1]);
+        makeHover("#botm-three #",orderBotm[2]);
+        applyChange(orderBotm[0]);
+        applyChange(orderBotm[1]);
+        applyChange(orderBotm[2]);
       }
     }
   }

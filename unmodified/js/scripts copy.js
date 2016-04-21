@@ -1,14 +1,13 @@
 
 // create all the variables that we need
 // all the data are stored in param
-
 var bot = [];
-var orderBotm = [];
-var orderCombo =[];
+var order = [];
+var orderCombo;
 var orderTopThree = [];
+var param = new Object();
 var aList = [];
 var themeString;
-var param = new Object();
 param["qu"] = new Object();
 param["fn"] = new Object();
 param["ts"] = new Object();
@@ -20,15 +19,15 @@ param["zm"] = new Object();
 param["theme"] = new Object();
 param["combo-player"] = new Object();
 var pa;
-fs = require('fs');
-var ids = ["qu","fn","ts","qz","lg","na","tt","zm"]
+// var fs = require('fs');
+var ids = ["qu","fn","ts","qz","lg","na","tt","zm"];
 
 $( init ); // load this function when the page was load
 
 function init() {
-  comboBackground();
   loadTheme();
   loadWhole();
+  comboBackground();
   $( "#left-side #left-top" ).accordion();
   $('#left-top li').draggable({
     cursor: 'move',
@@ -42,6 +41,7 @@ function init() {
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
       $(ui.helper).remove(); //destroy clone
+      //$(ui.draggable).hide(); //remove from list
       var id = ui.draggable.attr("id").substring(0,2);
       $("#left-side #"+id).hide();
       if (id == "na"){
@@ -100,7 +100,7 @@ function init() {
 
   $('#botm-three').sortable({
     stop: function(event,ui){ /* do whatever here */
-      orderBotm = $("#botm-three").sortable("toArray");
+      order = $("#botm-three").sortable("toArray");
     }
   });
 
@@ -116,35 +116,38 @@ function init() {
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
         $(ui.helper).remove(); //destroy clone
+        $(ui.draggable).hide(); //remove from list
+        bot.push(ui);
         var id = ui.draggable.attr("id").substring(0,2);
-        $("#left-side #" +id).hide();
-        orderBotm.push(id);
-        if (orderBotm.length == 1){
+        if (bot.length == 1){
           var id1 = id;
           $( this ).html(divHtml("one",id1));
           makeHover("#botm-three #",id1);
           applyChange(id1);
+          order = [id1];
         }
 
-        if (orderBotm.length == 2){
-          var id1 = orderBotm[0];
+        if (bot.length == 2){
+          var id1 = bot[0].draggable.attr("id").substring(0,2);
           var id2 = id;
           $( this ).html(
             divHtml("two",id1) + divHtml("two",id2)
           );
+          order = [id1,id2];
           makeHover("#botm-three #",id1);
           makeHover("#botm-three #",id2);
           applyChange(id1);
           applyChange(id2);
         }
 
-        if (orderBotm.length == 3){
-          var id1 = orderBotm[0];
-          var id2 = orderBotm[1];
+        if (bot.length == 3){
+          var id1 = bot[0].draggable.attr("id").substring(0,2);
+          var id2 = bot[1].draggable.attr("id").substring(0,2);
           var id3 = id;
           $( this ).html(
             divHtml("three",id1)+divHtml("three",id2)+divHtml("three",id3)
           );
+          order = [id1,id2,id3];
           $(this).droppable( "option", "disabled", true );
           makeHover("#botm-three #",id1);
           makeHover("#botm-three #",id2);
@@ -251,26 +254,33 @@ function cancelTop(button_id){  // special case LOGO !!!!!!!!!!!!!!!
 }
 
 function cancelBotm(button_id) {
-  for (i = 0; i < 3; i++) {
-    var id = orderBotm[i];
+  for (i = 0; i < bot.length; i++) {
+    var id = bot[i].draggable.attr("id").substring(0,2);
     if (button_id == id){
-      $("#left-side #"+id).show();
-      orderBotm.splice(i, 1);
-      if (orderBotm.length == 0){
-        $("#right-side #"+button_id).remove();
+      $(bot[i].draggable).show();
+      bot.splice(i, 1);
+      order.splice(i, 1);
+      var botm = document.getElementById("botm-three")
+      if (bot.length == 0){
+        $("#botm-three #"+id).remove();
       }
-      if (orderBotm.length == 1){
-        var id1 = orderBotm[0];
-        $("#right-side #"+button_id).remove();
-        $("#right-side #"+id1).attr({class:"one"});
+      if (bot.length == 1){
+        var id1 = bot[0].draggable.attr("id").substring(0,2);
+        $(botm).html(divHtml("one",id1));
+        makeHover("#botm-three #",id1);
+        applyChange(id1);
       }
-      if (orderBotm.length == 2){
-        var id1 = orderBotm[0];
-        var id2 = orderBotm[1];
-        $("#right-side #"+button_id).remove();
-        $("#right-side #"+id1).attr({class:"two"});
-        $("#right-side #"+id2).attr({class:"two"});
-        $("#botm-three").droppable("option", "disabled", false);
+      if (bot.length == 2){
+        var id1 = bot[0].draggable.attr("id").substring(0,2);
+        var id2 = bot[1].draggable.attr("id").substring(0,2);
+        $(botm).html(
+          divHtml("two",id1)+divHtml("two",id2)
+        );
+        $(botm).droppable("option", "disabled", false);
+        makeHover("#botm-three #",id1);
+        makeHover("#botm-three #",id2);
+        applyChange(id1);
+        applyChange(id2);
       }
     }
   }
@@ -357,7 +367,6 @@ function generateFontSize(){
   fontSize+="</select>";
   return fontSize;
 }
-
 function generateFont(){
   var font = "<select id='font-select'>";
   font+="<option value='Arial,Arial,Helvetica,sans-serif'>Arial</option>";
@@ -382,11 +391,13 @@ function changeFontSize(id){
   if (id != "theme"){
     $('#right-side #fontsize-select').chosen({ width: "100px" }).change(function(){
       param[id]["fontsize"] = $(this).val();
+      //alert(id + ": "+param[id]["fontsize"]);
       $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
     });
   }else{
     $('#left-side #fontsize-select').chosen({ width: "100px" }).change(function(){
       param["theme"]["fontsize"] = $(this).val();
+      $("#right-side").css("font-size",param["theme"]["fontsize"]);
       applyThemeFontSize(param["theme"]["fontsize"]);
     });
   }
@@ -396,11 +407,13 @@ function changeFont(id){
   if (id != "theme"){
     $('#right-side #font-select').chosen({ width: "100px" }).change(function(){
       param[id]["font"] = $(this).val();
+      //alert(id + ": "+param[id]["font"]);
       $("#right-side div#"+id).css("font-family",param[id]["font"]);
     });
   }else{
     $('#left-side #font-select').chosen({ width: "100px" }).change(function(){
       param["theme"]["font"] = $(this).val();
+      $("#right-side").css("font-family",param["theme"]["font"]);
       applyThemeFont(param["theme"]["font"]);
     });
   }
@@ -413,6 +426,7 @@ function updateColor(button_id,color){
     $("#right-side div#"+button_id).css("background-color",color);
   }else{
     param["theme"]["background-color"] = color;
+    $("#right-side").css("background-color",color);
     applyThemeColor(color);
   }
 }// change the certain color of corresponding div
@@ -420,19 +434,20 @@ function updateColor(button_id,color){
 
 function applyChange(button_id){
   if (param[button_id]["background-color"]){
-    $("#right-side div#"+button_id).css("background-color",param[button_id]["background-color"]);
+    $("#right-side #"+button_id).css("background-color",param[button_id]["background-color"]);
   }
-  if (param[button_id]["font"]){
-    $("#right-side div#"+button_id).css("font-family",param[button_id]["font"]);
+  if ( param[button_id]["font"] ){
+    alert();
+    $("#right-side #"+button_id).css("font-family",param[button_id]["font"]);
   }
   if (param[button_id]["fontsize"]){
-    $("#right-side div#"+button_id).css("font-size",param[button_id]["fontsize"]);
+    $("#right-side #"+button_id).css("font-size",param[button_id]["fontsize"]);
   }
 } // apply all the changes the user made
 
 function publish(){
   pa = {
-    "orderBotm": orderBotm,
+    "order": order,
     "orderCombo": orderCombo,
     "orderTopThree": orderTopThree,
     "qu": param["qu"],
@@ -447,15 +462,26 @@ function publish(){
     "combo-player":param["combo-player"]
   }
 
+  // var json = JSON.stringify(pa);
+  // var blob = new Blob([json], {type: "application/json"});
+  // var url  = URL.createObjectURL(blob);
+  //
+  // var a = document.createElement('a');
+  // a.download    = "backup.json";
+  // a.href        = url;
+  // a.textContent = "Download backup.json";
+  //
+  // document.getElementById('publishBtn').appendChild(a);
+  alert("saved");
   // write it to file
-  // fs.writeFile(filename, data, [encoding], callback)
-  fs.writeFile("kv.json", JSON.stringify(pa), function(err){
-    if(err){
-      alert(err);
-    }else{
-      alert("The file was saved!");
-    }
-  });
+  //fs.writeFile(filename, data, [encoding], callback)
+  // fs.writeFile("kv.json", JSON.stringify(pa), function(err){
+  //   if(err){
+  //     alert(err);
+  //   }else{
+  //     alert("The file was saved!");
+  //   }
+  // });
 }
 
 function saveTheme(){
@@ -483,15 +509,16 @@ function saveTheme(){
 }
 
 function loadTheme(){
-  document.getElementById('load-theme').addEventListener('change', handleFileSelect, false);
+  document.getElementById('load-theme').addEventListener('change', handleLoadTheme, false);
 }
 
-function handleFileSelect(evt) {
+function handleLoadTheme(evt) {
   var file = evt.target.files[0]; // FileList object
   var read = new FileReader();
   read.readAsBinaryString(file);
   read.onloadend = function(){
     themeString = read.result;
+    console.log(themeString);
     var theme = JSON.parse(themeString);
     if (theme["theme"]["font"] || theme["theme"]["fontsize"] || theme["theme"]["background-color"]){
       param["theme"] = theme["theme"];
@@ -509,7 +536,6 @@ function handleFileSelect(evt) {
     }
   }
 }
-
 function loadWhole(){
   document.getElementById('load-whole').addEventListener('change', handleLoadWhole, false);
 }
@@ -521,8 +547,52 @@ function handleLoadWhole(evt) {
   read.onloadend = function(){
     wholeString = read.result;
     console.log(wholeString);
-    alert("loaded");
-    //var whole = JSON.parse(wholeString);
+    var whole = JSON.parse(wholeString);
+    if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"]){
+      param["theme"] = whole["theme"];
+    }
+    for (var i=0; i<=ids.length; i++){
+      if (whole[ids[i]]){
+        param[ids[i]] = whole[ids[i]];
+      }
+      if (ids[i] == "na"){
+        cancelNavi(ids[i]);
+      } else if (ids[i] == "tt" || ids[i] == "zm"){
+        cancelTop(ids[i]);
+      } else if (ids[i] == "lg"){
+        var parentID = $("#right-side #"+ids[i]).parent().attr("id");
+        if (parentID == "top-three"){
+          cancelTop(ids[i]);
+        } else {
+          cancelBotm(ids[i]);
+        }
+      } else{
+        cancelBotm(ids[i]);
+      }
+    }
+    if (whole["order"]){
+      order = whole["order"];
+
+      if(order.length == 1){
+        $("#botm-three").html(divHtml("one",order[0]));
+        makeHover("#botm-three #",order[0]);
+        applyChange(order[0]);
+      } else if (order.length == 2){
+        $("#botm-three").html(divHtml("two",order[0])+divHtml("two",order[1]));
+        makeHover("#botm-three #",order[0]);
+        makeHover("#botm-three #",order[1]);
+        applyChange(order[0]);
+        applyChange(order[1]);
+      } else if (order.length == 3){
+        $("#botm-three").html(divHtml("three",order[0])+divHtml("three",order[1])+divHtml("three",order[2]));
+        makeHover("#botm-three #",order[0]);
+        makeHover("#botm-three #",order[1]);
+        makeHover("#botm-three #",order[2]);
+        applyChange(order[0]);
+        applyChange(order[1]);
+        applyChange(order[2]);
+      }
+    }
   }
 }
 
@@ -594,13 +664,13 @@ function applyThemeFont(font){
     $("#right-side div#"+ids[i]).css("font-family",font);
   }
 }
+
 function applyThemeFontSize(size){
   for (var i=0; i <= ids.length-1; i++){
     param[ids[i]]["fontsize"] = size;
     $("#right-side div#"+ids[i]).css("font-size",size);
   }
 }
-
 
 function initColorPicker(id){
   if (id != "theme"){
