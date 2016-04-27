@@ -19,7 +19,6 @@ param["zm"] = new Object();
 param["theme"] = new Object();
 param["combo-player"] = new Object();
 var pa;
-fs = require('fs');
 var ids = ["qu","fn","ts","qz","lg","na","tt","zm"]
 
 $( init ); // load this function when the page was load
@@ -449,15 +448,17 @@ function publish(){
     "theme":param["theme"],
     "combo-player":param["combo-player"]
   }
-
-  // write it to file
-  // fs.writeFile(filename, data, [encoding], callback)
-  fs.writeFile("kv.json", JSON.stringify(pa), function(err){
-    if(err){
-      alert(err);
-    }else{
-      alert("The file was saved!");
-    }
+  var json = JSON.stringify(pa);
+  var blob = new Blob([json], {type: "application/json"});
+  var url  = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.download    = "presentation.json";
+  a.href        = url;
+  a.textContent = "Click to Download";
+  a.id = "download-presentation";
+  $("#download-pre").replaceWith(a);
+  document.getElementById("download-presentation").addEventListener("click", function(){
+    $("#download-presentation").replaceWith("<a id='download-pre'></a>");
   });
 }
 
