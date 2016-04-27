@@ -169,17 +169,17 @@ function checkTopHeight(){
   }
 }
 
-function logoBackground(id){
-  if (id == "lg"){
-    var parentID = $("#right-side #"+id).parent().attr("id");
-    if (parentID == "top-three" || parentID == "botm-three"){
-      $("#right-side #"+id).css("background","grey url('./images/logo.png') no-repeat center");
-      $("#right-side #"+id).css("background","z-index: -1");
-      // document.getElementById("lg").style.background = "grey url('./images/logo.png') no-repeat 100%";
-      // $("#right-side #"+id).css("background","z-index: -1");
-    }
-  }
-}
+// function logoBackground(id){
+//   if (id == "lg"){
+//     var parentID = $("#right-side #"+id).parent().attr("id");
+//     if (parentID == "top-three" || parentID == "botm-three"){
+//       $("#right-side #"+id).css("background","grey url('./images/logo.png') no-repeat center");
+//       $("#right-side #"+id).css("background","z-index: -1");
+//       // document.getElementById("lg").style.background = "grey url('./images/logo.png') no-repeat 100%";
+//       // $("#right-side #"+id).css("background","z-index: -1");
+//     }
+//   }
+// }
 
 function comboBackground(){
   document.getElementById("combo-player").style.background = "black url('./images/video.png') no-repeat center center";

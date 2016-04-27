@@ -169,17 +169,22 @@ function checkTopHeight(){
   }
 }
 
-function logoBackground(id){
-  if (id == "lg"){
-    var parentID = $("#right-side #"+id).parent().attr("id");
-    if (parentID == "top-three" || parentID == "botm-three"){
-      $("#right-side #"+id).css("background","grey url('./images/logo.png') no-repeat center");
-      $("#right-side #"+id).css("background","z-index: -1");
-      // document.getElementById("lg").style.background = "grey url('./images/logo.png') no-repeat 100%";
-      // $("#right-side #"+id).css("background","z-index: -1");
-    }
-  }
-}
+// function logoBackground(id){
+//   if (id == "lg"){
+//     var parentID = $("#right-side #"+id).parent().attr("id");
+//     if (parentID == "top-three" || parentID == "botm-three"){
+//       $("#right-side #"+id).css("background","grey url('./images/logo.png') no-repeat center");
+//       //$("#right-side #"+id).css("background","z-index: -1");
+//       $("#right-side #"+id).css({
+//         "background":"z-index: -1",
+//         "width": "100%",
+//         "height": "auto"
+//       });
+//       // document.getElementById("lg").style.background = "grey url('./images/logo.png') no-repeat 100%";
+//       // $("#right-side #"+id).css("background","z-index: -1");
+//     }
+//   }
+// }
 
 function comboBackground(){
   document.getElementById("combo-player").style.background = "black url('./images/video.png') no-repeat center center";
@@ -204,7 +209,7 @@ function divHtml(classname,id){
 	} else if(id == "qz"){
 		return "<div class="+classname+" id="+id+"><div id='modification'></div><h3>Quizzes</h3></div>"
 	} else if (id == "lg"){
-		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/logo.png') no-repeat 100%";
+		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/o') no-repeat 100%";
 		return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Logo</p></div>"
 	} else if (id == "tt"){
     return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Title</p></div>"
@@ -306,7 +311,7 @@ function makeHover(pref,id){
   var selections;
   $( pref+id ).hover(
     function() {
-      if (id == "lg" || id = "zm"){
+      if (id == "lg" || id == "zm"){
         selections = colorPicker+cancelButton;
         // var parent_id = $(this).parent().attr("id");
         // if (parent_id == "botm-three"){
