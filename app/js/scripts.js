@@ -452,13 +452,24 @@ function publish(){
 
   // write it to file
   // fs.writeFile(filename, data, [encoding], callback)
-  fs.writeFile("kv.json", JSON.stringify(pa), function(err){
+  //var path = __dirname + "/kv.json";
+  fs.writeFile(__dirname + "/kv.json", JSON.stringify(pa), function(err){
     if(err){
       alert(err);
     }else{
       alert("The file was saved!");
     }
   });
+  
+  /*fs.access(__dirname + "/kv.json", fs.R_OK, function(err){
+	  if(err){
+		  alert(err);
+	  } else {
+		  alert("we can reach the file");
+	  }
+  });*/
+	  
+	  // run the kv.json through the python file
 }
 
 function saveTheme(){
