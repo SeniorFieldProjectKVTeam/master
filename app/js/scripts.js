@@ -45,11 +45,12 @@ function init() {
       if (id == "na"){
         param["na"]["exist"] = true;
         orderCombo = ["na","combo-player"];
-        $( "#tobechange" ).html("<h3>Navigation</h3><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></ul><div id='modification'></div>")
+        $( "#tobechange" ).html("<div id='na-sample'><h3>Navigation</h3><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></div></ul><div id='modification'></div>")
           .attr({
             class:"navigation",
             id:id
           });
+        changeZIndex(id);
         makeHover("#top-combo #",id);
         $('#top-combo').sortable({ // make it sortable
           stop: function(event,ui){
@@ -63,6 +64,7 @@ function init() {
           var id1 = id;
           $("#top-three").html(divHtml("one",id1));
           applyChange(id1);
+          changeZIndex(id1);
           makeHover("#top-three #",id1);
         };
         if (orderTopThree.length == 2){
@@ -71,6 +73,8 @@ function init() {
           $("#top-three").html(divHtml("two",id1)+divHtml("two",id2));
           applyChange(id1);
           applyChange(id2);
+          changeZIndex(id1);
+          changeZIndex(id2);
           makeHover("#top-three #",id1);
           makeHover("#top-three #",id2);
         };
@@ -82,6 +86,9 @@ function init() {
           applyChange(id1);
           applyChange(id2);
           applyChange(id3);
+          changeZIndex(id1);
+          changeZIndex(id2);
+          changeZIndex(id3);
           makeHover("#top-three #",id1);
           makeHover("#top-three #",id2);
           makeHover("#top-three #",id3);
@@ -116,6 +123,7 @@ function init() {
           $( this ).html(divHtml("one",id1));
           makeHover("#botm-three #",id1);
           applyChange(id1);
+          changeZIndex(id1);
         }
 
         if (orderBotm.length == 2){
@@ -128,6 +136,8 @@ function init() {
           makeHover("#botm-three #",id2);
           applyChange(id1);
           applyChange(id2);
+          changeZIndex(id1);
+          changeZIndex(id2);
         }
 
         if (orderBotm.length == 3){
@@ -144,6 +154,9 @@ function init() {
           applyChange(id1);
           applyChange(id2);
           applyChange(id3);
+          changeZIndex(id1);
+          changeZIndex(id2);
+          changeZIndex(id3);
         }
     }
   });
@@ -169,18 +182,6 @@ function checkTopHeight(){
   }
 }
 
-// function logoBackground(id){
-//   if (id == "lg"){
-//     var parentID = $("#right-side #"+id).parent().attr("id");
-//     if (parentID == "top-three" || parentID == "botm-three"){
-//       $("#right-side #"+id).css("background","grey url('./images/logo.png') no-repeat center");
-//       $("#right-side #"+id).css("background","z-index: -1");
-//       // document.getElementById("lg").style.background = "grey url('./images/logo.png') no-repeat 100%";
-//       // $("#right-side #"+id).css("background","z-index: -1");
-//     }
-//   }
-// }
-
 function comboBackground(){
   document.getElementById("combo-player").style.background = "black url('./images/video.png') no-repeat center center";
   $("#combo-player").css("background","z-index: -1")
@@ -196,22 +197,31 @@ function comboBackground(){
 function divHtml(classname,id){
 	var tempstring = ""
 	if(id == "fn"){
-		return "<div class="+classname+" id="+id+"><div id='modification'></div><h3>Footnotes</h3><div></div><p>Example footnotes here. Add links or contact information.</p></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h3>Footnotes</h3><p>Example footnotes here. Add links or contact information.</p></div><div id='modification'></div></div>"
 	} else if(id == "ts"){
-		return "<div class="+classname+" id="+id+"><div id='modification'></div><h3>Transcript</h3><div></div><p>Here are some example notes for the presentation. Transcriptions can be very important part of your KnowledgeVision presentation.</p></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h3>Transcript</h3><p>Here are some example notes for the presentation. Transcriptions can be very important part of your KnowledgeVision presentation.</p></div><div id='modification'></div></div>"
 	} else if(id == "qu"){
-		return "<div class="+classname+" id="+id+"><div id='modification'></div><h3>Questions</h3><div></div><p>Any questions that you want people to consider as they are watching your video? Add them here.</p></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h3>Questions</h3><p>Any questions that you want people to consider as they are watching your video? Add them here.</p></div><div id='modification'></div></div>"
 	} else if(id == "qz"){
-		return "<div class="+classname+" id="+id+"><div id='modification'></div><h3>Quizzes</h3></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h3>Quizzes</h3></div><div id='modification'></div></div>"
 	} else if (id == "lg"){
-		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/logo.png') no-repeat 100%";
-		return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Logo</p></div>"
+		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/o') no-repeat 100%";
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Logo</p></div><div id='modification'></div></div>"
 	} else if (id == "tt"){
-    return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Title</p></div>"
+    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Title</p></div><div id='modification'></div></div>"
   } else if (id == "zm"){
-    return "<div class="+classname+" id="+id+"><div id='modification'></div><p>Zoom</p></div>"
+    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Zoom</p></div><div id='modification'></div></div>"
   }
 	//return "<div class="+classname+" id="+id+"><p>"+id+"</p><div id='modification'></div></div>"
+}
+
+function changeZIndex(id){
+  var width = $("#right-side #"+id).css("width");
+  $("#"+id+"-sample").css({
+    "z-index":"-1",
+    "position": "absolute",
+    "width":width
+  });
 }
 
 function cancelNavi(button_id){
