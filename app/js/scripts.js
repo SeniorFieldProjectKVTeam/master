@@ -306,13 +306,14 @@ function makeHover(pref,id){
   var selections;
   $( pref+id ).hover(
     function() {
-      if (id == "lg"){
-        var parent_id = $(this).parent().attr("id");
-        if (parent_id == "botm-three"){
-          selections = colorPicker+cancelButton;
-        }else{
-          selections = cancelButton;
-        }
+      if (id == "lg" || id == "zm"){
+        selections = colorPicker+cancelButton;
+        // var parent_id = $(this).parent().attr("id");
+        // if (parent_id == "botm-three"){
+        //   selections = colorPicker+cancelButton;
+        // }else{
+        //   selections = cancelButton;
+        // }
       }else{
         if (id=="combo-player"){
           selections = "<input type='radio' name='cp-option' value='combo'>combo<br>";
