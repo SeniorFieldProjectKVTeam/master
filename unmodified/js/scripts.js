@@ -45,7 +45,7 @@ function init() {
       if (id == "na"){
         param["na"]["exist"] = true;
         orderCombo = ["na","combo-player"];
-        $( "#tobechange" ).html("<div id='na-sample'><h3>Navigation</h3><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></div></ul><div id='modification'></div>")
+        $( "#tobechange" ).html("<div id='na-sample'><h1>Navigation</h1><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></div></ul><div id='modification'></div>")
           .attr({
             class:"navigation",
             id:id
@@ -197,13 +197,13 @@ function comboBackground(){
 function divHtml(classname,id){
 	var tempstring = ""
 	if(id == "fn"){
-		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h3>Footnotes</h3><p>Example footnotes here. Add links or contact information.</p></div><div id='modification'></div></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Footnotes</h1><p>Example footnotes here. Add links or contact information.</p></div><div id='modification'></div></div>"
 	} else if(id == "ts"){
-		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h3>Transcript</h3><p>Here are some example notes for the presentation. Transcriptions can be very important part of your KnowledgeVision presentation.</p></div><div id='modification'></div></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Transcript</h1><p>Here are some example notes for the presentation. Transcriptions can be very important part of your KnowledgeVision presentation.</p></div><div id='modification'></div></div>"
 	} else if(id == "qu"){
-		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h3>Questions</h3><p>Any questions that you want people to consider as they are watching your video? Add them here.</p></div><div id='modification'></div></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Questions</h1><p>Any questions that you want people to consider as they are watching your video? Add them here.</p></div><div id='modification'></div></div>"
 	} else if(id == "qz"){
-		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h3>Quizzes</h3></div><div id='modification'></div></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Quizzes</h1></div><div id='modification'></div></div>"
 	} else if (id == "lg"){
 		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/o') no-repeat 100%";
 		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Logo</p></div><div id='modification'></div></div>"
@@ -596,7 +596,7 @@ function handleLoadWhole(evt) {
       $("#left-side #na").hide();
       param["na"]["exist"] = true;
       orderCombo = ["na","combo-player"];
-      $( "#tobechange" ).html("<h3>Navigation</h3><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></ul><div id='modification'></div>")
+      $( "#tobechange" ).html("<h1>Navigation</h1><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></ul><div id='modification'></div>")
       .attr({
         class:"navigation",
         id:"na"
