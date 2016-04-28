@@ -45,7 +45,7 @@ function init() {
       if (id == "na"){
         param["na"]["exist"] = true;
         orderCombo = ["na","combo-player"];
-        $( "#tobechange" ).html("<div id='na-sample'><h1>Navigation</h1><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></div></ul><div id='modification'></div>")
+        $( "#tobechange" ).html("<div id='na-sample'><h1>Navigation</h1><ul id='"+id+"-sample-body'><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></div></ul><div id='modification'></div>")
           .attr({
             class:"navigation",
             id:id
@@ -198,18 +198,18 @@ function comboBackground(){
 function divHtml(classname,id){
 	var tempstring = ""
 	if(id == "fn"){
-		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Footnotes</h1><p>Example footnotes here. Add links or contact information.</p></div><div id='modification'></div></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Footnotes</h1><p id='"+id+"-sample-body'>Example footnotes here. Add links or contact information.</p></div><div id='modification'></div></div>"
 	} else if(id == "ts"){
-		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Transcript</h1><p>Here are some example notes for the presentation. Transcriptions can be very important part of your KnowledgeVision presentation.</p></div><div id='modification'></div></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Transcript</h1><p id='"+id+"-sample-body'>Here are some example notes for the presentation. Transcriptions can be very important part of your KnowledgeVision presentation.</p></div><div id='modification'></div></div>"
 	} else if(id == "qu"){
-		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Questions</h1><p>Any questions that you want people to consider as they are watching your video? Add them here.</p></div><div id='modification'></div></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Questions</h1><p id='"+id+"-sample-body'>Any questions that you want people to consider as they are watching your video? Add them here.</p></div><div id='modification'></div></div>"
 	} else if(id == "qz"){
-		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Quizzes</h1></div><div id='modification'></div></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Quizzes</h1><p id='"+id+"-sample-body'>Question1<br>Question2<br>Question3</p></div><div id='modification'></div></div>"
 	} else if (id == "lg"){
 		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/o') no-repeat 100%";
 		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'></div><div id='modification'></div></div>"
 	} else if (id == "tt"){
-    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Here is the Title</p></div><div id='modification'></div></div>"
+    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p id='"+id+"-sample-body'>Here is the Title</p></div><div id='modification'></div></div>"
   } else if (id == "zm"){
     return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'></div><div id='modification'></div></div>"
   }
@@ -438,7 +438,7 @@ function changeFontSize(id){
   if (id != "theme"){
     $('#right-side #fontsize-select').chosen({ width: "100px" }).change(function(){
       param[id]["fontsize"] = $(this).val();
-      $("#right-side div#"+id+" #"+id+"-sample").css("font-size",param[id]["fontsize"]);
+      $("#right-side div#"+id+" #"+id+"-sample #"+id+"-sample-body").css("font-size",param[id]["fontsize"]);
     });
   }else{
     $('#left-side #fontsize-select').chosen({ width: "100px" }).change(function(){
@@ -452,7 +452,7 @@ function changeFont(id){
   if (id != "theme"){
     $('#right-side #font-select').chosen({ width: "100px" }).change(function(){
       param[id]["font"] = $(this).val();
-      $("#right-side div#"+id+" #"+id+"-sample").css("font-family",param[id]["font"]);
+      $("#right-side div#"+id+" #"+id+"-sample #"+id+"-sample-body").css("font-family",param[id]["font"]);
     });
   }else{
     $('#left-side #font-select').chosen({ width: "100px" }).change(function(){
@@ -477,7 +477,7 @@ function updateTextColor(button_id,color){
   if (button_id != "theme"){
     param[button_id]["color"] = color;
     //alert(param[button_id]["background-color"]);
-    $("#right-side div#"+button_id+" #"+button_id+"-sample").css("color",color);
+    $("#right-side div#"+button_id+" #"+button_id+"-sample #"+button_id+"-sample-body").css("color",color);
   }else{
     param["theme"]["color"] = color;
     applyThemeTextColor(color);
@@ -490,13 +490,13 @@ function applyChange(button_id){
     $("#right-side div#"+button_id).css("background-color",param[button_id]["background-color"]);
   }
   if (param[button_id]["font"]){
-    $("#right-side div#"+button_id+" #"+button_id+"-sample").css("font-family",param[button_id]["font"]);
+    $("#right-side div#"+button_id+" #"+button_id+"-sample #"+button_id+"-sample-body").css("font-family",param[button_id]["font"]);
   }
   if (param[button_id]["fontsize"]){
-    $("#right-side div#"+button_id+" #"+button_id+"-sample").css("font-size",param[button_id]["fontsize"]);
+    $("#right-side div#"+button_id+" #"+button_id+"-sample #"+button_id+"-sample-body").css("font-size",param[button_id]["fontsize"]);
   }
   if (param[button_id]["color"]){
-    $("#right-side div#"+button_id+" #"+button_id+"-sample").css("color",param[button_id]["color"]);
+    $("#right-side div#"+button_id+" #"+button_id+"-sample #"+button_id+"-sample-body").css("color",param[button_id]["color"]);
   }
 } // apply all the changes the user made
 
@@ -831,20 +831,20 @@ function applyThemeColor(color){
 function applyThemeTextColor(color){
   for (var i=0; i <= ids.length-1; i++){
     param[ids[i]]["color"] = color;
-    $("#right-side div#"+ids[i]+" #"+ids[i]+"-sample").css("color",color);
+    $("#right-side div#"+ids[i]+" #"+ids[i]+"-sample #"+ids[i]+"-sample-body").css("color",color);
   }
 }
 
 function applyThemeFont(font){
   for (var i=0; i <= ids.length-1; i++){
     param[ids[i]]["font"] = font;
-    $("#right-side div#"+ids[i]+" #"+ids[i]+"-sample").css("font-family",font);
+    $("#right-side div#"+ids[i]+" #"+ids[i]+"-sample #"+ids[i]+"-sample-body").css("font-family",font);
   }
 }
 function applyThemeFontSize(size){
   for (var i=0; i <= ids.length-1; i++){
     param[ids[i]]["fontsize"] = size;
-    $("#right-side div#"+ids[i]+" #"+ids[i]+"-sample").css("font-size",size);
+    $("#right-side div#"+ids[i]+" #"+ids[i]+"-sample #"+ids[i]+"-sample-body").css("font-size",size);
   }
 }
 
