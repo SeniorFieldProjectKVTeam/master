@@ -165,6 +165,12 @@ h1 {
   display: inline-block;
 }
 
+.cancel {
+  color:black;
+  background-color:#9a9a9a;
+  width:30px;
+}
+
 ul {
   list-style-type:none;
 }

@@ -1,12 +1,13 @@
 
 // create all the variables that we need
 // all the data are stored in param
+
 var bot = [];
 var orderBotm = [];
 var orderCombo =[];
 var orderTopThree = [];
-var param = new Object();
 var themeString;
+var param = new Object();
 param["qu"] = new Object();
 param["fn"] = new Object();
 param["ts"] = new Object();
@@ -18,15 +19,14 @@ param["zm"] = new Object();
 param["theme"] = new Object();
 param["combo-player"] = new Object();
 var pa;
-// var fs = require('fs');
-var ids = ["qu","fn","ts","qz","lg","na","tt","zm"];
+var ids = ["qu","fn","ts","qz","lg","na","tt","zm"]
 
 $( init ); // load this function when the page was load
 
 function init() {
+  comboBackground();
   loadTheme();
   loadWhole();
-  comboBackground();
   $( "#left-side #left-top" ).accordion();
   $('#left-top li').draggable({
     cursor: 'move',
@@ -50,7 +50,7 @@ function init() {
             class:"navigation",
             id:id
           });
-        changeZIndex(id);
+        changeZIndex(id,"sample");
         makeHover("#top-combo #",id);
         $('#top-combo').sortable({ // make it sortable
           stop: function(event,ui){
@@ -64,7 +64,7 @@ function init() {
           var id1 = id;
           $("#top-three").html(divHtml("one",id1));
           applyChange(id1);
-          changeZIndex(id1);
+          changeZIndex(id1,"sample");
           makeHover("#top-three #",id1);
         };
         if (orderTopThree.length == 2){
@@ -73,8 +73,8 @@ function init() {
           $("#top-three").html(divHtml("two",id1)+divHtml("two",id2));
           applyChange(id1);
           applyChange(id2);
-          changeZIndex(id1);
-          changeZIndex(id2);
+          changeZIndex(id1,"sample");
+          changeZIndex(id2,"sample");
           makeHover("#top-three #",id1);
           makeHover("#top-three #",id2);
         };
@@ -86,9 +86,9 @@ function init() {
           applyChange(id1);
           applyChange(id2);
           applyChange(id3);
-          changeZIndex(id1);
-          changeZIndex(id2);
-          changeZIndex(id3);
+          changeZIndex(id1,"sample");
+          changeZIndex(id2,"sample");
+          changeZIndex(id3,"sample");
           makeHover("#top-three #",id1);
           makeHover("#top-three #",id2);
           makeHover("#top-three #",id3);
@@ -123,7 +123,7 @@ function init() {
           $( this ).html(divHtml("one",id1));
           makeHover("#botm-three #",id1);
           applyChange(id1);
-          changeZIndex(id1);
+          changeZIndex(id1,"sample");
         }
 
         if (orderBotm.length == 2){
@@ -136,8 +136,8 @@ function init() {
           makeHover("#botm-three #",id2);
           applyChange(id1);
           applyChange(id2);
-          changeZIndex(id1);
-          changeZIndex(id2);
+          changeZIndex(id1,"sample");
+          changeZIndex(id2,"sample");
         }
 
         if (orderBotm.length == 3){
@@ -154,9 +154,9 @@ function init() {
           applyChange(id1);
           applyChange(id2);
           applyChange(id3);
-          changeZIndex(id1);
-          changeZIndex(id2);
-          changeZIndex(id3);
+          changeZIndex(id1,"sample");
+          changeZIndex(id2,"sample");
+          changeZIndex(id3,"sample");
         }
     }
   });
@@ -165,11 +165,12 @@ function init() {
 }
 
 function addTheme(){
-  var html = generateFont()+generateFontSize()+"<input type='text' class='color-picker' id='color-picker'/>";
+  var html = generateFont()+generateFontSize()+"<input type='text' class='color-picker' id='color-picker'/>"+"<input type='text' class='text-color-picker' id='text-color-picker'/>";
   $("#theme").html(html);
   changeFont("theme");
   changeFontSize("theme");
   triggerColorPicker("theme");
+  triggerTextColorPicker("theme");
 }
 
 function checkTopHeight(){
@@ -215,13 +216,21 @@ function divHtml(classname,id){
 	//return "<div class="+classname+" id="+id+"><p>"+id+"</p><div id='modification'></div></div>"
 }
 
-function changeZIndex(id){
+function changeZIndex(id,section){
   var width = $("#right-side #"+id).css("width");
-  $("#"+id+"-sample").css({
-    "z-index":"0",
-    "position": "absolute",
-    "width":width
-  });
+  if (section == "sample"){
+    $("#"+id+"-sample").css({
+      "z-index":"0",
+      "position": "absolute",
+      "width":width
+    });
+  } else {
+    $("#right-side #"+id+" #modification").css({
+      "z-index":"1",
+      "position": "absolute",
+      "width":width
+    });
+  }
 }
 
 function cancelNavi(button_id){
@@ -259,7 +268,6 @@ function cancelTop(button_id){  // special case LOGO !!!!!!!!!!!!!!!
       }
     }
   }
-
 }
 
 function cancelBotm(button_id) {
@@ -309,8 +317,9 @@ function cancelHelper(id){
 
 function makeHover(pref,id){
   var func = cancelHelper(id);
-  var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)' style='background-color:#9a9a9a;width:30px;'>X</button></div>";
+  var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
+  var textColorPicker = "<input type='text' class='text-color-picker' id='text-color-picker'/>";
   var fontSize = generateFontSize();
   var fontButton = generateFont();
   var selections;
@@ -318,30 +327,38 @@ function makeHover(pref,id){
     function() {
       if (id == "lg" || id == "zm"){
         selections = colorPicker+cancelButton;
+        // var parent_id = $(this).parent().attr("id");
+        // if (parent_id == "botm-three"){
+        //   selections = colorPicker+cancelButton;
+        // }else{
+        //   selections = cancelButton;
+        // }
       }else{
         if (id=="combo-player"){
           selections = "<input type='radio' name='cp-option' value='combo'>combo<br>";
           selections += "<input type='radio' name='cp-option' value='fixed'>fixed<br>";
           selections += "<input type='radio' name='cp-option' value='video'>video";
         }else{
-          selections = fontSize+fontButton+colorPicker+cancelButton;
+          selections = fontSize+fontButton+colorPicker+textColorPicker+cancelButton;
         }
       }
 
       $( this ).find("#modification").html(selections);
       if (id != "combo-player"){
         triggerColorPicker(id);
-        if (id != "lg" || id != "zm"){
+        triggerTextColorPicker(id);
+        if (id != "lg"){
           changeFontSize(id);
           changeFont(id);
         }
       }else{
         saveOption();
       }
+      changeZIndex(id,"hover");
     },
     function() {
       $(pref+id).find("#modification").empty();
-      removeRedundant();
+      //removeRedundant();
     }
   );
 }
@@ -359,11 +376,20 @@ function saveOption(){
 function generateFontSize(){
   var fontSize = "<select id='fontsize-select'>";
   fontSize+="<option value='10px'>10px</option>";
+  fontSize+="<option value='12px'>12px</option>";
+  fontSize+="<option value='14px'>14px</option>";
+  fontSize+="<option value='16px'>16px</option>";
+  fontSize+="<option value='18px'>18px</option>";
   fontSize+="<option value='20px'>20px</option>";
+  fontSize+="<option value='22px'>22px</option>";
+  fontSize+="<option value='24px'>24px</option>";
+  fontSize+="<option value='26px'>26px</option>";
+  fontSize+="<option value='28px'>28px</option>";
   fontSize+="<option value='30px'>30px</option>";
   fontSize+="</select>";
   return fontSize;
 }
+
 function generateFont(){
   var font = "<select id='font-select'>";
   font+="<option value='Arial,Arial,Helvetica,sans-serif'>Arial</option>";
@@ -388,13 +414,11 @@ function changeFontSize(id){
   if (id != "theme"){
     $('#right-side #fontsize-select').chosen({ width: "100px" }).change(function(){
       param[id]["fontsize"] = $(this).val();
-      //alert(id + ": "+param[id]["fontsize"]);
       $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
     });
   }else{
     $('#left-side #fontsize-select').chosen({ width: "100px" }).change(function(){
       param["theme"]["fontsize"] = $(this).val();
-      $("#right-side").css("font-size",param["theme"]["fontsize"]);
       applyThemeFontSize(param["theme"]["fontsize"]);
     });
   }
@@ -404,13 +428,11 @@ function changeFont(id){
   if (id != "theme"){
     $('#right-side #font-select').chosen({ width: "100px" }).change(function(){
       param[id]["font"] = $(this).val();
-      //alert(id + ": "+param[id]["font"]);
       $("#right-side div#"+id).css("font-family",param[id]["font"]);
     });
   }else{
     $('#left-side #font-select').chosen({ width: "100px" }).change(function(){
       param["theme"]["font"] = $(this).val();
-      $("#right-side").css("font-family",param["theme"]["font"]);
       applyThemeFont(param["theme"]["font"]);
     });
   }
@@ -423,21 +445,34 @@ function updateColor(button_id,color){
     $("#right-side div#"+button_id).css("background-color",color);
   }else{
     param["theme"]["background-color"] = color;
-    $("#right-side").css("background-color",color);
     applyThemeColor(color);
+  }
+}// change the certain color of corresponding div
+
+function updateTextColor(button_id,color){
+  if (button_id != "theme"){
+    param[button_id]["color"] = color;
+    //alert(param[button_id]["background-color"]);
+    $("#right-side div#"+button_id).css("color",color);
+  }else{
+    param["theme"]["color"] = color;
+    applyThemeTextColor(color);
   }
 }// change the certain color of corresponding div
 
 
 function applyChange(button_id){
   if (param[button_id]["background-color"]){
-    $("#right-side #"+button_id).css("background-color",param[button_id]["background-color"]);
+    $("#right-side div#"+button_id).css("background-color",param[button_id]["background-color"]);
   }
-  if ( param[button_id]["font"] ){
-    $("#right-side #"+button_id).css("font-family",param[button_id]["font"]);
+  if (param[button_id]["font"]){
+    $("#right-side div#"+button_id).css("font-family",param[button_id]["font"]);
   }
   if (param[button_id]["fontsize"]){
-    $("#right-side #"+button_id).css("font-size",param[button_id]["fontsize"]);
+    $("#right-side div#"+button_id).css("font-size",param[button_id]["fontsize"]);
+  }
+  if (param[button_id]["color"]){
+    $("#right-side div#"+button_id).css("color",param[button_id]["color"]);
   }
 } // apply all the changes the user made
 
@@ -457,7 +492,6 @@ function publish(){
     "theme":param["theme"],
     "combo-player":param["combo-player"]
   }
-
   var json = JSON.stringify(pa);
   var blob = new Blob([json], {type: "application/json"});
   var url  = URL.createObjectURL(blob);
@@ -506,10 +540,13 @@ function handleLoadTheme(evt) {
   read.readAsBinaryString(file);
   read.onloadend = function(){
     themeString = read.result;
-    console.log(themeString);
     var theme = JSON.parse(themeString);
-    if (theme["theme"]["font"] || theme["theme"]["fontsize"] || theme["theme"]["background-color"]){
+    if (theme["theme"]["font"] || theme["theme"]["fontsize"] || theme["theme"]["background-color"] || theme["theme"]["color"]){
       param["theme"] = theme["theme"];
+      applyThemeFont(theme["theme"]["font"]);
+      applyThemeFontSize(theme["theme"]["fontsize"]);
+      applyThemeColor(theme["theme"]["background-color"]);
+      applyThemeTextColor(theme["theme"]["color"]);
       for (var i=0; i <= ids.length-1; i++){
         if (theme["theme"]["font"]){
           param[ids[i]]["font"] = theme["theme"]["font"];
@@ -520,10 +557,14 @@ function handleLoadTheme(evt) {
         if (theme["theme"]["background-color"]){
           param[ids[i]]["background-color"] = theme["theme"]["background-color"];
         }
+        if (theme["theme"]["color"]){
+          param[ids[i]]["color"] = theme["theme"]["color"];
+        }
       }
     }
   }
 }
+
 function loadWhole(){
   document.getElementById('load-whole').addEventListener('change', handleLoadWhole, false);
 }
@@ -534,12 +575,10 @@ function handleLoadWhole(evt) {
   read.readAsBinaryString(file);
   read.onloadend = function(){
     wholeString = read.result;
-    console.log(wholeString);
     var whole = JSON.parse(wholeString);
-    if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"]){
+    if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"] || theme["theme"]["color"]){
       param["theme"] = whole["theme"];
     }
-
     for (var i=0; i<=ids.length; i++){
       if (whole[ids[i]]){
         param[ids[i]] = whole[ids[i]];
@@ -570,6 +609,7 @@ function handleLoadWhole(evt) {
         $("#botm-three").html(divHtml("one",id1));
         makeHover("#botm-three #",id1);
         applyChange(id1);
+        changeZIndex(id1,"sample");
       } else if (orderBotm.length == 2){
         var id1 = orderBotm[0];
         var id2 = orderBotm[1];
@@ -578,6 +618,8 @@ function handleLoadWhole(evt) {
         makeHover("#botm-three #",id2);
         applyChange(id1);
         applyChange(id2);
+        changeZIndex(id1,"sample");
+        changeZIndex(id2,"sample");
       } else if (orderBotm.length == 3){
         var id1 = orderBotm[0];
         var id2 = orderBotm[1];
@@ -589,6 +631,9 @@ function handleLoadWhole(evt) {
         applyChange(id1);
         applyChange(id2);
         applyChange(id3);
+        changeZIndex(id1,"sample");
+        changeZIndex(id2,"sample");
+        changeZIndex(id3,"sample");
       }
     }
 
@@ -596,13 +641,14 @@ function handleLoadWhole(evt) {
       $("#left-side #na").hide();
       param["na"]["exist"] = true;
       orderCombo = ["na","combo-player"];
-      $( "#tobechange" ).html("<h1>Navigation</h1><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></ul><div id='modification'></div>")
+      $( "#tobechange" ).html("<div id='na-sample'><h1>Navigation</h1><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></div></ul><div id='modification'></div>")
       .attr({
         class:"navigation",
         id:"na"
       });
-      makeHover("#top-combo #","na");
       applyChange("na");
+      changeZIndex("na","sample");
+      makeHover("#top-combo #","na");
       $('#top-combo').sortable({ // make it sortable
         stop: function(event,ui){
           orderCombo = $("#top-combo").sortable("toArray");
@@ -624,6 +670,7 @@ function handleLoadWhole(evt) {
         var id1 = orderTopThree[0];
         $("#top-three").html(divHtml("one",id1));
         applyChange(id1);
+        changeZIndex(id1,"sample");
         makeHover("#top-three #",id1);
       } else if (orderTopThree.length == 2){
         var id1 = orderTopThree[0];
@@ -631,6 +678,8 @@ function handleLoadWhole(evt) {
         $("#top-three").html(divHtml("two",id1)+divHtml("two",id2));
         applyChange(id1);
         applyChange(id2);
+        changeZIndex(id1,"sample");
+        changeZIndex(id2,"sample");
         makeHover("#top-three #",id1);
         makeHover("#top-three #",id2);
       } else if (orderTopThree.length == 3){
@@ -641,6 +690,9 @@ function handleLoadWhole(evt) {
         applyChange(id1);
         applyChange(id2);
         applyChange(id3);
+        changeZIndex(id1,"sample");
+        changeZIndex(id2,"sample");
+        changeZIndex(id3,"sample");
         makeHover("#top-three #",id1);
         makeHover("#top-three #",id2);
         makeHover("#top-three #",id3);
@@ -704,10 +756,68 @@ function triggerColorPicker(id){
   }
 }
 
+function triggerTextColorPicker(id){
+  var picker;
+  if (id == "theme"){
+    picker = "#left-side #text-color-picker";
+  }else{
+    picker = "#right-side #text-color-picker";
+  }
+  $(picker).spectrum({
+    color: initTextColorPicker(id),
+    showInput: true,
+    className: "full-spectrum",
+    showInitial: true,
+    showPalette: true,
+    showSelectionPalette: true,
+    maxSelectionSize: 10,
+    preferredFormat: "hex",
+    localStorageKey: "spectrum.demo",
+    change: function(color) {
+      var col = (color ? color.toHexString() : "");
+      updateTextColor(id,col); // update the color to correspoding hash
+    },
+    show: function() {
+      // alert("show");
+    },
+    hide: function() {
+      // alert("hide");
+    },
+    palette: [
+        ["rgb(0, 0, 0)", "rgb(67, 67, 67)", "rgb(102, 102, 102)",
+        "rgb(204, 204, 204)", "rgb(217, 217, 217)","rgb(255, 255, 255)"],
+        ["rgb(152, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 153, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)",
+        "rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)"],
+        ["rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)", "rgb(217, 234, 211)",
+        "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)", "rgb(217, 210, 233)", "rgb(234, 209, 220)",
+        "rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)",
+        "rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
+        "rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)",
+        "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)", "rgb(142, 124, 195)", "rgb(194, 123, 160)",
+        "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)",
+        "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)",
+        "rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)",
+        "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
+    ] // preload some of the colors
+  });
+  if (id != "theme"){ // change the color of in the color picker after select
+    $("#right-side .sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
+  }else{
+    $("#left-side .sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
+  }
+}
+
 function applyThemeColor(color){
   for (var i=0; i <= ids.length-1; i++){
     param[ids[i]]["background-color"] = color;
     $("#right-side div#"+ids[i]).css("background-color",color);
+  }
+}
+
+function applyThemeTextColor(color){
+  for (var i=0; i <= ids.length-1; i++){
+    param[ids[i]]["color"] = color;
+    $("#right-side div#"+ids[i]).css("color",color);
   }
 }
 
@@ -717,13 +827,13 @@ function applyThemeFont(font){
     $("#right-side div#"+ids[i]).css("font-family",font);
   }
 }
-
 function applyThemeFontSize(size){
   for (var i=0; i <= ids.length-1; i++){
     param[ids[i]]["fontsize"] = size;
     $("#right-side div#"+ids[i]).css("font-size",size);
   }
 }
+
 
 function initColorPicker(id){
   if (id != "theme"){
@@ -741,6 +851,23 @@ function initColorPicker(id){
   }
 } // check if the background-color already decleared
 
+function initTextColorPicker(id){
+  if (id != "theme"){
+    if (param[id]["color"]){
+      return param[id]["color"];
+    }else{
+      return "#ECC";
+    }
+  }else{
+    if (param["theme"]["color"]){
+      return param["theme"]["color"];
+    }else{
+      return "#ECC";
+    }
+  }
+} // check if the background-color already decleared
+
+// !!!!!!!!!!!!! not going to use it
 function removeRedundant(){
   var i = 0;
   var colorArray = $(".sp-container");
