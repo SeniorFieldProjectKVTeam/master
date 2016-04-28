@@ -185,6 +185,12 @@ ul {
   background-size: contain;
 }
 
+#right-side #zm{
+  background-image: url('../images/zoom.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 #left-btom {
 	position: fixed;
 	bottom: 0;

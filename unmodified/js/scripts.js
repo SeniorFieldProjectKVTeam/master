@@ -209,7 +209,7 @@ function divHtml(classname,id){
 		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/o') no-repeat 100%";
 		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'></div><div id='modification'></div></div>"
 	} else if (id == "tt"){
-    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Title</p></div><div id='modification'></div></div>"
+    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Here is the Title</p></div><div id='modification'></div></div>"
   } else if (id == "zm"){
     return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Zoom</p></div><div id='modification'></div></div>"
   }
@@ -327,22 +327,15 @@ function makeHover(pref,id){
     function() {
       if (id == "lg" || id == "zm"){
         selections = colorPicker+cancelButton;
-        // var parent_id = $(this).parent().attr("id");
-        // if (parent_id == "botm-three"){
-        //   selections = colorPicker+cancelButton;
-        // }else{
-        //   selections = cancelButton;
-        // }
       }else{
         if (id=="combo-player"){
-          selections = "<input type='radio' name='cp-option' value='combo'>combo<br>";
-          selections += "<input type='radio' name='cp-option' value='fixed'>fixed<br>";
-          selections += "<input type='radio' name='cp-option' value='video'>video";
+          selections = "<input type='radio' name='cp-option' id='cp-option-1' value='combo' >combo<br>";
+          selections += "<input type='radio' name='cp-option' id='cp-option-2' value='fixed' >fixed<br>";
+          selections += "<input type='radio' name='cp-option' id='cp-option-3' value='video' >video";
         }else{
           selections = fontSize+fontButton+colorPicker+textColorPicker+cancelButton;
         }
       }
-
       $( this ).find("#modification").html(selections);
       if (id != "combo-player"){
         triggerColorPicker(id);
@@ -352,6 +345,15 @@ function makeHover(pref,id){
           changeFont(id);
         }
       }else{
+        if (param["combo-player"]){
+          if (param["combo-player"]=="fixed"){
+            document.getElementById("cp-option-2").checked = true;
+          } else if (param["combo-player"]=="video"){
+            document.getElementById("cp-option-3").checked = true;
+          } else {
+            document.getElementById("cp-option-1").checked = true;
+          }
+        }
         saveOption();
       }
       changeZIndex(id,"hover");
@@ -368,7 +370,6 @@ function saveOption(){
   for (var i = ch.length; i--;) {
       ch[i].onchange = function() {
         param["combo-player"]=this.value;
-        //alert(param["combo-player"]);
       }
   }
 }
@@ -749,11 +750,6 @@ function triggerColorPicker(id){
         "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
     ] // preload some of the colors
   });
-  if (id != "theme"){ // change the color of in the color picker after select
-    $("#right-side .sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
-  }else{
-    $("#left-side .sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
-  }
 }
 
 function triggerTextColorPicker(id){
@@ -800,11 +796,6 @@ function triggerTextColorPicker(id){
         "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
     ] // preload some of the colors
   });
-  if (id != "theme"){ // change the color of in the color picker after select
-    $("#right-side .sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
-  }else{
-    $("#left-side .sp-preview .sp-preview-inner").css("background-color",param[id]["background-color"]);
-  }
 }
 
 function applyThemeColor(color){
