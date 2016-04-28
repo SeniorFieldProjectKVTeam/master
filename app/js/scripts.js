@@ -340,21 +340,12 @@ function makeHover(pref,id){
       if (id != "combo-player"){
         triggerColorPicker(id);
         triggerTextColorPicker(id);
-        if (id != "lg"){
+        if (id != "lg" || id != "zm"){
           changeFontSize(id);
           changeFont(id);
         }
       }else{
-        if (param["combo-player"]){
-          if (param["combo-player"]=="fixed"){
-            document.getElementById("cp-option-2").checked = true;
-          } else if (param["combo-player"]=="video"){
-            document.getElementById("cp-option-3").checked = true;
-          } else {
-            document.getElementById("cp-option-1").checked = true;
-          }
-        }
-        saveOption();
+        saveVideoOption();
       }
       changeZIndex(id,"hover");
     },
@@ -365,12 +356,20 @@ function makeHover(pref,id){
   );
 }
 
-function saveOption(){
+function saveVideoOption(){
+  if (param["combo-player"]){
+    if (param["combo-player"]=="fixed"){
+      document.getElementById("cp-option-2").checked = true;
+    } else if (param["combo-player"]=="video"){
+      document.getElementById("cp-option-3").checked = true;
+    } else {
+      document.getElementById("cp-option-1").checked = true;
+    }
+  }
   var ch = document.getElementsByName('cp-option');
   for (var i = ch.length; i--;) {
       ch[i].onchange = function() {
         param["combo-player"]=this.value;
-        //alert(param["combo-player"]);
       }
   }
 }
