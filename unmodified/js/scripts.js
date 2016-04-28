@@ -218,7 +218,7 @@ function divHtml(classname,id){
 function changeZIndex(id){
   var width = $("#right-side #"+id).css("width");
   $("#"+id+"-sample").css({
-    "z-index":"-1",
+    "z-index":"0",
     "position": "absolute",
     "width":width
   });
