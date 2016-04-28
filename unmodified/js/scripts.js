@@ -211,7 +211,7 @@ function divHtml(classname,id){
 	} else if (id == "tt"){
     return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Here is the Title</p></div><div id='modification'></div></div>"
   } else if (id == "zm"){
-    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Zoom</p></div><div id='modification'></div></div>"
+    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'></div><div id='modification'></div></div>"
   }
 	//return "<div class="+classname+" id="+id+"><p>"+id+"</p><div id='modification'></div></div>"
 }
@@ -438,7 +438,7 @@ function changeFontSize(id){
   if (id != "theme"){
     $('#right-side #fontsize-select').chosen({ width: "100px" }).change(function(){
       param[id]["fontsize"] = $(this).val();
-      $("#right-side div#"+id).css("font-size",param[id]["fontsize"]);
+      $("#right-side div#"+id+" #"+id+"-sample").css("font-size",param[id]["fontsize"]);
     });
   }else{
     $('#left-side #fontsize-select').chosen({ width: "100px" }).change(function(){
@@ -452,7 +452,7 @@ function changeFont(id){
   if (id != "theme"){
     $('#right-side #font-select').chosen({ width: "100px" }).change(function(){
       param[id]["font"] = $(this).val();
-      $("#right-side div#"+id).css("font-family",param[id]["font"]);
+      $("#right-side div#"+id+" #"+id+"-sample").css("font-family",param[id]["font"]);
     });
   }else{
     $('#left-side #font-select').chosen({ width: "100px" }).change(function(){
@@ -477,7 +477,7 @@ function updateTextColor(button_id,color){
   if (button_id != "theme"){
     param[button_id]["color"] = color;
     //alert(param[button_id]["background-color"]);
-    $("#right-side div#"+button_id).css("color",color);
+    $("#right-side div#"+button_id+" #"+button_id+"-sample").css("color",color);
   }else{
     param["theme"]["color"] = color;
     applyThemeTextColor(color);
@@ -490,13 +490,13 @@ function applyChange(button_id){
     $("#right-side div#"+button_id).css("background-color",param[button_id]["background-color"]);
   }
   if (param[button_id]["font"]){
-    $("#right-side div#"+button_id).css("font-family",param[button_id]["font"]);
+    $("#right-side div#"+button_id+" #"+button_id+"-sample").css("font-family",param[button_id]["font"]);
   }
   if (param[button_id]["fontsize"]){
-    $("#right-side div#"+button_id).css("font-size",param[button_id]["fontsize"]);
+    $("#right-side div#"+button_id+" #"+button_id+"-sample").css("font-size",param[button_id]["fontsize"]);
   }
   if (param[button_id]["color"]){
-    $("#right-side div#"+button_id).css("color",param[button_id]["color"]);
+    $("#right-side div#"+button_id+" #"+button_id+"-sample").css("color",param[button_id]["color"]);
   }
 } // apply all the changes the user made
 
@@ -831,20 +831,20 @@ function applyThemeColor(color){
 function applyThemeTextColor(color){
   for (var i=0; i <= ids.length-1; i++){
     param[ids[i]]["color"] = color;
-    $("#right-side div#"+ids[i]).css("color",color);
+    $("#right-side div#"+ids[i]+" #"+ids[i]+"-sample").css("color",color);
   }
 }
 
 function applyThemeFont(font){
   for (var i=0; i <= ids.length-1; i++){
     param[ids[i]]["font"] = font;
-    $("#right-side div#"+ids[i]).css("font-family",font);
+    $("#right-side div#"+ids[i]+" #"+ids[i]+"-sample").css("font-family",font);
   }
 }
 function applyThemeFontSize(size){
   for (var i=0; i <= ids.length-1; i++){
     param[ids[i]]["fontsize"] = size;
-    $("#right-side div#"+ids[i]).css("font-size",size);
+    $("#right-side div#"+ids[i]+" #"+ids[i]+"-sample").css("font-size",size);
   }
 }
 
