@@ -358,7 +358,7 @@ function makeHover(pref,id){
     },
     function() {
       $(pref+id).find("#modification").empty();
-      //removeRedundant();
+      removeRedundant();
     }
   );
 }
@@ -872,7 +872,7 @@ function removeRedundant(){
   var i = 0;
   var colorArray = $(".sp-container");
   if (colorArray.length > 1){
-    for (i = colorArray.length-2; i >= 1; i--) {
+    for (i = colorArray.length-3; i >= 2; i--) {
       colorArray[i].remove();
     }
   } // remove all the redundant div, especially cover by the hover

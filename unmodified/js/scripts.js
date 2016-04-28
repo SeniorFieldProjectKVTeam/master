@@ -207,7 +207,7 @@ function divHtml(classname,id){
 		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Quizzes</h1></div><div id='modification'></div></div>"
 	} else if (id == "lg"){
 		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/o') no-repeat 100%";
-		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Logo</p></div><div id='modification'></div></div>"
+		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'></div><div id='modification'></div></div>"
 	} else if (id == "tt"){
     return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p>Title</p></div><div id='modification'></div></div>"
   } else if (id == "zm"){
@@ -358,7 +358,7 @@ function makeHover(pref,id){
     },
     function() {
       $(pref+id).find("#modification").empty();
-      //removeRedundant();
+      removeRedundant();
     }
   );
 }
@@ -872,7 +872,7 @@ function removeRedundant(){
   var i = 0;
   var colorArray = $(".sp-container");
   if (colorArray.length > 1){
-    for (i = colorArray.length-2; i >= 1; i--) {
+    for (i = colorArray.length-3; i >= 2; i--) {
       colorArray[i].remove();
     }
   } // remove all the redundant div, especially cover by the hover
