@@ -317,7 +317,7 @@ function cancelHelper(id){
 
 function makeHover(pref,id){
   var func = cancelHelper(id);
-  var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button></div>";
+  var cancelButton = "<button id="+id+" class='cancel' onclick='"+func+"(this.id)'>X</button>";
   var colorPicker = "<input type='text' class='color-picker' id='color-picker'/>";
   var textColorPicker = "<input type='text' class='text-color-picker' id='text-color-picker'/>";
   var fontSize = generateFontSize();
@@ -348,12 +348,35 @@ function makeHover(pref,id){
         saveVideoOption();
       }
       changeZIndex(id,"hover");
+      makeSelectEffect(id);
     },
     function() {
       $(pref+id).find("#modification").empty();
       removeRedundant();
+      removeSelectEffect(id);
     }
   );
+}
+
+function makeSelectEffect(id){
+  $("#right-side #"+id).css({
+    "border-color":"lightgreen",
+    "border-style": "solid",
+    "border-width": "2px"
+  });
+  $("#right-side #"+id+" #modification .cancel").css({
+    "border-color":"",
+    "border-style": "",
+    "border-width": ""
+  });
+}
+
+function removeSelectEffect(id){
+  $("#right-side #"+id).css({
+    "border-color":"",
+    "border-style": "",
+    "border-width": ""
+  });
 }
 
 function saveVideoOption(){

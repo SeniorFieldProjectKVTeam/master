@@ -348,12 +348,35 @@ function makeHover(pref,id){
         saveVideoOption();
       }
       changeZIndex(id,"hover");
+      makeSelectEffect(id);
     },
     function() {
       $(pref+id).find("#modification").empty();
       removeRedundant();
+      removeSelectEffect(id);
     }
   );
+}
+
+function makeSelectEffect(id){
+  $("#right-side #"+id).css({
+    "border-color":"lightgreen",
+    "border-style": "solid",
+    "border-width": "2px"
+  });
+  $("#right-side #"+id+" #modification .cancel").css({
+    "border-color":"",
+    "border-style": "",
+    "border-width": ""
+  });
+}
+
+function removeSelectEffect(id){
+  $("#right-side #"+id).css({
+    "border-color":"",
+    "border-style": "",
+    "border-width": ""
+  });
 }
 
 function saveVideoOption(){
