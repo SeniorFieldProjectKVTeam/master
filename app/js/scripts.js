@@ -50,6 +50,7 @@ function init() {
             class:"navigation",
             id:id
           });
+        applyChange(id);
         changeZIndex(id,"sample");
         makeHover("#top-combo #",id);
         $('#top-combo').sortable({ // make it sortable
@@ -664,8 +665,8 @@ function handleLoadWhole(evt) {
     if (whole["orderCombo"].length == 2){
       $("#left-side #na").hide();
       param["na"]["exist"] = true;
-      orderCombo = ["na","combo-player"];
-      $( "#tobechange" ).html("<div id='na-sample'><h1>Navigation</h1><ul><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></div></ul><div id='modification'></div>")
+      orderCombo = whole["orderCombo"];
+      $( "#tobechange" ).html("<div id='na-sample'><h1>Navigation</h1><ul id='na-sample-body'><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></div></ul><div id='modification'></div>")
       .attr({
         class:"navigation",
         id:"na"
@@ -673,11 +674,16 @@ function handleLoadWhole(evt) {
       applyChange("na");
       changeZIndex("na","sample");
       makeHover("#top-combo #","na");
+      if (orderCombo[0]=="combo-player" && orderCombo[1]=="na"){
+        //$(selector1).swapWith(selector2);
+        $("#right-side #combo-player").swapWith("#right-side #na");
+      }
       $('#top-combo').sortable({ // make it sortable
         stop: function(event,ui){
           orderCombo = $("#top-combo").sortable("toArray");
         }
       });
+
     }
 
     if (whole["combo-player"]){
@@ -891,3 +897,14 @@ function removeRedundant(){
     }
   } // remove all the redundant div, especially cover by the hover
 }
+
+// swap two sortable div
+// stackoverflow
+jQuery.fn.swapWith = function(to) {
+  return this.each(function() {
+    var copy_to = $(to).clone(true);
+    var copy_from = $(this).clone(true);
+    $(to).replaceWith(copy_from);
+    $(this).replaceWith(copy_to);
+  });
+};
