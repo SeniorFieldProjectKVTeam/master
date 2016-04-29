@@ -6,7 +6,6 @@ var bot = [];
 var orderBotm = [];
 var orderCombo =[];
 var orderTopThree = [];
-var themeString;
 var param = new Object();
 param["qu"] = new Object();
 param["fn"] = new Object();
@@ -564,7 +563,7 @@ function handleLoadTheme(evt) {
   var read = new FileReader();
   read.readAsBinaryString(file);
   read.onloadend = function(){
-    themeString = read.result;
+    var themeString = read.result;
     var theme = JSON.parse(themeString);
     if (theme["theme"]["font"] || theme["theme"]["fontsize"] || theme["theme"]["background-color"] || theme["theme"]["color"]){
       param["theme"] = theme["theme"];
@@ -601,7 +600,7 @@ function handleLoadWhole(evt) {
   var read = new FileReader();
   read.readAsBinaryString(file);
   read.onloadend = function(){
-    wholeString = read.result;
+    var wholeString = read.result;
     var whole = JSON.parse(wholeString);
     if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"] || theme["theme"]["color"]){
       param["theme"] = whole["theme"];
