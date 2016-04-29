@@ -572,6 +572,8 @@ function handleLoadTheme(evt) {
       applyThemeFontSize(theme["theme"]["fontsize"]);
       applyThemeColor(theme["theme"]["background-color"]);
       applyThemeTextColor(theme["theme"]["color"]);
+      triggerColorPicker("theme");
+      triggerTextColorPicker("theme");
       for (var i=0; i <= ids.length-1; i++){
         if (theme["theme"]["font"]){
           param[ids[i]]["font"] = theme["theme"]["font"];
@@ -603,6 +605,8 @@ function handleLoadWhole(evt) {
     var whole = JSON.parse(wholeString);
     if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"] || theme["theme"]["color"]){
       param["theme"] = whole["theme"];
+      triggerColorPicker("theme");
+      triggerTextColorPicker("theme");
     }
     for (var i=0; i<=ids.length; i++){
       if (whole[ids[i]]){
