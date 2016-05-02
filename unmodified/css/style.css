@@ -171,6 +171,19 @@ h1 {
   width:30px;
 }
 
+.navi-row {
+  display: inline;
+}
+
+.navi-col {
+  width: 50%;
+  height:100px;
+  float: left;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #9a9a9a;
+}
+
 ul {
   list-style-type:none;
 }
@@ -190,6 +203,41 @@ ul {
   background-image: url('../images/zoom.png');
   background-repeat: no-repeat;
   background-size: contain;
+  background-position: center;
+}
+
+#right-side #introduction{
+  background-image: url('../images/introduction.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+#right-side #chapter1{
+  background-image: url('../images/chapter1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+#right-side #chapter2{
+  background-image: url('../images/chapter2.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+#right-side #chapter3{
+  background-image: url('../images/chapter3.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+#right-side #conclusion{
+  background-image: url('../images/conclusion.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   background-position: center;
 }
 
