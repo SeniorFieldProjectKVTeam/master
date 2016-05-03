@@ -209,7 +209,7 @@ function divHtml(classname,id){
 		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/o') no-repeat 100%";
 		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'></div><div id='modification'></div></div>"
 	} else if (id == "tt"){
-    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p id='"+id+"-sample-body'>Here is the Title</p></div><div id='modification'></div></div>"
+    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample' style='text-align:center;font-weight: bold;'><p id='"+id+"-sample-body'>Presentation Title</p></div><div id='modification'></div></div>"
   } else if (id == "zm"){
     return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'></div><div id='modification'></div></div>"
   }
@@ -352,6 +352,10 @@ function makeHover(pref,id){
           changeFontSize(id);
           changeFont(id);
         }
+        if (id == "na"){
+
+          saveNaviOption();
+        }
       }else{
         saveVideoOption();
       }
@@ -367,6 +371,7 @@ function makeHover(pref,id){
 }
 
 function naviClick(val){
+  param["na"]["option"] = val;
   var list ="<h1>Navigation</h1><ul id='na-sample-body'><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></div></ul>";
   if (val == "thumbnail"){
     var html1 = "<div class='navi-row'><div class='navi-col' id='introduction'></div><div class='navi-col' id='chapter1'></div></div>";
@@ -377,6 +382,7 @@ function naviClick(val){
     changeZIndex("na","sample");
   } else {
     $("#na #na-sample").html(list);
+    applyChange("na"); // no idea how to use the prite png
   }
 }
 
@@ -399,6 +405,26 @@ function removeSelectEffect(id){
     "border-style": "",
     "border-width": ""
   });
+}
+
+function saveNaviOption(){
+  if (param["na"]["option"]){
+    if (param["na"]["option"] == "thumbnail"){
+      document.getElementById("na-option-1").checked = true;
+    } else if (param["na"]["option"] == "list"){
+      document.getElementById("na-option-2").checked = true;
+    } else {
+      document.getElementById("na-option-3").checked = true;
+    }
+  } else {
+    document.getElementById("na-option-3").checked = true;
+  }
+  var ch = document.getElementsByName('na-option');
+  for (var i = ch.length; i--;) {
+      ch[i].onchange = function() {
+        param["na"]["option"]=this.value;
+      }
+  }
 }
 
 function saveVideoOption(){
@@ -624,7 +650,7 @@ function handleLoadWhole(evt) {
   read.onloadend = function(){
     var wholeString = read.result;
     var whole = JSON.parse(wholeString);
-    if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"] || theme["theme"]["color"]){
+    if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"] || whole["theme"]["color"]){
       param["theme"] = whole["theme"];
       triggerColorPicker("theme");
       triggerTextColorPicker("theme");
@@ -696,6 +722,12 @@ function handleLoadWhole(evt) {
         class:"navigation",
         id:"na"
       });
+      if (whole["na"]["option"]){
+        param["na"]["option"] = whole["na"]["option"];
+        if (param["na"]["option"]){
+          naviClick(param["na"]["option"]);
+        }
+      }
       applyChange("na");
       changeZIndex("na","sample");
       makeHover("#top-combo #","na");

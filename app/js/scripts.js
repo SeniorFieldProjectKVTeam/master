@@ -209,7 +209,7 @@ function divHtml(classname,id){
 		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/o') no-repeat 100%";
 		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'></div><div id='modification'></div></div>"
 	} else if (id == "tt"){
-    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><p id='"+id+"-sample-body'>Here is the Title</p></div><div id='modification'></div></div>"
+    return "<div class="+classname+" id="+id+"><div id='"+id+"-sample' style='text-align:center;font-weight: bold;'><p id='"+id+"-sample-body'>Presentation Title</p></div><div id='modification'></div></div>"
   } else if (id == "zm"){
     return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'></div><div id='modification'></div></div>"
   }
@@ -218,17 +218,20 @@ function divHtml(classname,id){
 
 function changeZIndex(id,section){
   var width = $("#right-side #"+id).css("width");
+  var height = $("#right-side #"+id).css("height");
   if (section == "sample"){
     $("#"+id+"-sample").css({
       "z-index":"0",
       "position": "absolute",
-      "width":width
+      "width":width,
+      "height":height,
+      "overflow-y": "scroll"
     });
   } else {
     $("#right-side #"+id+" #modification").css({
       "z-index":"1",
       "position": "absolute",
-      "width":width
+      "width":width,
     });
   }
 }
@@ -332,8 +335,13 @@ function makeHover(pref,id){
           selections = "<input type='radio' name='cp-option' id='cp-option-1' value='combo' >combo<br>";
           selections += "<input type='radio' name='cp-option' id='cp-option-2' value='fixed' >fixed<br>";
           selections += "<input type='radio' name='cp-option' id='cp-option-3' value='video' >video";
-        }else{
+        }else {
           selections = fontSize+fontButton+colorPicker+textColorPicker+cancelButton;
+          if (id == "na"){
+            selections += "<br><input type='radio' name='na-option' id='na-option-1' value='thumbnail' onclick='naviClick(this.value)'>thumbnail<br>";
+            selections += "<input type='radio' name='na-option' id='na-option-2' value='list' onclick='naviClick(this.value)'>list<br>";
+            selections += "<input type='radio' name='na-option' id='na-option-3' value='both' onclick='naviClick(this.value)'>both<br>";
+          }
         }
       }
       $( this ).find("#modification").html(selections);
@@ -343,6 +351,10 @@ function makeHover(pref,id){
         if (id != "lg" || id != "zm"){
           changeFontSize(id);
           changeFont(id);
+        }
+        if (id == "na"){
+
+          saveNaviOption();
         }
       }else{
         saveVideoOption();
@@ -356,6 +368,22 @@ function makeHover(pref,id){
       removeSelectEffect(id);
     }
   );
+}
+
+function naviClick(val){
+  param["na"]["option"] = val;
+  var list ="<h1>Navigation</h1><ul id='na-sample-body'><li>Introduction</li><li>Chapter 1</li><li>Chapter 2</li><li>Chapter 3</li><li>Conclusion</li></div></ul>";
+  if (val == "thumbnail"){
+    var html1 = "<div class='navi-row'><div class='navi-col' id='introduction'></div><div class='navi-col' id='chapter1'></div></div>";
+    html1 += "<div class='navi-row'><div class='navi-col' id='chapter2'></div><div class='navi-col' id='chapter3'></div></div>";
+    html1 += "<div class='navi-row'><div class='navi-col' id='conclusion'></div></div>";
+    var html ="<h1 id='navi-title'>Navigation</h1><div id='na-sample-body'>"+html1+"</div>";
+    $("#na #na-sample").html(html);
+    changeZIndex("na","sample");
+  } else {
+    $("#na #na-sample").html(list);
+    applyChange("na"); // no idea how to use the prite png
+  }
 }
 
 function makeSelectEffect(id){
@@ -377,6 +405,26 @@ function removeSelectEffect(id){
     "border-style": "",
     "border-width": ""
   });
+}
+
+function saveNaviOption(){
+  if (param["na"]["option"]){
+    if (param["na"]["option"] == "thumbnail"){
+      document.getElementById("na-option-1").checked = true;
+    } else if (param["na"]["option"] == "list"){
+      document.getElementById("na-option-2").checked = true;
+    } else {
+      document.getElementById("na-option-3").checked = true;
+    }
+  } else {
+    document.getElementById("na-option-3").checked = true;
+  }
+  var ch = document.getElementsByName('na-option');
+  for (var i = ch.length; i--;) {
+      ch[i].onchange = function() {
+        param["na"]["option"]=this.value;
+      }
+  }
 }
 
 function saveVideoOption(){
@@ -602,7 +650,7 @@ function handleLoadWhole(evt) {
   read.onloadend = function(){
     var wholeString = read.result;
     var whole = JSON.parse(wholeString);
-    if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"] || theme["theme"]["color"]){
+    if (whole["theme"]["font"] || whole["theme"]["fontsize"] || whole["theme"]["background-color"] || whole["theme"]["color"]){
       param["theme"] = whole["theme"];
       triggerColorPicker("theme");
       triggerTextColorPicker("theme");
@@ -674,6 +722,12 @@ function handleLoadWhole(evt) {
         class:"navigation",
         id:"na"
       });
+      if (whole["na"]["option"]){
+        param["na"]["option"] = whole["na"]["option"];
+        if (param["na"]["option"]){
+          naviClick(param["na"]["option"]);
+        }
+      }
       applyChange("na");
       changeZIndex("na","sample");
       makeHover("#top-combo #","na");
