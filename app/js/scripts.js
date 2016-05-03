@@ -577,6 +577,23 @@ function publish(){
   document.getElementById("download-presentation").addEventListener("click", function(){
     $("#download-presentation").replaceWith("<a id='download-pre'></a>");
   });
+  
+  $.ajax({
+	  url: "test.py",
+	  success: function(response){
+	  	  alert("Wee");
+	  }
+  });
+  
+  /*fs.access(__dirname + "/kv.json", fs.R_OK, function(err){
+	  if(err){
+		  alert(err);
+	  } else {
+		  alert("we can reach the file");
+	  }
+  });*/
+	  
+	 // run the kv.json through the python file
 }
 
 function saveTheme(){
