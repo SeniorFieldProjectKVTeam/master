@@ -16,7 +16,8 @@ param["na"] = new Object();
 param["tt"] = new Object();
 param["zm"] = new Object();
 param["theme"] = new Object();
-param["combo-player"] = new Object();
+param["combo-player"] = "combo";
+param["na"]["option"] = "both";
 var pa;
 var ids = ["qu","fn","ts","qz","lg","na","tt","zm"]
 
