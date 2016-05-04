@@ -17,7 +17,7 @@ param["tt"] = new Object();
 param["zm"] = new Object();
 param["theme"] = new Object();
 param["combo-player"] = "combo";
-param["na"]["option"] = "both";
+param["na"]["option"] = "switchable";
 var pa;
 var ids = ["qu","fn","ts","qz","lg","na","tt","zm"]
 
@@ -340,8 +340,8 @@ function makeHover(pref,id){
           selections = fontSize+fontButton+colorPicker+textColorPicker+cancelButton;
           if (id == "na"){
             selections += "<br><input type='radio' name='na-option' id='na-option-1' value='thumbnail' onclick='naviClick(this.value)'>thumbnail<br>";
-            selections += "<input type='radio' name='na-option' id='na-option-2' value='list' onclick='naviClick(this.value)'>list<br>";
-            selections += "<input type='radio' name='na-option' id='na-option-3' value='both' onclick='naviClick(this.value)'>both<br>";
+            selections += "<input type='radio' name='na-option' id='na-option-2' value='chapter' onclick='naviClick(this.value)'>chapter<br>";
+            selections += "<input type='radio' name='na-option' id='na-option-3' value='switchable' onclick='naviClick(this.value)'>switchable<br>";
           }
         }
       }
@@ -361,6 +361,7 @@ function makeHover(pref,id){
         saveVideoOption();
       }
       changeZIndex(id,"hover");
+      changeZIndex(id,"sample");
       makeSelectEffect(id);
     },
     function() {
@@ -412,7 +413,7 @@ function saveNaviOption(){
   if (param["na"]["option"]){
     if (param["na"]["option"] == "thumbnail"){
       document.getElementById("na-option-1").checked = true;
-    } else if (param["na"]["option"] == "list"){
+    } else if (param["na"]["option"] == "chapter"){
       document.getElementById("na-option-2").checked = true;
     } else {
       document.getElementById("na-option-3").checked = true;
@@ -577,6 +578,23 @@ function publish(){
   document.getElementById("download-presentation").addEventListener("click", function(){
     $("#download-presentation").replaceWith("<a id='download-pre'></a>");
   });
+
+  $.ajax({
+	  url: "test.py",
+	  success: function(response){
+	  	  alert("Wee");
+	  }
+  });
+
+  /*fs.access(__dirname + "/kv.json", fs.R_OK, function(err){
+	  if(err){
+		  alert(err);
+	  } else {
+		  alert("we can reach the file");
+	  }
+  });*/
+
+	 // run the kv.json through the python file
 }
 
 function saveTheme(){

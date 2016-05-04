@@ -361,6 +361,7 @@ function makeHover(pref,id){
         saveVideoOption();
       }
       changeZIndex(id,"hover");
+      changeZIndex(id,"sample");
       makeSelectEffect(id);
     },
     function() {
