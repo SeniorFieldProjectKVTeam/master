@@ -20,6 +20,7 @@ param["combo-player"] = "combo";
 param["na"]["option"] = "switchable";
 var pa;
 var ids = ["qu","fn","ts","qz","lg","na","tt","zm"]
+var fs = require('fs');
 
 $( init ); // load this function when the page was load
 
@@ -567,7 +568,15 @@ function publish(){
     "combo-player":param["combo-player"]
   }
   var json = JSON.stringify(pa);
-  var blob = new Blob([json], {type: "application/json"});
+  fs.writeFile("kv.json", json, function(err) {
+      if(err) {
+          return console.log(err);
+      }
+  console.log("The file was saved!");
+	});
+  
+  runPython(json);
+  /*var blob = new Blob([json], {type: "application/json"});
   var url  = URL.createObjectURL(blob);
   var a = document.createElement('a');
   a.download    = "presentation.json";
@@ -577,15 +586,8 @@ function publish(){
   $("#download-pre").replaceWith(a);
   document.getElementById("download-presentation").addEventListener("click", function(){
     $("#download-presentation").replaceWith("<a id='download-pre'></a>");
-  });
-
-  $.ajax({
-	  url: "test.py",
-	  success: function(response){
-	  	  alert("Wee");
-	  }
-  });
-
+  });*/
+  
   /*fs.access(__dirname + "/kv.json", fs.R_OK, function(err){
 	  if(err){
 		  alert(err);
@@ -594,7 +596,34 @@ function publish(){
 	  }
   });*/
 
-	 // run the kv.json through the python file
+  // run the kv.json through the python file
+};
+
+function runPython(input){
+	/*$.ajax({
+	  type: "POST",
+	  url: "/",
+	  data: {param: input},
+	  async: false,
+	  success: callbackFunc
+	  }
+  });*/
+	var exec = require('child_process').exec;
+    var child = exec('python -u /run-local.py',
+    function(error, stdout, stderr) {
+      console.log('stdout: ', stdout);
+      console.log('stderr: ', stderr);
+      if (error !== null) {
+        console.log('exec error: ', error);
+      }
+	  alert("WTF");
+  });	
+		
+}
+
+function callbackFunc(response){
+  response = "wooo";
+  console.log(response);
 }
 
 function saveTheme(){

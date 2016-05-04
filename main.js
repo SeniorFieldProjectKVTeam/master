@@ -9,7 +9,10 @@ var fs = require('fs');
 app.on('ready', function(){
 	mainWindow = new BrowserWindow({
 		height:600,
-		width: 800
+		width: 800,
+		'web-preferences':{
+			'web-security': false
+		},
 	});
 	mainWindow.loadURL('file://' + __dirname + '/app/index.html');
 });
