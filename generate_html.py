@@ -1,0 +1,275 @@
+input = {"orderBotm":["fn","ts","qu"],
+"orderCombo":["na","combo-player"],
+"orderTopThree":["lg","tt","zm"],
+
+
+"qu":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
+
+"fn":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
+
+"ts":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
+
+"qz":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
+
+"na":{"exist":True,"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900","option":"chapter"},
+
+"lg":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
+
+"tt":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
+
+"zm":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
+
+"theme":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
+
+"combo-player":"combo"}
+
+
+def generate_html(input):
+    top = input['orderTopThree']
+    mid = input['orderCombo']
+    bottom  = input['orderBotm']
+
+
+    top_num = len(top)
+    mid_num = len(mid)
+    bottom_num = len(bottom)
+
+
+    result = """
+    <html class="no-js">
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    </head>
+
+    <body>
+    <div id="main" role="main" allow-edit="style.background-color,style.background-image">
+    """
+
+    end = """
+        </div>
+        <script src="js/main.js" type="text/javascript"></script>
+        <script src="js/full.js" type="text/javascript"></script>
+    </body>
+</html>
+    """
+
+    if top_num== 3:
+        top_one = "0%"
+        top_two = "33%"
+        top_three = "66"
+
+    elif top_num == 2:
+        top_one = "0%"
+        top_two = "50"
+
+    elif top_num == 1:
+        top_one = "0%"
+
+    for i in range(top_num):
+        result += generate_top(top[i])
+    # determines the position of mid part
+    if mid_num == 2:
+        mid_one = "0%"
+        mid_two = "20%"
+    elif mid_num == 1:
+        mid_one = "0%"
+    # generates the mid part
+    for i in range(mid_num):
+        result += generate_mid(mid[i])
+
+
+    if bottom_num== 3:
+        bottom_one = "0%"
+        bottom_two = "33%"
+        bottom_three = "66"
+
+    elif bottom_num == 2:
+        bottom_one = "0%"
+        bottom_two = "50"
+
+    elif bottom_num == 1:
+        bottom_one = "0%"
+
+    for i in range(bottom_num):
+        result += generate_bottom(bottom[i])
+
+    result += end
+    return result
+
+
+def generate_top(top):
+    result = ""
+
+    logo = """
+    <section id="logo_wrapper" class="logo-container">
+        <a href="" id="logo_link" allow-edit="href" target="_blank">
+            <img src="img/logo.png" id="logo_image" allow-edit="src" alt="logo">
+        </a>
+    </section>       
+    """
+
+    title = """
+    <div id="title_wrapper">
+        <presentation-title id="presentation_title" allow-edit="style.display,style.color"></presentation-title>
+    </div>
+    """
+
+    zoom = """
+    <div class="zoom_wrapper">
+        <div id="zoom_display" allow-edit="style.display">
+            <div id="zoom">
+                <label class="zoom-icon user-icon" zoom-level="-1"><span class="fa fa-user"></span></label>
+                <zoom-control></zoom-control>
+                <label class="zoom-icon picture-icon" zoom-level="1"><span class="fa fa-picture-o"></span></label>
+            </div>
+        </div>
+        <label class="fullscreen-icon" id="fullscreen_button" allow-edit="style.display"><span id="fullscreen"class="fa fa-arrows-alt"></span></label>
+    </div>
+    """
+    if top == "lg":
+        result += logo
+    elif top == "tt":
+        result += title
+    elif top == "zm":
+        result += zoom
+    return result
+
+
+def generate_mid(mid):
+    navigation = """
+    <label id="nav_menu" class="menu-icon"><span class="fa fa-bars"></span></label>
+    <section id="navigation">
+    	<header id="navigation_background" allow-edit="style.background-color">
+    		<h1 id="navigation_title" allow-edit="text,style.color">Navigation</h1>
+            <ul id="nav_buttons" class="clearfix">
+                <li><label class="chapters-icon active"><span class="fa fa-list-ol"></span></label></li>
+                <li><label class="thumbnails-icon"><span class="fa fa-th"></span></label></li>
+            </ul>
+        </header>
+    """
+
+    navigation_chapter = """
+    <section id="chapter_wrapper">
+        <chapter-navigator id="chapters" class="component"></chapter-navigator>
+    </section>
+    """
+
+    navigation_thumbnail = """
+    <section id="thumbnail_wrapper">
+        <thumbnail-navigator id="thumbnails" class="component"></thumbnail-navigator>
+    </section>
+    """
+
+    navigation_end = """
+    </section>
+    """
+
+    combo_player = """
+    <section id="content">
+        <section id="combo_wrapper">
+            <section id="player_innerwrap">
+                <p class="brand" target="_blank">Powered by <a href="http://www.knowledgevision.com" target="_blank">KnowledgeVision</a></p>
+                <combo-player id="player" playerChrome="combo" allow-edit="playerChrome"></combo-player>
+            </section>
+        </section>
+    </section>
+    """
+    result = ""
+
+    if mid == "na":
+        result += navigation
+        if input['na']['option'] == "chapter":
+            result += navigation_chapter + navigation_end
+        elif mid['na']['option'] == "thumbnail":
+            result += navigation_thumbnail + navigation_end
+        elif mid['na']['option'] == "both":
+            result += navigation_chapter + navigation_thumbnail + navigation_end
+
+    elif mid == "combo-player":
+        type = input['combo-player']
+        if type == "combo":
+            result += combo_player.format("combo")
+        elif type == "fixed":
+            result += combo_player.format("fixed")
+        elif type == "video":
+            result += combo_player.format("video")
+    return result
+
+
+def generate_bottom(bottom):
+    result = """<section id="content_wrapper">"""
+
+    logo = """
+    <section id="logo_wrapper" class="logo-container">
+        <a href="" id="logo_link" allow-edit="href" target="_blank">
+            <img src="img/logo.png" id="logo_image" allow-edit="src" alt="logo">
+        </a>
+    </section>
+    """
+
+    transcript = """
+    <section id="transcript_wrapper">
+        <header id="transcript_background">
+            <h1 id="transcript_title" allow-edit="text,style.color">Transcript</h1>
+            <transcript-search id="search"></transcript-search>
+            <label id="search_button"><span class="fa fa-search"></span></label>
+        </header>
+        <div class="body">
+            <transcript id="transcript"></transcript>
+        </div>
+    </section>
+
+    """
+
+    question = """
+    <question-form>
+        <section id="qa_wrapper">
+            <header id="question_background">
+                <h1 id="question_title" allow-edit="text,style.color">Questions</h1>
+            </header>
+            <div class="body">
+                <form target="smFormResponse" action="https://kvsync.kvcentral.com/tools/php/simple_email_0_8_curl.php" method="post" id="qa-form" role="form" class="component">
+                    <input type="text" id="smFormName" name="name" placeholder="Name" required>
+                    <input type="email" id="smFormEmail" name="email" placeholder="Email" required>
+                    <textarea rows="2" id="smFormQuestion" name="question" placeholder="Question" required></textarea>
+                    <input type="hidden" id="email_Recipient" name="recipient" value="YOUR EMAIL HERE" allow-edit="value">
+                    <input type="hidden" id="account" name="account" value="YOUR COMPANY HERE" allow-edit="value">
+                    <div id="submit_holder" class="clearfix">
+                        <input type="submit" id="submit_button" value="Submit" allow-edit="value,style.background-color"/>
+                        <iframe id="response" name="smFormResponse" frameborder="0"></iframe>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </question-form>
+    """
+
+    footnotes = """
+    <section id="footnote_wrapper">
+        <header id="footnote_background">
+            <h1 id="footnote_title" allow-edit="text,style.color">Notes &amp; References</h1>
+        </header>
+        <footnotes id="footnotes" class="component"></footnotes>
+    </section>
+    """
+    end = """</section>"""
+
+    if bottom == "lg":
+        result += logo
+    elif bottom == "ts":
+        result += transcript
+    elif bottom == "qu":
+        result += question
+    elif bottom == "fn":
+        result += footnotes
+
+    result += end
+    return result
+
+
+print(generate_html(input))
