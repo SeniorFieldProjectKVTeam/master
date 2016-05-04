@@ -22,6 +22,7 @@ var pa;
 var ids = ["qu","fn","ts","qz","lg","na","tt","zm"]
 var fs = require('fs');
 
+
 $( init ); // load this function when the page was load
 
 function init() {
@@ -574,8 +575,11 @@ function publish(){
       }
   console.log("The file was saved!");
 	});
-  
+	// creates the zip file
   runPython(json);
+  
+  // have to make it so that people can save outside of the application
+  
   /*var blob = new Blob([json], {type: "application/json"});
   var url  = URL.createObjectURL(blob);
   var a = document.createElement('a');
@@ -608,8 +612,9 @@ function runPython(input){
 	  success: callbackFunc
 	  }
   });*/
-	var exec = require('child_process').exec;
-    var child = exec('python -u /run-local.py',
+	//var exec = require('child_process').exec;
+	
+    /*var child = exec('python -u /run-local.py',
     function(error, stdout, stderr) {
       console.log('stdout: ', stdout);
       console.log('stderr: ', stderr);
@@ -617,8 +622,8 @@ function runPython(input){
         console.log('exec error: ', error);
       }
 	  alert("WTF");
-  });	
-		
+  });	*/
+	var exec = require('child_process').spawn('python', ['./run-local.py']);
 }
 
 function callbackFunc(response){
