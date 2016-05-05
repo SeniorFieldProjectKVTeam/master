@@ -1,27 +1,16 @@
-input = {"orderBotm":["fn","ts","qu"],
-"orderCombo":["combo-player", "na"],
-"orderTopThree":["lg","tt","zm"],
-
-
-"qu":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"fn":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"ts":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"qz":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"na":{"exist":True,"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900","option":"chapter"},
-
-"lg":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"tt":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"zm":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"theme":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"combo-player":"combo"}
+input = {"orderBotm":["ts","qu","fn"],
+         "orderCombo":["combo-player","na"],
+         "orderTopThree":["tt","zm","lg"],
+         "qu":{"color":"#00ffff","background-color":"#00ffff"},
+         "fn":{"color":"#cc0000","background-color":"#bd1f1f"},
+         "ts":{"color":"#ff00ff","background-color":"#ff00ff"},
+         "qz":{},
+         "na":{"option":"chapter",
+                       "exist":True,"color":"#7adb4e","background-color":"#d1eecc"},
+         "lg":{"background-color":"#bd1f1f"},
+         "tt":{"color":"#ffff00","background-color":"#ffff00"},
+         "zm":{"background-color":"#ff9900"},
+         "theme":{},"combo-player":"fixed"}
 
 
 def generate_html(input):
@@ -36,6 +25,7 @@ def generate_html(input):
 
 
     result = """
+    <!DOCTYPE html>
     <html class="no-js">
 
     <head>
@@ -44,6 +34,7 @@ def generate_html(input):
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/normalize.min.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     </head>
 
     <body>
@@ -88,7 +79,7 @@ def generate_top(top):
     """
 
     zoom = """
-    <div class="zoom_wrapper">
+    <div id="zoom_wrapper">
         <div id="zoom_display" allow-edit="style.display">
             <div id="zoom">
                 <label class="zoom-icon user-icon" zoom-level="-1"><span class="fa fa-user"></span></label>
@@ -114,8 +105,8 @@ def generate_top(top):
 
 def generate_mid(mid):
     navigation = """
-    <label id="nav_menu" class="menu-icon"><span class="fa fa-bars"></span></label>
     <section id="navigation">
+        <label id="nav_menu" class="menu-icon"><span class="fa fa-bars"></span></label>
     	<header id="navigation_background" allow-edit="style.background-color">
     		<h1 id="navigation_title" allow-edit="text,style.color">Navigation</h1>
             <ul id="nav_buttons" class="clearfix">
