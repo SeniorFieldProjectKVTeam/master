@@ -1,5 +1,5 @@
 input = {"orderBotm":["fn","ts","qu"],
-"orderCombo":["na","combo-player"],
+"orderCombo":["combo-player", "na"],
 "orderTopThree":["lg","tt","zm"],
 
 
@@ -58,52 +58,20 @@ def generate_html(input):
 </html>
     """
 
-    if top_num== 3:
-        top_one = "0%"
-        top_two = "33%"
-        top_three = "66"
 
-    elif top_num == 2:
-        top_one = "0%"
-        top_two = "50"
+    result += generate_top(top)
 
-    elif top_num == 1:
-        top_one = "0%"
-
-    for i in range(top_num):
-        result += generate_top(top[i])
-    # determines the position of mid part
-    if mid_num == 2:
-        mid_one = "0%"
-        mid_two = "20%"
-    elif mid_num == 1:
-        mid_one = "0%"
-    # generates the mid part
     for i in range(mid_num):
         result += generate_mid(mid[i])
 
-
-    if bottom_num== 3:
-        bottom_one = "0%"
-        bottom_two = "33%"
-        bottom_three = "66"
-
-    elif bottom_num == 2:
-        bottom_one = "0%"
-        bottom_two = "50"
-
-    elif bottom_num == 1:
-        bottom_one = "0%"
-
-    for i in range(bottom_num):
-        result += generate_bottom(bottom[i])
+    result += generate_bottom(bottom)
 
     result += end
     return result
 
 
 def generate_top(top):
-    result = ""
+    result = """<section id="controls" class="controls-container">"""
 
     logo = """
     <section id="logo_wrapper" class="logo-container">
@@ -131,12 +99,16 @@ def generate_top(top):
         <label class="fullscreen-icon" id="fullscreen_button" allow-edit="style.display"><span id="fullscreen"class="fa fa-arrows-alt"></span></label>
     </div>
     """
-    if top == "lg":
-        result += logo
-    elif top == "tt":
-        result += title
-    elif top == "zm":
-        result += zoom
+
+    for i in range(len(top)):
+        if top[i] == "lg":
+            result += logo
+        elif top[i] == "tt":
+            result += title
+        elif top[i] == "zm":
+            result += zoom
+
+    result += """</section>"""
     return result
 
 
@@ -259,17 +231,19 @@ def generate_bottom(bottom):
     """
     end = """</section>"""
 
-    if bottom == "lg":
-        result += logo
-    elif bottom == "ts":
-        result += transcript
-    elif bottom == "qu":
-        result += question
-    elif bottom == "fn":
-        result += footnotes
+    for i in range(len(bottom)):
+        if bottom[i] == "lg":
+            result += logo
+        elif bottom[i] == "ts":
+            result += transcript
+        elif bottom[i] == "qu":
+            result += question
+        elif bottom[i] == "fn":
+            result += footnotes
 
     result += end
     return result
 
-
-print(generate_html(input))
+html_file = open("index.html", "w")
+html_file.write(generate_html(input))
+html_file.close()
