@@ -10,7 +10,6 @@ var param = new Object();
 param["qu"] = new Object();
 param["fn"] = new Object();
 param["ts"] = new Object();
-param["qz"] = new Object();
 param["lg"] = new Object();
 param["na"] = new Object();
 param["tt"] = new Object();
@@ -19,7 +18,7 @@ param["theme"] = new Object();
 param["combo-player"] = "combo";
 param["na"]["option"] = "switchable";
 var pa;
-var ids = ["qu","fn","ts","qz","lg","na","tt","zm"]
+var ids = ["qu","fn","ts","lg","na","tt","zm"]
 
 $( init ); // load this function when the page was load
 
@@ -111,7 +110,7 @@ function init() {
   });
 
   $( "#botm-three" ).droppable({
-    accept: "#left-top li#fn,li#ts,li#qu,li#qz,li#lg",
+    accept: "#left-top li#fn,li#ts,li#qu,li#lg",
     activeClass: "ui-state-hover",
     hoverClass: "ui-state-active",
     drop: function( event, ui ) {
@@ -204,8 +203,6 @@ function divHtml(classname,id){
 		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Transcript</h1><p id='"+id+"-sample-body'>Here are some example notes for the presentation. Transcriptions can be very important part of your KnowledgeVision presentation.</p></div><div id='modification'></div></div>"
 	} else if(id == "qu"){
 		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Questions</h1><p id='"+id+"-sample-body'>Any questions that you want people to consider as they are watching your video? Add them here.</p></div><div id='modification'></div></div>"
-	} else if(id == "qz"){
-		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'><h1>Quizzes</h1><p id='"+id+"-sample-body'>Question1<br>Question2<br>Question3</p></div><div id='modification'></div></div>"
 	} else if (id == "lg"){
 		//document.getElementById("#botm-three #"+id).style.background = "grey url('./images/o') no-repeat 100%";
 		return "<div class="+classname+" id="+id+"><div id='"+id+"-sample'></div><div id='modification'></div></div>"
@@ -558,7 +555,6 @@ function publish(){
     "qu": param["qu"],
     "fn": param["fn"],
     "ts": param["ts"],
-    "qz": param["qz"],
     "na": param["na"],
     "lg": param["lg"],
     "tt": param["tt"],
