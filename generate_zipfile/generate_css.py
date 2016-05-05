@@ -135,11 +135,6 @@ def generate_css(input_param):
         color: #7ca392;
     }
 
-    question-form{
-    display: inline-block;
-    width: $question_width;
-    background-color:$question_background;
-    }
         /* ==========================================================================
        input styles
        ========================================================================== */
@@ -579,12 +574,11 @@ def css_mid(mid, input_param):
     }
     .chapter-navigator-item{
         background-color: #ffffff;
-    }
-    .chapter-navigator-item a {
-        color: #666666;
         $navigation_font
         $navigation_font_size
-        $navigation_color
+    }
+    .chapter-navigator-item a {
+        color: $navigation_color;
     }
     .chapter-navigator-item-selected {
         background-color: #c5c5c4 !important;
@@ -630,8 +624,8 @@ def css_mid(mid, input_param):
     combo_option = input_param['combo-player']
     navigation_background = input_param['na']['background-color']
     chapter_color = input_param['na']['background-color']
-    navigation_font = input_param['na']['font']
-    navigation_font_size = input_param['na']['fontsize']
+    navigation_font = "font-family:" + input_param['na']['font'] + ";"
+    navigation_font_size = "font-size:" + input_param['na']['fontsize'] + ";"
     navigation_color = input_param['na']['color'] 
     chapter_color = input_param['na']['background-color']
 
@@ -684,6 +678,13 @@ def css_bottom(bottom, input_param):
 
     question = Template("""
     /* Questions */
+    
+    question-form{
+    display: inline-block;
+    width: $question_width;
+    background-color:$question_background;
+    }
+
     #qa_wrapper {
         display: inline-block;
         width:100%;
