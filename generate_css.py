@@ -1,29 +1,18 @@
 from string import Template
 
-input = {"orderBotm":["fn","ts","qu"],
-"orderCombo":["combo-player","na"],
-"orderTopThree":["lg","tt","zm"],
-
-
-"qu":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"fn":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"ts":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"qz":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"na":{"exist":True,"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900","option":"chapter"},
-
-"lg":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"tt":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"zm":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"theme":{"font":"Arial Black,Arial Black,Gadget,sans-serif","fontsize":"16px","background-color":"#ff0000","color":"#ff9900"},
-
-"combo-player":"combo"}
+input = {"orderBotm":["ts","qu","fn"],
+         "orderCombo":["combo-player","na"],
+         "orderTopThree":["tt","zm","lg"],
+         "qu":{"color":"#00ffff","background-color":"#00ffff"},
+         "fn":{"color":"#cc0000","background-color":"#bd1f1f"},
+         "ts":{"color":"#ff00ff","background-color":"#ff00ff"},
+         "qz":{},
+         "na":{"option":"chapter","exist":True,"color":"#7adb4e","background-color":"#d1eecc", "font":"","font-size":""},
+         "lg":{"background-color":"#bd1f1f"},
+         "tt":{"color":"#ffff00","background-color":"#ffff00"},
+         "zm":{"background-color":"#ff9900"},
+         "theme":{},
+        "combo-player":"fixed"}
 
 
 def generate_css(input):
@@ -328,10 +317,11 @@ def css_top(top):
     zoom = Template("""
     /* ZOOM Style */
     #zoom_wrapper {
-        display: inline-block;
         line-height: 6.25em;
         width: $zoom_width;
         background-color: $zoom_background;
+        display: flex;
+        justify-content:space-between;
     }
     #zoom{  
         height: 6.25em;
@@ -352,10 +342,6 @@ def css_top(top):
     .fullscreen-icon{
         font-size: 20px;
         padding: 0px 4px 4px 10px;
-        
-        position: absolute;
-        top: 0px;
-        right: 0px;
     }
     """)
 
@@ -482,11 +468,11 @@ def css_mid(mid):
         width: 20em;
         position: absolute;
 
-        background-color:$navigation_background
+        background-color:$navigation_background;
         $navigation_position: 0;
 
         top: 6.25em;
-        bottom: 0px;
+        bottom: 205px;
         z-index: 100;
 
         -webkit-transition: left .5s;
@@ -519,8 +505,8 @@ def css_mid(mid):
         text-shadow: 1px 1px #6e6e6e;
 
         position: absolute;
-        left: $nav_menu;
-        top: 4.35em;
+        left: 5px;
+        top: 4.4px;
 
         z-index: 900;
     }
@@ -552,7 +538,7 @@ def css_mid(mid):
     #chapter_wrapper, #thumbnail_wrapper{
         position: absolute;
         top: 41px;
-        bottom: 205px;
+        bottom: 0px;
         left: 0;
         right: 0;
         overflow-x: hidden;
@@ -627,17 +613,16 @@ def css_mid(mid):
     navigation_background = input['na']['background-color']
     chapter_color = input['na']['background-color']
     navigation_font = input['na']['font']
-    navigation_font_size = input['na']['fontsize']
+    navigation_font_size = input['na']['font-size']
     navigation_color = input['na']['color'] 
     chapter_color = input['na']['background-color']
-    nav_menu = "5px"
 
     mid_num = len(mid)
 
     if mid_num == 1:
         combo_left = "0em"
         combo_right = "0em"
-        result += combo.substitude(combo_left = combo_left, combo_right = combo_right, combo_option = combo_option)
+        result += combo.substitute(combo_left = combo_left, combo_right = combo_right, combo_option = combo_option)
 
     if mid_num == 2 and mid[0] == "na":
         navigation_position = "left"
@@ -645,7 +630,6 @@ def css_mid(mid):
         combo_right = "0em"
         result += navigation.substitute(navigation_background = navigation_background, 
                         navigation_position = navigation_position,
-                        nav_menu = nav_menu, 
                         chapter_color = chapter_color, 
                         navigation_font = navigation_font, 
                         navigation_font_size = navigation_font_size, 
@@ -659,8 +643,7 @@ def css_mid(mid):
         nav_menu = "577px"
         result += combo.substitute(combo_left = combo_left, combo_right = combo_right, combo_option = combo_option)
         result += navigation.substitute(navigation_background = navigation_background, 
-                        navigation_position = navigation_position,
-                        nav_menu = nav_menu,  
+                        navigation_position = navigation_position, 
                         chapter_color = chapter_color, 
                         navigation_font = navigation_font, 
                         navigation_font_size = navigation_font_size, 
@@ -692,6 +675,7 @@ def css_bottom(bottom):
         position: absolute;
         overflow-y: auto;
         background: #ffffff;
+        width: 33.3%;
     }
 
     #qa_background, #attachments_background {
@@ -746,10 +730,6 @@ def css_bottom(bottom):
     }
     #search_button{
         color: #000;
-        float: right;
-        position: absolute;
-        top: 5px;
-        right: 10px;
         font-size: 20px;
         z-index: 999;
     }
@@ -798,6 +778,8 @@ def css_bottom(bottom):
         width: 100%;
         height: 40px;
         background-color: $transcript_background;
+        display: flex;
+        justify-content:space-between;
     }
     #transcript_title, #question_title, #attachments_title{
         padding-left: 10px;
@@ -903,7 +885,7 @@ def css_bottom(bottom):
     footnote_background = input['fn']['background-color']
 
     if len(bottom) == 3:
-        bottom_width = "33%"
+        bottom_width = "33.3%"
     elif len(bottom) == 2:
         bottom_width = "50%"
     elif len(bottom) == 1:
