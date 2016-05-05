@@ -27,6 +27,7 @@ function init() {
   comboBackground();
   loadTheme();
   loadWhole();
+  applyDefault();
   $( "#left-side #left-top" ).accordion();
   $('#left-top li').draggable({
     cursor: 'move',
@@ -163,6 +164,15 @@ function init() {
   });
   // continue
   addTheme();
+}
+
+function applyDefault(){
+  for (var i=0; i <= ids.length-1; i++){
+    param[ids[i]]["font"] = ""
+    param[ids[i]]["fontsize"] = ""
+    param[ids[i]]["color"] = ""
+    param[ids[i]]["background-color"] = ""
+  }
 }
 
 function addTheme(){
