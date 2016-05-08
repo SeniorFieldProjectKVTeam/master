@@ -1,1 +1,11 @@
-{"orderBotm":[],"orderCombo":["na","combo-player"],"orderTopThree":["lg","tt"],"qu":{"font":"","fontsize":"","color":"","background-color":""},"fn":{"font":"","fontsize":"","color":"","background-color":""},"ts":{"font":"","fontsize":"","color":"","background-color":""},"na":{"option":"switchable","font":"","fontsize":"","color":"","background-color":"","exist":true},"lg":{"font":"","fontsize":"","color":"","background-color":""},"tt":{"font":"","fontsize":"","color":"","background-color":""},"zm":{"font":"","fontsize":"","color":"","background-color":""},"theme":{},"combo-player":"combo"}
+# sample json file
+{"orderBotm":[],
+"orderCombo":["na","combo-player"],
+"orderTopThree":["lg","tt"],
+"qu":{"font":"","fontsize":"","color":"","background-color":""},
+"fn":{"font":"","fontsize":"","color":"","background-color":""},
+"ts":{"font":"","fontsize":"","color":"","background-color":""},
+"na":{"option":"switchable","font":"","fontsize":"","color":"","background-color":"","exist":true},
+"lg":{"font":"","fontsize":"","color":"","background-color":""},
+"tt":{"font":"","fontsize":"","color":"","background-color":""},
+"zm":{"font":"","fontsize":"","color":"","background-color":""},"theme":{},"combo-player":"combo"}
