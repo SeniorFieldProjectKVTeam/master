@@ -5,7 +5,7 @@ import generate_html
 import generate_css
 import zipfile
 
-
+# generate the kv.json file from electron and set it as input
 if __name__ == '__main__':
     input_param = json.loads(pathlib.Path('kv.json').read_text())
     html_content = generate_html.generate_html(input_param)
