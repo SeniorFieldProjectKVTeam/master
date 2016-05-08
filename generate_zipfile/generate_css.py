@@ -1,5 +1,6 @@
 from string import Template
 
+#generate the main.css file
 def generate_css(input_param):
     top = input_param['orderTopThree']
     mid = input_param['orderCombo']
@@ -11,6 +12,7 @@ def generate_css(input_param):
     result += css_mid(mid, input_param)
     result += css_bottom(bottom, input_param)
 
+# common part of the css file
     res = """
     html,
     button,
@@ -314,6 +316,8 @@ def generate_css(input_param):
 
     return result
 
+#generate the top part of the index page
+# set the height of top part as 6.25em and the width as percentage
 def css_top(top, input_param):
     controls = """
     #controls {
@@ -406,6 +410,7 @@ def css_top(top, input_param):
     }
     """)
 
+# give initianl value and change it accordingly
     result = ""
     top_width = "0"
     zoom_background = input_param['zm']['background-color']
@@ -433,6 +438,8 @@ def css_top(top, input_param):
     
     return result    
 
+# generate the combo-player part of the index page
+# set fixed height and width value, not responsive
 def css_mid(mid, input_param):
     result = ""
 
@@ -618,6 +625,8 @@ def css_mid(mid, input_param):
 
     """)
 
+# set initial value(the same as given templates)
+# change the value according to the input json file
     navigation_background = "#ffffff"
     chapter_color = "#ffffff"
 
@@ -663,7 +672,10 @@ def css_mid(mid, input_param):
 
     return result
 
+# generate the bottom part of the index page
+# put all conponents in the content_wrapper
 def css_bottom(bottom, input_param):
+    # set the display value of content_wrapper as flex to properly locate each part
     content_wrapper = """
     #content_wrapper {
     position: absolute;
@@ -753,8 +765,6 @@ def css_bottom(bottom, input_param):
         z-index: 999;
     }
     """)
-
-    
 
     transcript = Template("""
     #transcript_wrapper, #qa_wrapper, #attachments_wrapper {
@@ -864,6 +874,7 @@ def css_bottom(bottom, input_param):
     }
     """)
 
+    #set the initial value and change it according to the input json file
     result = ""
     result += content_wrapper
     bottom_width = "0"
