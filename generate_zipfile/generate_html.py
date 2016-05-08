@@ -1,15 +1,13 @@
-
+#generate the index html file
 def generate_html(input_param):
     top = input_param['orderTopThree']
     mid = input_param['orderCombo']
     bottom  = input_param['orderBotm']
 
-
     top_num = len(top)
     mid_num = len(mid)
     bottom_num = len(bottom)
-
-
+    # the start of common part
     result = """
     <!DOCTYPE html>
     <html class="no-js">
@@ -27,6 +25,7 @@ def generate_html(input_param):
     <div id="main" role="main" allow-edit="style.background-color,style.background-image">
     """
 
+    # the end of common part
     end = """
         </div>
         <script src="js/main.js" type="text/javascript"></script>
@@ -46,9 +45,10 @@ def generate_html(input_param):
     result += end
     return result
 
-
+# generate the top part of the index page
 def generate_top(top):
     result = ""
+    # put the top part all in one section: "controls"
     top_start = """<section id="controls" class="controls-container">"""
 
     if top == []:
@@ -94,7 +94,7 @@ def generate_top(top):
     result += """</section>"""
     return result
 
-
+# generate the combo-player part of the index page
 def generate_mid(mid, input_param):
     navigation = """
     <section id="navigation">
@@ -135,7 +135,8 @@ def generate_mid(mid, input_param):
     </section>
     """
     result = ""
-
+    
+    # change the type of navigation
     if mid == "na":
         result += navigation
         if input_param['na']['option'] == "chapter":
@@ -145,6 +146,7 @@ def generate_mid(mid, input_param):
         elif input_param['na']['option'] == "switchable":
             result += navigation_chapter + navigation_thumbnail + navigation_end
 
+    # change the type of combo-player
     elif mid == "combo-player":
         type = input_param['combo-player']
         if type == "combo":
@@ -155,9 +157,10 @@ def generate_mid(mid, input_param):
             result += combo_player.format("video")
     return result
 
-
+# generate the bottom part of the index page
 def generate_bottom(bottom):
     result = ""
+    # put the bottom part all in one section: "content_wrapper"
     bottom_start = """<section id="content_wrapper">"""
 
     if bottom == []:
