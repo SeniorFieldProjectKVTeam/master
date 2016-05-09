@@ -10,6 +10,4 @@ For now, requires you:
 3. run "npm install jquery -save" and "npm install jquery-ui -save" in order to get the dependencies on jquery and query UI (and AMD) to work
 4. run "bower install" to get the right javascript files in bower_components folder
 
-5. 
-
 Color picker from Spectrum project by @bgrins
